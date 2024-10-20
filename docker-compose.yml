@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  node_app:
+    container_name: backend
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - PG_DB=${PG_DB}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      - PG_HOST=${PG_HOST}
+    depends_on:
+      - postgres
+    restart: always
+
+  postgres:
+    build: ./src/user/infrastructure/postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
