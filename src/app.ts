@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'user/infrastructure/postgres')));
 
 
-app.use("/", userRoutes);
+app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile("index.html");
@@ -19,3 +19,6 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+export default app;

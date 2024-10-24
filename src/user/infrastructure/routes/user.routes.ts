@@ -9,6 +9,7 @@ const userRepository = new PGRepository();
 const userUseCase = new UserUseCase(userRepository);
 const userCtrl = new UserController(userUseCase);
 
-routes.post("/users", userCtrl.addUser);
+routes.post("/", userCtrl.addUser);
+routes.get("/", userCtrl.getUsers);
 
 export default routes;

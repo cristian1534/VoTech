@@ -10,7 +10,7 @@ export class UserController {
     private readonly httpResponse: HttpResponse = new HttpResponse()
   ) {}
 
-  public addUser = async ({ body }: Request, res: Response):Promise<any> => {
+  public addUser = async ({ body }: Request, res: Response): Promise<any> => {
     try {
       const { error, value } = userSchema.validate(body);
       if (error)
@@ -29,6 +29,17 @@ export class UserController {
     } catch (err: any) {
       console.error(err);
       return this.httpResponse.InternalServerError(res, "An error occurred.");
+    }
+  };
+
+  public getUsers = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const users = await this.userUseCase.getUsers();
+      console.log(users)
+      return this.httpResponse.Ok(res, users);
+    } catch (err: any) {
+      console.error(err);
+      this.httpResponse.InternalServerError(res, "An error occurred.");
     }
   };
 }

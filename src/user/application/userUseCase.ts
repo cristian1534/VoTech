@@ -12,4 +12,8 @@ export class UserUseCase {
     const userCreated = await this.userRepository.addUser(userValue);
     return userCreated;
   }
+  public async getUsers() {
+    const users = await this.userRepository.getUsers();
+    return users;
+  }
 }
