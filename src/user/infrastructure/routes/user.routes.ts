@@ -10,6 +10,7 @@ const userUseCase = new UserUseCase(userRepository);
 const userCtrl = new UserController(userUseCase);
 
 routes.post("/", userCtrl.addUser);
+routes.post("/auth", userCtrl.logUser);
 routes.get("/", userCtrl.getUsers);
 
 export default routes;

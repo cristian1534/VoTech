@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { userSchema } from "../helpers/schema.validator";
+import { logSchema, userSchema } from "../helpers/schema.validator";
 import bcrypt from "bcryptjs";
 import { UserUseCase } from "../../application/userUseCase";
 import { HttpResponse } from "../helpers/error.handler";
+import { createToken } from "../helpers/token.creator";
 
 export class UserController {
   constructor(
@@ -25,7 +26,10 @@ export class UserController {
       };
 
       const user = await this.userUseCase.addUser(userWithHashedPassword);
-      return this.httpResponse.Ok(res, user);
+      if (!user)
+        return this.httpResponse.BadRequest(res, "User was not register.");
+
+      return this.httpResponse.Ok(res, { name: user.name, email: user.email });
     } catch (err: any) {
       console.error(err);
       return this.httpResponse.InternalServerError(res, "An error occurred.");
@@ -35,11 +39,41 @@ export class UserController {
   public getUsers = async (req: Request, res: Response): Promise<any> => {
     try {
       const users = await this.userUseCase.getUsers();
-      console.log(users)
-      return this.httpResponse.Ok(res, users);
+      if (!users) return this.httpResponse.NotFound(res, "No users found.");
+
+      const usersWithoutPassword = users.map((user) => {
+        const { password, ...rest } = user;
+        return rest;
+      });
+      return this.httpResponse.Ok(res, usersWithoutPassword);
     } catch (err: any) {
       console.error(err);
       this.httpResponse.InternalServerError(res, "An error occurred.");
+    }
+  };
+
+  public logUser = async ({ body }: Request, res: Response): Promise<any> => {
+    try {
+      const { error, value } = logSchema.validate(body);
+      if (error) {
+        return this.httpResponse.BadRequest(res, error.details[0].message);
+      }
+
+      const { email, password } = value;
+
+      const user = await this.userUseCase.logUser({ email, password });
+      if (!user) {
+        return this.httpResponse.Unauthorized(res, "Invalid credentials.");
+      }
+      const token = createToken(user);
+      return this.httpResponse.Ok(res, {
+        name: user.name,
+        email: user.email,
+        token,
+      });
+    } catch (err: any) {
+      console.error(err);
+      return this.httpResponse.InternalServerError(res, "An error occurred.");
     }
   };
 }
