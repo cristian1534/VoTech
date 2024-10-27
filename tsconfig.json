@@ -13,7 +13,7 @@
     "paths": {
       "*": ["src/*"]
     },                                     
-    "types": ["node", "chai", "chai-http", "mocha"],     /* Specify type package names to be included without being referenced in a source file. */
+    "types": ["node", "jest"],     /* Specify type package names to be included without being referenced in a source file. */
     "resolveJsonModule": true,                           /* Enable importing .json files. */
 
     /* Emit */

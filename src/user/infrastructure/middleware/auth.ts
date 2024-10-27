@@ -14,7 +14,6 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
 
   try {
     const reply = await redisClient?.get(token);
-    console.log("Token retrieved from Redis:", reply);
 
     if (!reply) {
       return httpResponse.Unauthorized(res, "Unauthorized");
