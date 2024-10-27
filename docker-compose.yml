@@ -12,11 +12,15 @@ services:
       - PG_PASSWORD=${PG_PASSWORD}
       - PG_HOST=${PG_HOST}
       - REDIS_URI:${REDIS_URI}
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - postgres
     restart: always
     links:
       - redis
+    
 
   postgres:
     build: ./src/user/infrastructure/postgres

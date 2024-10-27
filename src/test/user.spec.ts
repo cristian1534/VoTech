@@ -27,4 +27,15 @@ describe("Tests for Backend Service", () => {
     expect(response.body.data).toHaveProperty("email");
     expect(response.body).toHaveProperty("message", "Success");
   });
+
+  it("Should get all Users", async () => {
+    const response = await request.get("/users");
+ 
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("data");
+    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(Array.isArray(response.body.data)).toBeTruthy();
+    expect(response.body).toHaveProperty("message", "Success");
+  });
 });
+
