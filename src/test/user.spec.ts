@@ -7,7 +7,8 @@ const request = supertest(app);
 interface INewUser {
   name: string;
   email: string;
-  password: string;
+  password?: string;
+  uuid?: string;
 }
 interface ICredentials {
   email: string;
@@ -18,7 +19,7 @@ describe("Tests for Backend Service", () => {
   beforeEach(() => {
     console.log("Tests for User Routes");
   });
-  
+  let userUuid: string;
   it("Should register a new User", async () => {
     const newUser: INewUser = {
       name: "Luis",
@@ -39,14 +40,14 @@ describe("Tests for Backend Service", () => {
     const credentials: ICredentials = {
       email: "luis@gmail.com",
       password: "12345678",
-    }
+    };
 
     const response = await request.post("/users/auth").send(credentials);
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("data");
     expect(response.body.data).toHaveProperty("token");
-  })
+  });
 
   it("Should get all Users", async () => {
     const response = await request.get("/users");
@@ -56,7 +57,19 @@ describe("Tests for Backend Service", () => {
     expect(response.body.data.length).toBeGreaterThan(0);
     expect(Array.isArray(response.body.data)).toBeTruthy();
     expect(response.body).toHaveProperty("message", "Success");
+
+    userUuid = response.body.data[0].uuid;
   });
+
+  it("Should get user by uuid", async () => {
+    
+    const responseByUuid = await request.get(`/users/${userUuid}`);
+
+    expect(responseByUuid.status).toBe(200);
+    expect(responseByUuid.body).toHaveProperty("data");
+    expect(responseByUuid.body.data).toHaveProperty("name");
+    expect(responseByUuid.body.data).toHaveProperty("email");
+  })
 
   afterAll(async () => {
     const client = await clientGenerator();

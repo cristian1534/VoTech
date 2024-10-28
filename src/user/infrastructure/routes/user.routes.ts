@@ -12,6 +12,7 @@ const userCtrl = new UserController(userUseCase);
 routes.post("/", userCtrl.addUser);
 routes.post("/auth", userCtrl.logUser);
 routes.get("/" ,userCtrl.getUsers);
+routes.get("/:uuid", userCtrl.getUserByUuid);
 routes.delete("/:uuid" ,userCtrl.deleteUser);
 
 export default routes;

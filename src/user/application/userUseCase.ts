@@ -25,4 +25,8 @@ export class UserUseCase {
     const user = await this.userRepository.logUser(credentials);
     return user;
   }
+  public async getUserByUuid(uuid: string) {
+    const user = await this.userRepository.getUserByUuid(uuid);
+    return user;
+  }
 }

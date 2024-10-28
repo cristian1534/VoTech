@@ -32,6 +32,22 @@ export class PGRepository implements UserRepository {
     }
   }
 
+  async getUserByUuid(uuid: string): Promise<any | null> {
+    try {
+      const client = await clientGenerator();
+      const query = "SELECT * FROM users WHERE uuid = $1";
+      const values = [uuid];
+      const result = await client.query(query, values);
+      const user = result.rows.length > 0 ? result.rows[0] : null;
+
+      client.release();
+      return user;
+    } catch (err: any) {
+      console.error(err);
+      throw new Error("An error occurred while getting user by UUID.");
+    }
+  }
+
   async logUser(credentials: IAuthEntity): Promise<any | null> {
     try {
       const client = await clientGenerator();
@@ -56,13 +72,15 @@ export class PGRepository implements UserRepository {
       const result = await client.query(query, values);
       client.release();
 
-      if (result.rowCount === 0){
+      if (result.rowCount === 0) {
         return null;
       }
       return true;
     } catch (err) {
       console.error(err);
-      throw new Error("An error occurred while deleting user from the database.");
+      throw new Error(
+        "An error occurred while deleting user from the database."
+      );
     }
   }
 }

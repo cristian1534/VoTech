@@ -54,6 +54,23 @@ export class UserController {
     }
   };
 
+  public getUserByUuid = async (req: Request, res: Response): Promise<any> => {
+    const { uuid } = req.params;
+
+    try {
+      const user = await this.userUseCase.getUserByUuid(uuid);
+      if (!user) {
+        return this.httpResponse.NotFound(res, "User not found.");
+      }
+
+      const { password, ...rest } = user;
+      return this.httpResponse.Ok(res, rest);
+    } catch (err: any) {
+      console.error(err);
+      return this.httpResponse.InternalServerError(res, "An error occurred.");
+    }
+  };
+
   public logUser = async ({ body }: Request, res: Response): Promise<any> => {
     try {
       const { error, value } = logSchema.validate(body);
