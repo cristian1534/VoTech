@@ -1,4 +1,4 @@
-import { IUserEntity, IAuthEntity} from "../domain/user.entity";
+import { IUserEntity, IAuthEntity } from "../domain/user.entity";
 import { v4 as uuiGenerator } from "uuid";
 import { UserValue } from "../domain/user.value";
 import { UserRepository } from "../domain/user.repository";
@@ -11,6 +11,11 @@ export class UserUseCase {
     const userValue = new UserValue({ ...user, uuid });
     const userCreated = await this.userRepository.addUser(userValue);
     return userCreated;
+  }
+
+  public async deleteUser(uuid: string) {
+    const deletedUser = await this.userRepository.deleteUsers(uuid);
+    return deletedUser;
   }
   public async getUsers() {
     const users = await this.userRepository.getUsers();

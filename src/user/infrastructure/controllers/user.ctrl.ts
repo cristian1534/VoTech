@@ -7,8 +7,6 @@ import { createToken } from "../helpers/token.creator";
 import "dotenv/config";
 import { setToken } from "../helpers/setTokenRedis";
 
-
-
 export class UserController {
   constructor(
     private userUseCase: UserUseCase,
@@ -85,6 +83,22 @@ export class UserController {
             "An error occurred."
           );
         });
+    } catch (err: any) {
+      console.error(err);
+      return this.httpResponse.InternalServerError(res, "An error occurred.");
+    }
+  };
+
+  public deleteUser = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { uuid } = req.params;
+
+      const deleted = await this.userUseCase.deleteUser(uuid);
+      if (!deleted) return this.httpResponse.NotFound(res, "User not found.");
+
+      return this.httpResponse.Ok(res, {
+        message: "User deleted successfully.",
+      });
     } catch (err: any) {
       console.error(err);
       return this.httpResponse.InternalServerError(res, "An error occurred.");

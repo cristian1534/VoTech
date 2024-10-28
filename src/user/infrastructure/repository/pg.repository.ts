@@ -47,4 +47,22 @@ export class PGRepository implements UserRepository {
       throw new Error("An error occurred while logging in the user.");
     }
   }
+
+  async deleteUsers(uuid: string): Promise<any | null> {
+    try {
+      const client = await clientGenerator();
+      const query = "DELETE FROM users WHERE uuid = $1";
+      const values = [uuid];
+      const result = await client.query(query, values);
+      client.release();
+
+      if (result.rowCount === 0){
+        return null;
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      throw new Error("An error occurred while deleting user from the database.");
+    }
+  }
 }
