@@ -16,9 +16,7 @@ interface ICredentials {
 }
 
 describe("Tests for Backend Service", () => {
-  beforeEach(() => {
-    console.log("Tests for User Routes");
-  });
+ 
   let userUuid: string;
   it("Should register a new User", async () => {
     const newUser: INewUser = {
@@ -69,6 +67,13 @@ describe("Tests for Backend Service", () => {
     expect(responseByUuid.body).toHaveProperty("data");
     expect(responseByUuid.body.data).toHaveProperty("name");
     expect(responseByUuid.body.data).toHaveProperty("email");
+  })
+
+  it("Should delete user", async () => {
+    const response = await request.delete(`/users/${userUuid}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("message", "Success");
   })
 
   afterAll(async () => {
