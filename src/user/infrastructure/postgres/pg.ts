@@ -2,7 +2,7 @@ import "dotenv/config";
 import { Pool } from "pg";
 
 const pool =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === "development"
     ? {
         connectionString: process.env.DATABASE_URL,
         ssl: {
