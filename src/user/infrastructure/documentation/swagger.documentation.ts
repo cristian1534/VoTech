@@ -1,3 +1,13 @@
+import "dotenv/config";
+
+const nodeEnv = process.env.NODE_ENV;
+
+const URL =
+  nodeEnv === "development"
+    ? "https://votech.onrender.com/"
+    : "http://localhost:4000";
+
+``
 export const options = {
   definition: {
     openapi: "3.0.0",
@@ -13,7 +23,7 @@ export const options = {
     },
     servers: [
       {
-        url: "http://localhost:4000",
+        url: URL ,
         description: "Backend NodeJS - TS Hexagonal Structure.",
       },
     ],
