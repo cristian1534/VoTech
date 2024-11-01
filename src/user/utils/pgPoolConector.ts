@@ -1,7 +1,4 @@
-import { Pool } from "pg";
-import { pgConfig } from "../infrastructure/postgres/pg";
-
-const pool = new Pool(pgConfig);
+import { pool } from "../infrastructure/postgres/pg";
 
 export const clientGenerator = async () => {
   try {

@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { Pool } from "pg";
 
-const pool =
-  process.env.NODE_ENV === "development"
+const pgConfig =
+  process.env.NODE_ENV === "production"
     ? {
         connectionString: process.env.DATABASE_URL,
         ssl: {
@@ -17,4 +17,4 @@ const pool =
         port: 5432,
       };
 
-export const pgConfig = new Pool(pool);
+export const pool = new Pool(pgConfig); 
