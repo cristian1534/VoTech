@@ -10,7 +10,6 @@ const projectRepository = new PGRepository();
 const projectUseCase = new ProjectUseCase(projectRepository);
 const projectCtrl = new ProjectController(projectUseCase);
 
-
 /**
  * @swagger
  * components:
@@ -42,8 +41,28 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         name: "Wallet"
  *         description: "Fintech awesome project"
  *         technologies: "ReactJS, NodeJS"
- * */
+ * 
 
+ * /projects:
+ *   post:
+ *     summary: Create a new PROJECT
+ *     tags: [PROJECT]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Project'
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Register'
+ *       500:
+ *         description: An error occurred while adding a project.
+ */
 routes.post("/",requireAuth, projectCtrl.addProject);
 
 export default routes;
