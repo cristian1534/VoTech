@@ -42,7 +42,6 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         description: "Fintech awesome project"
  *         technologies: "ReactJS, NodeJS"
  * 
-
  * /projects:
  *   post:
  *     summary: Create a new PROJECT
@@ -59,7 +58,7 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Register'
+ *               $ref: '#/components/schemas/Project'
  *       500:
  *         description: An error occurred while adding a project.
  */

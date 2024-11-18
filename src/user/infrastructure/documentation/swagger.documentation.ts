@@ -3,7 +3,7 @@ import "dotenv/config";
 const nodeEnv = process.env.NODE_ENV;
 
 const URL =
-  nodeEnv === "development"
+  nodeEnv === "production"
     ? "https://votech.onrender.com/"
     : "http://localhost:4000";
 
@@ -42,5 +42,5 @@ export const options = {
       },
     ],
   },
-  apis: ["./src/user/infrastructure/routes/user.routes.ts"],
+  apis: ["./src/user/infrastructure/routes/user.routes.ts", "./src/project/infrastructure/routes/projects.routes.ts"],
 };

@@ -1,4 +1,3 @@
-
 import { createClient, RedisClientType } from "redis";
 import "dotenv/config";
 
@@ -14,7 +13,7 @@ export const connectRedis = async (): Promise<void> => {
     console.log("Connected to Redis");
   } catch (error) {
     console.error("Error connecting to Redis:", error);
-    process.exit(1); 
+    process.exit(1);
   }
 };
 
