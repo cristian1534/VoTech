@@ -32,4 +32,34 @@ export class ProjectController {
       );
     }
   };
+
+  public getProjects = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const projects = await this.projectUseCase.getProjects();
+
+      return this.httpResponse.Ok(res, projects);
+    } catch (err: any) {
+      console.log(err.message);
+      return this.httpResponse.InternalServerError(
+        res,
+        "An error occurred while getting projects."
+      );
+    }
+  };
+
+  public deleteProject = async (req: Request, res: Response): Promise<any> => {
+    const { uuid } = req.params;
+
+    try {
+      const deletedProject = await this.projectUseCase.deleteProject(uuid);
+
+      return this.httpResponse.Ok(res, deletedProject);
+    } catch (err: any) {
+      console.log(err.message);
+      return this.httpResponse.InternalServerError(
+        res,
+        "An error occurred while deleting a project."
+      );
+    }
+  };
 }

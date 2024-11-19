@@ -64,4 +64,46 @@ const projectCtrl = new ProjectController(projectUseCase);
  */
 routes.post("/",requireAuth, projectCtrl.addProject);
 
+ /**
+ * @swagger
+ * /projects:
+ *   get:
+ *     summary: Get all PROJECTS
+ *     tags: [PROJECT]
+ *     responses:
+ *       200:
+ *         description: Success
+ *
+ *       404:
+ *          description: Not Found
+ *
+ *       500:
+ *         description: An error occurred while getting projects.
+ */
+routes.get("/", requireAuth, projectCtrl.getProjects)
+
+/**
+ * @swagger
+ * /projects/{uuid}:
+ *   delete:
+ *     security: 
+ *      - bearerAuth: []
+ *     summary: Delete the PROJECT selected if created.
+ *     tags: [PROJECT]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The PROJECT's uuid.
+ *     responses:
+ *       200:
+ *         description: Success
+ *        
+ *       500:
+ *         description: An error occurred while deleting a project.
+ */
+routes.delete("/:uuid", requireAuth, projectCtrl.deleteProject);
+
 export default routes;

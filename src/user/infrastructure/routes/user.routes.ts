@@ -150,7 +150,7 @@ routes.get("/" ,userCtrl.getUsers);
 routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
 /**
  * @swagger
- * /users/{id}:
+ * /users/{uuid}:
  *   delete:
  *     security: 
  *      - bearerAuth: []
@@ -162,7 +162,7 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  *         schema:
  *           type: string
  *         required: true
- *         description: The USER's id.
+ *         description: The USER's uuid.
  *     responses:
  *       200:
  *         description: Success

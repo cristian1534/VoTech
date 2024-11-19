@@ -23,4 +23,35 @@ export class PGRepository implements ProjectRepository {
       );
     }
   }
+
+  async getProjects(): Promise<any>{
+    try {
+      const client = await clientGenerator();
+      const query = `SELECT * FROM projects`;
+      const result = await client.query(query);
+      client.release();
+      return result.rows;
+    }catch(err: any) {
+      console.log(err);
+      throw new Error(
+        "An error occurred while getting projects from the database."
+      );
+    }
+  }
+
+  async deleteProject(uuid: string): Promise<any> {
+    try {
+      const client = await clientGenerator();
+      const query = `DELETE FROM projects WHERE uuid = $1`;
+      const values = [uuid];
+      await client.query(query, values);
+      client.release();
+      return await this.getProjects();
+    } catch (err: any) {
+      console.error(err);
+      throw new Error(
+        "An error occurred while deleting project from the database."
+      );
+    }
+  }
 }
