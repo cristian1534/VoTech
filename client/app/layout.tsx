@@ -3,9 +3,6 @@ import { Metadata } from "next";
 import "./globals.css";
 import Footer from "../components/Footer";
 
-type LayoutParams = {
-  slug?: string;
-};
 
 const inter = Inter({
   display: "swap",
@@ -25,27 +22,19 @@ export const metadata: Metadata = {
   title: "VoTech",
   description: "Software Development",
 };
-export default async function RootLayout({
+
+export default function RootLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: LayoutParams;
 }) {
-  const isNotAuthPage = params?.slug === "signin" || params?.slug === "signup";
-
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable} bg-gray-50`}>
-        {isNotAuthPage ? (
-          children
-        ) : (
-          <>
-            {children}
-            <Footer />
-          </>
-        )}
+        {children}
+        <Footer />
       </body>
     </html>
   );
 }
+
