@@ -1,6 +1,13 @@
-// app/project/[id]/page.tsx
 import Image from "next/image";
 import Link from "next/link";
+
+type Project = {
+  id: string;
+  image: string;
+  title: string;
+  description: string;
+  technologies: string[];
+};
 
 type ProjectsDetailsProps = {
   params: {
@@ -8,7 +15,7 @@ type ProjectsDetailsProps = {
   };
 };
 
-async function getProjectById(id: string) {
+async function getProjectById(id: string):Promise<Project | null> {
   const projects = [
     {
       id: "1",
