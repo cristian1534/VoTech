@@ -1,14 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-type Project = {
-  id: string;
-  image: string;
-  title: string;
-  description: string;
-  technologies: string[];
-};
-
 type ProjectsDetailsProps = {
   params: {
     id: string;
@@ -16,7 +8,7 @@ type ProjectsDetailsProps = {
 };
 
 async function getProjectById(id: string) {
-  try{
+  try {
     const projects = [
       {
         id: "1",
@@ -59,9 +51,10 @@ async function getProjectById(id: string) {
         technologies: ["TypeScript, React, Redux, Node"],
       },
     ];
-    return await projects.find((project) => project.id === id) || null;
-  }catch(error){console.log(error)}
- 
+    return (await projects.find((project) => project.id === id)) || null;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export default async function ProjectDetails({ params }: ProjectsDetailsProps) {
