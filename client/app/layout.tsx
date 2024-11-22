@@ -24,14 +24,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { slug?: string };
 }>) {
+  const isNotAuthPage = params?.slug === "signin" || params?.slug === "signup";
+
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${ibmPlexSans.variable}`}>
-        {children}
-        <Footer />
+      <body className={`${inter.variable} ${ibmPlexSans.variable} bg-gray-50`}>
+        {isNotAuthPage ? (
+          children
+        ) : (
+          <>
+            {children}
+            <Footer />
+          </>
+        )}
       </body>
     </html>
   );

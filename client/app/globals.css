@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gradient-to-r from-black to-gray-700;
   height: 100%;
 }
 
