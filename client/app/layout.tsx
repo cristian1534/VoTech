@@ -3,7 +3,9 @@ import { Metadata } from "next";
 import "./globals.css";
 import Footer from "../components/Footer";
 
-
+type LayoutParams = {
+  slug?: string;
+};
 
 const inter = Inter({
   display: "swap",
@@ -28,7 +30,7 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { slug?: string };
+  params: LayoutParams;
 }) {
   const isNotAuthPage = params?.slug === "signin" || params?.slug === "signup";
 
