@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { BiCodeAlt } from "react-icons/bi";
 
@@ -9,7 +10,7 @@ export default function Banner() {
           Team
         </h1>
         <span className="text-orange-300">
-          <BiCodeAlt size={50}/>
+          <BiCodeAlt size={50} />
         </span>
         <span className="text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-4xl md:text-5xl lg:text-6xl font-extrabold">
           VoTech
@@ -28,10 +29,12 @@ export default function Banner() {
           </span>
           .
         </p>
-
-        <button className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300">
+        <Link
+          href="/signup"
+          className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+        >
           Join Now!
-        </button>
+        </Link>
       </div>
     </section>
   );

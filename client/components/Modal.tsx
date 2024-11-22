@@ -52,7 +52,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, closeModal }) => {
             </p>
           </div>
           <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
-          <button className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-red-500 to-white hover:from-white hover:to-red-500 transition-colors rounded-lg font-medium shadow-lg shadow-red-300" onClick={closeModal}>
+          <button className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-white to-red-500 hover:from-red-500 hover:to-white transition-colors rounded-lg font-medium shadow-lg shadow-red-300" onClick={closeModal}>
                 Close
               </button>
             <button className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300">

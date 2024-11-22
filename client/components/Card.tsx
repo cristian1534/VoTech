@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { BiLeftArrow, BiRightArrow, BiSolidHeart } from 'react-icons/bi';
-import Image from 'next/image';
-import { useModal } from '../customHooks/useModal';
-import { Modal } from './Modal';
+import React, { useState } from "react";
+import { BiLeftArrow, BiRightArrow, BiSolidHeart } from "react-icons/bi";
+import Image from "next/image";
+import { useModal } from "../customHooks/useModal";
+import { Modal } from "./Modal";
+import Link from "next/link";
 
 interface Card {
   id: number;
@@ -19,7 +20,7 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 3;
 
-  const { isOpen, openModal, closeModal } = useModal(); 
+  const { isOpen, openModal, closeModal } = useModal();
 
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -72,15 +73,18 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
                 width={200}
                 height={200}
               />
-              <h5 className="mb-2 text-xl text-center font-bold text-gray-400">{card.title}</h5>
+              <h5 className="mb-2 text-xl text-center font-bold text-gray-400">
+                {card.title}
+              </h5>
             </a>
             <p className="mb-3 text-gray-400">{card.description}</p>
             <div className="flex justify-between items-center">
-              <button className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300">
-                Details
-              </button>
+              <Link href={`/project/${card.id}`}
+                className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300">
+                  Details
+              </Link>
               <button
-                onClick={openModal} // Trigger the modal open
+                onClick={openModal} 
                 className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
               >
                 Apply

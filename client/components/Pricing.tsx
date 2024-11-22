@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaCcPaypal } from "react-icons/fa6";
 
@@ -41,16 +42,16 @@ export const Pricing = () => {
                 <br />
                 Show your project information as your Portfolio.
               </p>
-              <a
+              <Link
                 target="_blank"
+                href="https://www.paypal.com/signin"
                 rel="noreferrer"
                 className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-white before:transition before:duration-300 hover:before:scale-110 active:duration-75 active:before:scale-95 sm:w-max"
-                href="#contact"
               >
-                <span className="relative text-lg font-semibold text-orange-400">
-                  Get Started
+                <span className="relative text-lg font-semibold text-orange-300">
+                  Pay with PayPal
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
