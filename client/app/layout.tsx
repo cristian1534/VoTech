@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import "./globals.css";
 import Footer from "../components/Footer";
 
+
+
 const inter = Inter({
   display: "swap",
   subsets: ["latin"],
@@ -26,7 +28,7 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Awaited<Promise<{ slug?: string }>>;
+  params: { slug?: string };
 }) {
   const isNotAuthPage = params?.slug === "signin" || params?.slug === "signup";
 
