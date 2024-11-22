@@ -21,13 +21,12 @@ export const metadata: Metadata = {
   title: "VoTech",
   description: "Software Development",
 };
-
 export default function RootLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { slug?: string };
+  params?: { slug?: string }; 
 }>) {
   const isNotAuthPage = params?.slug === "signin" || params?.slug === "signup";
 
