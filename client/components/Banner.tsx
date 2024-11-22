@@ -3,8 +3,8 @@ import { BiCodeAlt } from "react-icons/bi";
 
 export default function Banner() {
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto shadow-lg">
-      <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md shadow-md shadow-orange-300 p-4 rounded-md">
+    <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
+      <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md  p-4 rounded-md">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
           Team
         </h1>
