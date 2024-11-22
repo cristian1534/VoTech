@@ -7,6 +7,7 @@ export const CreateProjectForm: React.FC = () => {
     description: "",
     technologies: "",
   });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [image, setImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");

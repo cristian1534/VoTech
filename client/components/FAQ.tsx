@@ -51,7 +51,7 @@ export const FAQ = () => {
             </details>
             <details>
               <summary className="py-2 outline-none cursor-pointer focus:underline">
-                Can I return a product if I'm not satisfied?
+                Can I return a product if I am not satisfied?
               </summary>
               <div className="px-4 pb-4">
                 <p>
