@@ -27,6 +27,7 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         - name
  *         - description
  *         - technologies
+ *         - image
  *       properties:
  *         name:
  *           type: string
@@ -37,10 +38,14 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         technologies: 
  *           type: string
  *           description: Information about the project
+ *         image:
+ *           type: string
+ *           description: PROJECT's image
  *       example:
  *         name: "Wallet"
  *         description: "Fintech awesome project"
  *         technologies: "ReactJS, NodeJS"
+ *         image: "https://...."
  * 
  * /projects:
  *   post:

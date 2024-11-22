@@ -79,12 +79,14 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
             </a>
             <p className="mb-3 text-gray-400">{card.description}</p>
             <div className="flex justify-between items-center">
-              <Link href={`/project/${card.id}`}
-                className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300">
-                  Details
+              <Link
+                href={`/project/${card.id}`}
+                className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+              >
+                Details
               </Link>
               <button
-                onClick={openModal} 
+                onClick={openModal}
                 className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
               >
                 Apply

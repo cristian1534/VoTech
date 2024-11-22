@@ -3,4 +3,5 @@ export interface IProjectEntity {
   name: string;
   description: string;
   technologies: string;
+  image: string;
 }

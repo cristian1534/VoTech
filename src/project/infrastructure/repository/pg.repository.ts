@@ -6,12 +6,13 @@ export class PGRepository implements ProjectRepository {
   async addProject(project: IProjectEntity): Promise<any> {
     try {
       const client = await clientGenerator();
-      const query = `INSERT INTO projects (uuid, name, description, technologies) VALUES ($1, $2, $3, $4)`;
+      const query = `INSERT INTO projects (uuid, name, description, technologies, image) VALUES ($1, $2, $3, $4, $5)`;
       const values = [
         project.uuid,
         project.name,
         project.description,
         project.technologies,
+        project.image,
       ];
       await client.query(query, values);
       client.release();
