@@ -18,6 +18,9 @@ export class UserController {
       const { error, value } = userSchema.validate(body);
       if (error)
         return this.httpResponse.BadRequest(res, error.details[0].message);
+      const existingUser = await this.userUseCase.getUserByEmail(value.email);
+      if (existingUser)
+        return this.httpResponse.BadRequest(res, "User already exists");
 
       const { password, ...others } = value;
       const hashedPassword = await bcrypt.hash(password, 10);

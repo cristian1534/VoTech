@@ -3,17 +3,19 @@ import axios from "axios";
 
 export const registerUserAsync = createAsyncThunk(
   "register/registerUser",
-  async (user: IUser) => {
+  async (user: IUser, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         "https://votech.onrender.com/users",
         user
       );
-      const {data} = response;
-      console.log(data)
       return response.data as IUser;
-    } catch (err) {
-      return err;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      if (err.response && err.response.data) {
+        return rejectWithValue(err.response.data.message || "Unexpected error");
+      }
+      return rejectWithValue("An unknown error occurred");
     }
   }
 );
@@ -50,13 +52,12 @@ const registerSlice = createSlice({
       })
       .addCase(registerUserAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload as IUser;
         state.error = null;
       })
       .addCase(registerUserAsync.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error?.message;
-        console.log(action.error);
       });
   },
 });

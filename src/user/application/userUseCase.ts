@@ -29,4 +29,9 @@ export class UserUseCase {
     const user = await this.userRepository.getUserByUuid(uuid);
     return user;
   }
+
+  public async getUserByEmail(email: string) {
+    const user = await this.userRepository.getUserByEmail(email);
+    return user;
+  }
 }

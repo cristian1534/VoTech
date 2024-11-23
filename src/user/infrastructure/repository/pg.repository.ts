@@ -83,4 +83,20 @@ export class PGRepository implements UserRepository {
       );
     }
   }
+
+  async getUserByEmail(email: string): Promise<any | null> {
+    try {
+      const client = await clientGenerator();
+      const query = "SELECT * FROM users WHERE email = $1";
+      const values = [email];
+      const result = await client.query(query, values);
+      const user = result.rows.length > 0 ? result.rows[0] : null;
+
+      client.release();
+      return user;
+    } catch (err: any) {
+      console.error(err);
+      throw new Error("An error occurred while getting user by email.");
+    }
+  }
 }
