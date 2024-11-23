@@ -2,35 +2,54 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { BiShow } from "react-icons/bi";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { TAuth } from "../types/typeUser";
+
 
 export const SignInForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>();
+  const [message, setMessage] = useState("");
+  const [, setUser] = useState({});
+  const router = useRouter();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statuspassword, setStatuspassword] = useState("");
+  const { register, handleSubmit, formState:{ errors}} = useForm<TAuth>();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const onSubmit = async (data: TAuth): Promise<void> => {
+    try {
+      setUser(data);
+      await axios.post("https://votech.onrender.com/users/auth", data);
+      setMessage("Welcome!");
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
+    } catch (error: unknown) {
+      let message = "An unexpected error occurred.";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+      if (error instanceof Error) {
+        message = error.message;
+      }
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setStatuspassword("Sing In successfully!");
-    }, 1500);
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        setError(axiosError.response?.data?.message);
+        const errorResponse = axiosError.response;
+        message =
+          errorResponse?.data?.message ||
+          JSON.stringify(errorResponse?.data) ||
+          message;
+      }
+
+      setMessage(message);
+      setTimeout(() => {
+        setError(null);
+        setMessage("");
+      },2000);
+    }
   };
 
   const handleShowPassword = () => {
@@ -43,13 +62,16 @@ export const SignInForm: React.FC = () => {
         <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
           Ready to Code!
         </h2>
-
-        {statuspassword && (
-          <div className="bg-green-500 text-white p-2 rounded mb-4 text-center">
-            {statuspassword}
+        {message && (
+          <div
+            className={`${
+              error ? "bg-red-500" : "bg-green-500"
+            } text-white p-2 rounded mb-4 text-center`}
+          >
+            {message}
           </div>
         )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -60,12 +82,18 @@ export const SignInForm: React.FC = () => {
             <input
               type="email"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: "This email is not valid",
+                },
+              })}
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
             />
+            {errors.email && (
+              <span className="text-orange-500">{errors.email.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -85,22 +113,33 @@ export const SignInForm: React.FC = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
             />
+            {errors.password && (
+              <span className="text-orange-500">
+                {errors.password.message}
+              </span>
+            )}
           </div>
           <div className="flex justify-center items-center">
             <button
               type="submit"
-              disabled={isSubmitting}
               className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-            >
-              {isSubmitting ? "Sending..." : "Send"}
-            </button>
-            <span className="ml-auto font-sans text-gray-400">Not registered yet? <Link href="/signup"> <span className="text-orange-300">Sing Up</span></Link></span>
+            >Send</button>
+            <span className="ml-auto font-sans text-gray-400">
+              Not registered yet?{" "}
+              <Link href="/signup">
+                {" "}
+                <span className="text-orange-300">Sing Up</span>
+              </Link>
+            </span>
           </div>
         </form>
       </div>

@@ -2,6 +2,7 @@ import { IUserEntity, IAuthEntity } from "../domain/user.entity";
 import { v4 as uuiGenerator } from "uuid";
 import { UserValue } from "../domain/user.value";
 import { UserRepository } from "../domain/user.repository";
+import bcrypt from "bcryptjs";
 
 export class UserUseCase {
   constructor(private readonly userRepository: UserRepository) {}
@@ -22,8 +23,16 @@ export class UserUseCase {
     return users;
   }
   public async logUser(credentials: IAuthEntity) {
-    const user = await this.userRepository.logUser(credentials);
-    return user;
+    
+    const user = await this.userRepository.getUserByEmail(credentials.email);
+    if (!user) return null;
+
+    const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+    if (!isPasswordValid) {
+      return null; 
+    }
+
+    return user; 
   }
   public async getUserByUuid(uuid: string) {
     const user = await this.userRepository.getUserByUuid(uuid);

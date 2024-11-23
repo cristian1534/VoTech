@@ -5,18 +5,15 @@ import React, { useState } from "react";
 import { BiShow } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
-export interface TUser {
-  name: string;
-  email: string;
-  password: string;
-}
+import { useRouter } from "next/navigation";
+import { TUser } from "../types/typeUser";
 
 export const SignUpForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState({});
+  const [error, setError] = useState<string>();
   const [message, setMessage] = useState("");
-  const [,setUser] = useState({});
+  const [, setUser] = useState({});
+  const router = useRouter();
 
   const {
     register,
@@ -29,28 +26,31 @@ export const SignUpForm: React.FC = () => {
       setUser(data);
       await axios.post("https://votech.onrender.com/users", data);
       setMessage("User registered successfully!");
+      setTimeout(() => {
+        router.push("/signin");
+      }, 1500);
     } catch (error: unknown) {
       let message = "An unexpected error occurred.";
-  
+
       if (error instanceof Error) {
         message = error.message;
       }
-  
+
       if (error && typeof error === "object" && "response" in error) {
-        const axiosError = error as { response?: { data?: { message?: string } } };
-        setError(axiosError);
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        setError(axiosError.response?.data?.message);
         const errorResponse = axiosError.response;
         message =
           errorResponse?.data?.message ||
           JSON.stringify(errorResponse?.data) ||
           message;
       }
-  
+
       setMessage(message);
     }
   };
-  
-  
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -63,10 +63,13 @@ export const SignUpForm: React.FC = () => {
           Join Us Now!
         </h2>
         {message && (
-         <div className={`${error ? 'bg-red-500' : 'bg-green-500'} text-white p-2 rounded mb-4 text-center`}>
-         {message}
-       </div>
-       
+          <div
+            className={`${
+              error ? "bg-red-500" : "bg-green-500"
+            } text-white p-2 rounded mb-4 text-center`}
+          >
+            {message}
+          </div>
         )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
@@ -83,7 +86,7 @@ export const SignUpForm: React.FC = () => {
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
             />
             {errors.name && (
-              <span className="text-fuchsia-600">{errors.name.message}</span>
+              <span className="text-orange-500">{errors.name.message}</span>
             )}
           </div>
           <div className="mb-4">
@@ -106,7 +109,7 @@ export const SignUpForm: React.FC = () => {
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
             />
             {errors.email && (
-              <span className="text-fuchsia-600">{errors.email.message}</span>
+              <span className="text-orange-500">{errors.email.message}</span>
             )}
           </div>
           <div className="mb-4">
@@ -136,7 +139,7 @@ export const SignUpForm: React.FC = () => {
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
             />
             {errors.password && (
-              <span className="text-fuchsia-600">
+              <span className="text-orange-500">
                 {errors.password.message}
               </span>
             )}
