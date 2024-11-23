@@ -54,8 +54,8 @@ const userCtrl = new UserController(userUseCase);
  *           type: string
  *           description: USER's password.
  *       example:
- *         email: "pedro@gmail.com"
- *         password: "cuatrocincoseis"
+ *         email: "pepe@gmail.com"
+ *         password: "pepe1234"
  *
  *
  * /users:
@@ -158,7 +158,7 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  *     tags: [USER]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: uuid
  *         schema:
  *           type: string
  *         required: true

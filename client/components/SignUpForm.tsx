@@ -2,8 +2,15 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { BiShow } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUserAsync } from "../store/slices/user.slice";
+import { AppDispatch, RootState } from "../store/index";
+// import { useRouter } from "next/navigation";
 
 export const SignUpForm: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  // const router = useRouter();
+  const { loading, error } = useSelector((state: RootState) => state.register);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -11,7 +18,6 @@ export const SignUpForm: React.FC = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [statuspassword, setStatuspassword] = useState("");
 
   const handleChange = (
@@ -26,12 +32,16 @@ export const SignUpForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    dispatch(registerUserAsync(formData));
+    if (!error) {
       setStatuspassword("Sign Up successfully!");
-    }, 1500);
+      setTimeout(() => {
+        setFormData({ name: "", email: "", password: "" });
+        
+      }, 1500);
+    }
+    setStatuspassword(error || "An error occurred during registration");
   };
 
   const handleShowPassword = () => {
@@ -114,12 +124,18 @@ export const SignUpForm: React.FC = () => {
           <div className="flex justify-center items-center">
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={loading}
               className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
             >
-              {isSubmitting ? "Sending..." : "Send"}
+              {loading ? "Sending..." : "Send"}
             </button>
-            <span className="ml-auto font-sans text-gray-400">Already registered? <Link href="/signin"> <span className="text-orange-300">Sing In</span></Link></span>
+            <span className="ml-auto font-sans text-gray-400">
+              Already registered?{" "}
+              <Link href="/signin">
+                {" "}
+                <span className="text-orange-300">Sing In</span>
+              </Link>
+            </span>
           </div>
         </form>
       </div>

@@ -5,5 +5,5 @@ export interface UserRepository {
   logUser(credentials: IAuthEntity): Promise<IUserEntity | null>;
   getUserByUuid(uuid: string): Promise<IUserEntity | null>;
   getUsers(): Promise<IUserEntity[] | null>;
-  deleteUsers(uuid: string): Promise<IUserEntity[] | null>;
+  deleteUsers(uuid: string): Promise<IUserEntity | null>;
 }

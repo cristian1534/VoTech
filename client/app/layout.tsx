@@ -2,7 +2,7 @@ import { Inter, IBM_Plex_Sans } from "next/font/google";
 import { Metadata } from "next";
 import "./globals.css";
 import Footer from "../components/Footer";
-
+import ClientLayout from "./ClientLayout";
 
 const inter = Inter({
   display: "swap",
@@ -31,10 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable} bg-gray-50`}>
-        {children}
-        <Footer />
+        <ClientLayout>
+          {children}
+          <Footer />
+        </ClientLayout>
       </body>
     </html>
   );
 }
-
