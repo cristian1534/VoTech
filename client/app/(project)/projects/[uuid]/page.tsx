@@ -13,6 +13,7 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
   }
 
   const response = await res.json();
+  console.log(response)
 
   const project: TProject = {
     id: response.data.id,
@@ -20,10 +21,13 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
     title: response.data.name,
     description: response.data.description,
     technologies: response.data.technologies
-      ? response.data.technologies.split(",").map((tech: string) => tech.trim())
+      ? response.data.technologies
+          .split(",")
+          .map((tech: string) => tech.trim()) 
       : [], 
     image: response.data.image.trim(), 
   };
+
 
   return project;
 }
@@ -34,6 +38,7 @@ type TParams = {
 
 export default async function ProjectDetails({ params }: { params: TParams }) {
   const project = await getProjectById(params.uuid);
+  console.log(params.uuid);
 
   if (!project) {
     return (
