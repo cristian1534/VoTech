@@ -2,7 +2,6 @@
 import { Inter, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/Footer";
-import ClientLayout from "./ClientLayout";
 import { SessionProvider, useSession } from "../context/SessionContext";
 
 const inter = Inter({
@@ -39,9 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable} bg-gray-50`}>
         <SessionProvider>
-          <ClientLayout>
             <LayoutWithFooter>{children}</LayoutWithFooter>
-          </ClientLayout>
         </SessionProvider>
       </body>
     </html>
