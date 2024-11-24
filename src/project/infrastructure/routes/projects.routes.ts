@@ -138,6 +138,6 @@ routes.delete("/:uuid", requireAuth, projectCtrl.deleteProject);
  *       500:
  *         description: Error fetching PRODUCT
  */
-routes.get("/projects/:uuid", projectCtrl.getProjectByUuid); 
+routes.get("/:uuid", projectCtrl.getProjectByUuid); 
 
 export default routes;
