@@ -1,40 +1,57 @@
 "use client";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { TProject } from "../types/typeProjects";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export const CreateProjectForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    technologies: "",
-  });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [image, setImage] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
+  const [error, setError] = useState<string | null>();
+  const [message, setMessage] = useState("");
+  const [, setProject] = useState({});
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<TProject>();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setImage(file);
-  };
+  const onSubmit = async (data: TProject): Promise<void> => {
+    try {
+      setIsLoading(true);
+      setProject(data);
+      await axios.post<TProject>("https://votech.onrender.com/projects", data);
+      reset();
+      router.push("/");
+      setIsLoading(false);
+    } catch (error: unknown) {
+      let message = "An unexpected error occurred.";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+      if (error instanceof Error) {
+        message = error.message;
+      }
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setStatusMessage("Project created successfully!");
-    }, 1500);
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        setError(axiosError.response?.data?.message);
+        const errorResponse = axiosError.response;
+        message =
+          errorResponse?.data?.message ||
+          JSON.stringify(errorResponse?.data) ||
+          message;
+      }
+
+      setMessage(message);
+      setTimeout(() => {
+        setError(null);
+        setMessage("");
+      }, 2000);
+    }
   };
 
   return (
@@ -43,14 +60,16 @@ export const CreateProjectForm: React.FC = () => {
         <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
           Share your idea
         </h2>
-
-        {statusMessage && (
-          <div className="bg-green-500 text-white p-2 rounded mb-4 text-center">
-            {statusMessage}
+        {message && (
+          <div
+            className={`${
+              error ? "bg-red-500" : "bg-green-500"
+            } text-white p-2 rounded mb-4 text-center`}
+          >
+            {message}
           </div>
         )}
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
               htmlFor="name"
@@ -61,12 +80,12 @@ export const CreateProjectForm: React.FC = () => {
             <input
               type="text"
               id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
+              {...register("name", { required: "Name is required" })}
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
             />
+            {errors.name && (
+              <span className="text-orange-500">{errors.name.message}</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -78,13 +97,17 @@ export const CreateProjectForm: React.FC = () => {
             </label>
             <textarea
               id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
+              {...register("description", {
+                required: "Description is required",
+              })}
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
               style={{ resize: "none" }}
             />
+            {errors.description && (
+              <span className="text-orange-500">
+                {errors.description.message}
+              </span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -97,39 +120,44 @@ export const CreateProjectForm: React.FC = () => {
             <input
               type="text"
               id="technologies"
-              name="technologies"
-              value={formData.technologies}
-              onChange={handleChange}
-              required
+              {...register("technologies", {
+                required: "Technologies is required",
+              })}
               placeholder="e.g., React, Node.js, Docker"
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
             />
+            {errors.technologies && (
+              <span className="text-orange-500">
+                {errors.technologies.message}
+              </span>
+            )}
           </div>
 
           <div className="mb-4">
             <label
-              htmlFor="image"
+              htmlFor="imageUrl"
               className="block text-sm font-medium text-gray-400"
             >
-              Upload Project Image
+              Project Image URL
             </label>
             <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full text-gray-400 file:mr-4 file:py-2 file:px-4 file:border-0 file:font-medium file:bg-gradient-to-r file:from-yellow-400 file:to-orange-500 file:text-white file:rounded file:cursor-pointer hover:file:opacity-90"
+              type="url"
+              id="imageUrl"
+              {...register("image", { required: "Image URL is required" })}
+              placeholder="https://example.com/image.jpg"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
             />
+            {errors.image && (
+              <span className="text-orange-500">{errors.image.message}</span>
+            )}
           </div>
 
           <div className="flex justify-center items-center">
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:opacity-90 transition-opacity rounded-lg font-medium shadow-lg"
+              className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
             >
-              {isSubmitting ? "Creating..." : "Create Project"}
+              {isLoading ? "Sending..." : "Send"}
             </button>
           </div>
         </form>
