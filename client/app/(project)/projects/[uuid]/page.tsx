@@ -32,11 +32,12 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
   return project;
 }
 
-type TParams = {
-  uuid: string;
-};
+// type TParams = {
+//   uuid: string;
+// };
 
-export default async function ProjectDetails({ params }: { params: TParams }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function ProjectDetails({ params }: any) {
   const project = await getProjectById(params.uuid);
   console.log(params.uuid);
 
