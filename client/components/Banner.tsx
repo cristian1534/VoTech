@@ -1,8 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import { BiCodeAlt } from "react-icons/bi";
+import { useSession } from "../context/SessionContext";
+
 
 export default function Banner() {
+  const { sessionUser } = useSession();
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
       <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md  p-4 rounded-md">
@@ -29,12 +32,21 @@ export default function Banner() {
           </span>
           .
         </p>
-        <Link
-          href="/signup"
-          className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-        >
-          Join Now!
-        </Link>
+        {sessionUser ? (
+          <div className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg font-medium shadow-lg shadow-orange-300">
+          <p className="text-lg">
+            Welcome {sessionUser}!
+          </p>
+        </div>
+        
+        ) : (
+          <Link
+            href="/signup"
+            className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+          >
+            Join Now!
+          </Link>
+        )}
       </div>
     </section>
   );

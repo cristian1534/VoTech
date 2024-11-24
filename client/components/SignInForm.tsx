@@ -5,8 +5,9 @@ import { BiShow } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { TAuth } from "../types/typeUser";
-
+import { TAuth, TToken } from "../types/typeUser";
+import { setSession } from "../customHooks/setSession";
+import { useSession } from "../context/SessionContext"
 
 export const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,16 +15,35 @@ export const SignInForm: React.FC = () => {
   const [message, setMessage] = useState("");
   const [, setUser] = useState({});
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const { setSessionToken, setSessionUser } = useSession();
 
-  const { register, handleSubmit, formState:{ errors}} = useForm<TAuth>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<TAuth>();
 
   const onSubmit = async (data: TAuth): Promise<void> => {
     try {
+      setIsLoading(true);
       setUser(data);
-      await axios.post("https://votech.onrender.com/users/auth", data);
+      const response = await axios.post<TToken>(
+        "https://votech.onrender.com/users/auth",
+        data
+      );
+      const token = response.data?.data?.token;
+      if (token) {
+        setSession(token);
+        setSessionUser(response.data?.data.name)
+      }
+      reset();
+      setIsLoading(false);
       setMessage("Welcome!");
       setTimeout(() => {
         router.push("/");
+        setSessionToken(token);
       }, 1500);
     } catch (error: unknown) {
       let message = "An unexpected error occurred.";
@@ -48,7 +68,7 @@ export const SignInForm: React.FC = () => {
       setTimeout(() => {
         setError(null);
         setMessage("");
-      },2000);
+      }, 2000);
     }
   };
 
@@ -89,7 +109,7 @@ export const SignInForm: React.FC = () => {
                   message: "This email is not valid",
                 },
               })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
             />
             {errors.email && (
               <span className="text-orange-500">{errors.email.message}</span>
@@ -120,19 +140,19 @@ export const SignInForm: React.FC = () => {
                   message: "Password must be at least 6 characters",
                 },
               })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
             />
             {errors.password && (
-              <span className="text-orange-500">
-                {errors.password.message}
-              </span>
+              <span className="text-orange-500">{errors.password.message}</span>
             )}
           </div>
           <div className="flex justify-center items-center">
             <button
               type="submit"
               className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-            >Send</button>
+            >
+              {isLoading ? "Sending..." : "Send"}
+            </button>
             <span className="ml-auto font-sans text-gray-400">
               Not registered yet?{" "}
               <Link href="/signup">

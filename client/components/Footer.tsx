@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { BiHomeAlt, BiLogIn, BiLogOut, BiFileBlank } from "react-icons/bi";
+import { BiHomeAlt, BiLogIn, BiFileBlank } from "react-icons/bi";
+import { endSession } from "../customHooks/setSession";
 
 export default function Footer() {
   return (
@@ -10,7 +11,8 @@ export default function Footer() {
           <div
             className="w-full h-[70px] backdrop-blur-2xl rounded-full max-w-[460px] mx-auto px-4 py-2 flex justify-between text-lg text-white"
             style={{
-              background: "linear-gradient(to right, rgba(255, 204, 0, 0.7), rgba(255, 105, 0, 0.7))",
+              background:
+                "linear-gradient(to right, rgba(255, 204, 0, 0.7), rgba(255, 105, 0, 0.7))",
             }}
           >
             <Link href="/">
@@ -23,16 +25,12 @@ export default function Footer() {
                 <BiFileBlank />
               </span>
             </Link>
-            <Link href="/signin">
-              <span className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center">
-                <BiLogIn />
-              </span>
-            </Link>
-            <Link href="/signup">
-              <span className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center">
-                <BiLogOut />
-              </span>
-            </Link>
+            <span
+              className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center"
+              onClick={endSession}
+            >
+              <BiLogIn />
+            </span>
           </div>
         </div>
       </nav>

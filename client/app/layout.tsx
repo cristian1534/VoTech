@@ -1,8 +1,10 @@
+"use client";
+
 import { Inter, IBM_Plex_Sans } from "next/font/google";
-import { Metadata } from "next";
 import "./globals.css";
 import Footer from "../components/Footer";
 import ClientLayout from "./ClientLayout";
+import { SessionProvider, useSession } from "../context/SessionContext";
 
 const inter = Inter({
   display: "swap",
@@ -18,10 +20,16 @@ const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibmplexsans",
 });
 
-export const metadata: Metadata = {
-  title: "VoTech",
-  description: "Software Development",
-};
+function LayoutWithFooter({ children }: { children: React.ReactNode }) {
+  const { sessionToken} = useSession();
+  
+  return (
+    <>
+      {children}
+      {sessionToken && <Footer />}
+    </>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -31,10 +39,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable} bg-gray-50`}>
-        <ClientLayout>
-          {children}
-          <Footer />
-        </ClientLayout>
+        <SessionProvider>
+          <ClientLayout>
+            <LayoutWithFooter>{children}</LayoutWithFooter>
+          </ClientLayout>
+        </SessionProvider>
       </body>
     </html>
   );
