@@ -8,6 +8,7 @@ import Link from "next/link";
 
 interface Card {
   id: number;
+  uuid: string;
   name: string;
   description: string;
   technologies: string,
@@ -69,7 +70,7 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
           >
             <a href="#">
               <Image
-                src={card.image}
+                src={card.image.trimEnd()}
                 alt={card.name}
                 className="w-full h-32 object-cover rounded-lg my-4"
                 width={200}
@@ -80,9 +81,9 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
               </h5>
             </a>
             <p className="mb-3 text-gray-400">{card.description}</p>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-4">
               <Link
-                href={`/project/${card.id}`}
+                href={`/projects/${card.uuid}`}
                 className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
               >
                 Details

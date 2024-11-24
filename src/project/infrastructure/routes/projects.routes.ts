@@ -111,4 +111,33 @@ routes.get("/", projectCtrl.getProjects)
  */
 routes.delete("/:uuid", requireAuth, projectCtrl.deleteProject);
 
+/**
+ * @swagger
+ * /projects/{uuid}:
+ *   get:
+ *     security: 
+ *      - bearerAuth: []
+ *     summary: Get the PROJECT selected if created.
+ *     tags: [PROJECT]
+ *     parameters: 
+ *       - in: path
+ *         name: uuid
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: PRODUCT fetched.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Product'
+ *       404:
+ *         description: PRODUCT not found 
+ *       500:
+ *         description: Error fetching PRODUCT
+ */
+routes.get("/projects/:uuid", projectCtrl.getProjectByUuid); 
+
 export default routes;

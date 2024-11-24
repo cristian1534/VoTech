@@ -3,17 +3,17 @@ import Link from "next/link";
 
 type Project = {
   id: string;
+  uuid: string;
   image: string;
   title: string;
   description: string;
   technologies: string[];
 };
 
-async function getProjectById(id: string): Promise<Project | null> {
-  const res = await fetch(`https://votech.onrender.com/projects/${id}`, {
+async function getProjectById(uuid: string): Promise<Project | null> {
+  const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
     next: { revalidate: 10 }, 
   });
-
   if (!res.ok) {
     console.error("Error fetching project:", res.statusText);
     return null;
@@ -22,8 +22,8 @@ async function getProjectById(id: string): Promise<Project | null> {
   return res.json();
 }
 
-export default async function ProjectDetails({ params }: { params: { id: string } }) {
-  const project = await getProjectById(params.id);
+export default async function ProjectDetails({ params }: { params: { uuid: string } }) {
+  const project = await getProjectById(params.uuid);
 
   if (!project) {
     return (

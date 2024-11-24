@@ -24,4 +24,9 @@ export class ProjectUseCase {
     const deletedProject = await this.projectRepository.deleteProject(uuid);
     return deletedProject;
   }
+
+  public async getProjectByUuid(uuid: string) {
+    const project = await this.projectRepository.getProjectByUuid(uuid);
+    return project;
+  }
 }

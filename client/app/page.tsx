@@ -29,8 +29,6 @@ export default async function Home() {
     messageFour: "",
   };
 
-  console.log(projects);
-
   return (
     <div>
       <div className="container mx-auto">

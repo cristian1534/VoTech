@@ -55,4 +55,20 @@ export class PGRepository implements ProjectRepository {
       );
     }
   }
+
+  async getProjectByUuid(uuid: string): Promise<any> {
+    try {
+      const client = await clientGenerator();
+      const query = `SELECT * FROM projects WHERE uuid = $1`;
+      const values = [uuid];
+      const result = await client.query(query, values);
+      client.release();
+      return result.rows[0];
+    } catch (err: any) {
+      console.error(err);
+      throw new Error(
+        "An error occurred while getting project by UUID from the database."
+      );
+    }
+  }
 }

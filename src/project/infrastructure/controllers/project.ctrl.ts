@@ -62,4 +62,29 @@ export class ProjectController {
       );
     }
   };
+
+  public getProjectByUuid = async (
+    req: Request,
+    res: Response
+  ): Promise<any> => {
+    const { uuid } = req.params;
+
+    try {
+      const project = await this.projectUseCase.getProjectByUuid(uuid);
+
+      if (!project)
+        return this.httpResponse.NotFound(
+          res,
+          "Project not found with the given UUID"
+        );
+
+      return this.httpResponse.Ok(res, project);
+    } catch (err: any) {
+      console.log(err.message);
+      return this.httpResponse.InternalServerError(
+        res,
+        "An error occurred while getting project by UUID."
+      );
+    }
+  };
 }
