@@ -54,8 +54,8 @@ const userCtrl = new UserController(userUseCase);
  *           type: string
  *           description: USER's password.
  *       example:
- *         email: "pepe@gmail.com"
- *         password: "pepe1234"
+ *         email: "pedro@gmail.com"
+ *         password: "12345678"
  *
  *
  * /users:

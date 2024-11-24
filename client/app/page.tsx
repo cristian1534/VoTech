@@ -9,7 +9,7 @@ import { FAQ } from "../components/FAQ";
 import { TProject } from "../types/typeProjects";
 
 export default async function Home() {
-  const response = await getProjects("eyJ0eXAiOiJKV1QiOiJIUzI1NiJ9.eyJzdWIiOiI3ZTcwNjQ0Yy0zMTcyLTQ0MDktOGUzNy1hNWZiNTNiZWU1MTEiLCJpYXQiOjE3MzI0NDA3MDgsImV4cCI6MTczMjUyNzEwOH0.6ud3hwMVIc16Am8KmeJZPWR43vP8eqMLQuckLqXA_O4");
+  const response = await getProjects();
   const projects: TProject[] = response?.data || [];
 
   const messagesProjects: TMessage = {

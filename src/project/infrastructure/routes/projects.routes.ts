@@ -85,7 +85,7 @@ routes.post("/",requireAuth, projectCtrl.addProject);
  *       500:
  *         description: An error occurred while getting projects.
  */
-routes.get("/", requireAuth, projectCtrl.getProjects)
+routes.get("/", projectCtrl.getProjects)
 
 /**
  * @swagger
