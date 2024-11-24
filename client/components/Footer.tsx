@@ -20,7 +20,7 @@ export default function Footer() {
                 <BiHomeAlt />
               </span>
             </Link>
-            <Link href="/project">
+            <Link href="/projects">
               <span className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center">
                 <BiFileBlank />
               </span>
