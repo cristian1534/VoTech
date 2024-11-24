@@ -1,26 +1,36 @@
 import Image from "next/image";
 import Link from "next/link";
+import {TProject } from "../../../../types/typeProjects";
 
-type Project = {
-  id: string;
-  uuid: string;
-  image: string;
-  title: string;
-  description: string;
-  technologies: string[];
-};
 
-async function getProjectById(uuid: string): Promise<Project | null> {
+
+async function getProjectById(uuid: string): Promise<TProject | null> {
   const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
-    next: { revalidate: 10 }, 
+    next: { revalidate: 10 },
   });
+
   if (!res.ok) {
     console.error("Error fetching project:", res.statusText);
     return null;
   }
 
-  return res.json();
+  const response = await res.json();
+
+  
+  const project: TProject = {
+    id: response.data.id,
+    uuid: response.data.uuid,
+    title: response.data.name,
+    description: response.data.description,
+    technologies: response.data.technologies
+      ? response.data.technologies.split(",").map((tech: string) => tech.trim())
+      : [], 
+    image: response.data.image.trim(), 
+  };
+
+  return project;
 }
+
 
 export default async function ProjectDetails({ params }: { params: { uuid: string } }) {
   const project = await getProjectById(params.uuid);
@@ -41,13 +51,19 @@ export default async function ProjectDetails({ params }: { params: { uuid: strin
         {project.title}
       </h2>
       <div className="mb-6 flex justify-center bg-gradient-to-r from-orange-400 to-yellow-500 p-8">
-        <Image
-          src={project.image}
-          alt={project.title}
-          width={600}
-          height={400}
-          className="rounded-lg"
-        />
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            width={600}
+            height={400}
+            className="rounded-lg"
+          />
+        ) : (
+          <div className="w-600 h-400 flex items-center justify-center bg-gray-200 rounded-lg">
+            <span className="text-gray-500">No image available</span>
+          </div>
+        )}
       </div>
       <p className="text-lg mb-4">{project.description}</p>
       <h2 className="text-2xl font-semibold mb-2">Technologies:</h2>
@@ -69,3 +85,4 @@ export default async function ProjectDetails({ params }: { params: { uuid: strin
     </div>
   );
 }
+

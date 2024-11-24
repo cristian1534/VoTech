@@ -1,9 +1,8 @@
-export interface TProject {
-  id: number;
+export type TProject = {
+  id: string;
   uuid: string;
-  name: string;
-  description: string;
-  technologies: string;
   image: string;
-}
-
+  title: string;
+  description: string;
+  technologies: string[];
+};
