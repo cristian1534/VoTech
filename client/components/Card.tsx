@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import { BiLeftArrow, BiRightArrow, BiSolidHeart } from "react-icons/bi";
 import Image from "next/image";
@@ -7,9 +8,10 @@ import Link from "next/link";
 
 interface Card {
   id: number;
-  image: string;
-  title: string;
+  name: string;
   description: string;
+  technologies: string,
+  image: string;
 }
 
 interface GridProps {
@@ -68,13 +70,13 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
             <a href="#">
               <Image
                 src={card.image}
-                alt={card.title}
+                alt={card.name}
                 className="w-full h-32 object-cover rounded-lg my-4"
                 width={200}
                 height={200}
               />
               <h5 className="mb-2 text-xl text-center font-bold text-gray-400">
-                {card.title}
+                {card.name}
               </h5>
             </a>
             <p className="mb-3 text-gray-400">{card.description}</p>

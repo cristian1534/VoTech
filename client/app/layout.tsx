@@ -1,5 +1,4 @@
 "use client";
-
 import { Inter, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/Footer";

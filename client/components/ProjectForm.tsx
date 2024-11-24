@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { TProject } from "../types/typeProjects";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useSession } from "../context/SessionContext";
 
 export const CreateProjectForm: React.FC = () => {
   const [error, setError] = useState<string | null>();
@@ -11,6 +12,7 @@ export const CreateProjectForm: React.FC = () => {
   const [, setProject] = useState({});
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { sessionToken: token } = useSession();
 
   const {
     register,
@@ -23,11 +25,16 @@ export const CreateProjectForm: React.FC = () => {
     try {
       setIsLoading(true);
       setProject(data);
-      await axios.post<TProject>("https://votech.onrender.com/projects", data);
+      await axios.post<TProject>("https://votech.onrender.com/projects", data, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
       reset();
       router.push("/");
       setIsLoading(false);
     } catch (error: unknown) {
+      setIsLoading(false);
       let message = "An unexpected error occurred.";
 
       if (error instanceof Error) {
@@ -81,7 +88,7 @@ export const CreateProjectForm: React.FC = () => {
               type="text"
               id="name"
               {...register("name", { required: "Name is required" })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400 text-gray-400"
             />
             {errors.name && (
               <span className="text-orange-500">{errors.name.message}</span>
@@ -100,7 +107,7 @@ export const CreateProjectForm: React.FC = () => {
               {...register("description", {
                 required: "Description is required",
               })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
               style={{ resize: "none" }}
             />
             {errors.description && (
@@ -124,7 +131,7 @@ export const CreateProjectForm: React.FC = () => {
                 required: "Technologies is required",
               })}
               placeholder="e.g., React, Node.js, Docker"
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
             />
             {errors.technologies && (
               <span className="text-orange-500">
@@ -145,7 +152,7 @@ export const CreateProjectForm: React.FC = () => {
               id="imageUrl"
               {...register("image", { required: "Image URL is required" })}
               placeholder="https://example.com/image.jpg"
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400"
+              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
             />
             {errors.image && (
               <span className="text-orange-500">{errors.image.message}</span>

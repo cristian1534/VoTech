@@ -1,8 +1,8 @@
+'use client'
 import Link from "next/link";
 import React from "react";
 import { BiCodeAlt } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
-
 
 export default function Banner() {
   const { sessionUser } = useSession();
@@ -34,11 +34,10 @@ export default function Banner() {
         </p>
         {sessionUser ? (
           <div className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg font-medium shadow-lg shadow-orange-300">
-          <p className="text-lg">
-            Welcome {sessionUser}!
-          </p>
-        </div>
-        
+            <p className="text-lg">
+              Welcome {sessionUser}!
+            </p>
+          </div>
         ) : (
           <Link
             href="/signup"

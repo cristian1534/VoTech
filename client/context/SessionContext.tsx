@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface SessionContextProps {
@@ -14,8 +15,8 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [sessionUser, setSessionUser] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("session");
-    const user = sessionStorage.getItem("user");
+    const token = localStorage.getItem("session");
+    const user = localStorage.getItem("user");
     setSessionToken(token);
     setSessionUser(user);
   }, []);

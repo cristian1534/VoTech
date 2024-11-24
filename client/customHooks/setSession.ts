@@ -1,9 +1,23 @@
 export function setSession(token: string): void {
-  sessionStorage.setItem("session", token);
+  localStorage.setItem("session", token);
 }
 
 export function endSession(): void {
-  sessionStorage.removeItem("session");
-  sessionStorage.removeItem("user");
+  localStorage.removeItem("session");
+  localStorage.removeItem("user");
   window.location.href = "/";
-};
+}
+
+export function getSessions(): string | null {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("session");
+
+    if (!token) {
+      throw new Error("No session found");
+    }
+
+    return token;
+  }
+
+  return null;
+}

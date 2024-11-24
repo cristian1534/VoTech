@@ -35,6 +35,7 @@ export const SignUpForm: React.FC = () => {
         router.push("/signin");
       }, 1500);
     } catch (error: unknown) {
+      setIsLoading(false);
       let message = "An unexpected error occurred.";
 
       if (error instanceof Error) {

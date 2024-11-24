@@ -46,6 +46,7 @@ export const SignInForm: React.FC = () => {
         setSessionToken(token);
       }, 1500);
     } catch (error: unknown) {
+      setIsLoading(false);
       let message = "An unexpected error occurred.";
 
       if (error instanceof Error) {
