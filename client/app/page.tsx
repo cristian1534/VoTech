@@ -7,9 +7,10 @@ import { TMessage } from "../types/typeMessages";
 import { OpportunitiesList } from "../components/OpportunitiesList";
 import { FAQ } from "../components/FAQ";
 import { TProject } from "../types/typeProjects";
+import { Subscribe } from "../components/Subscribe";
 
 export default async function Home() {
-  const projects: TProject[] = await getProjects() || []; 
+  const projects: TProject[] = (await getProjects()) || [];
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
@@ -30,37 +31,43 @@ export default async function Home() {
 
   return (
     <div>
-      <div className="container mx-auto">
-        <Banner />
-      </div>
-      <div className="bg-white container mx-auto my-14">
-        <UseText
-          messageOne={messagesProjects.messageOne}
-          messageTwo={messagesProjects.messageTwo}
-          messageThree={messagesProjects.messageThree}
-          messageFour={messagesProjects.messageFour}
-        />
-      </div>
-      <div className="container mx-auto">
-        <Card cards={projects} />
-      </div>
       <div>
-        <div className="bg-white container mx-auto">
-          <OpportunitiesList />
-        </div>
-        <div className="bg-white container mx-auto">
-          <FAQ />
-        </div>
-        <div className="bg-white container mx-auto my-14">
-          <UseText
-            messageOne={messagesContact.messageOne}
-            messageTwo={messagesContact.messageTwo}
-            messageThree={messagesContact.messageThree}
-            messageFour={messagesContact.messageFour}
-          />
-        </div>
-        <ContactForm />
-      </div>
+  <div className="container mx-auto">
+    <Banner />
+  </div>
+  <div className="bg-white container mx-auto my-10">
+    <UseText
+      messageOne={messagesProjects.messageOne}
+      messageTwo={messagesProjects.messageTwo}
+      messageThree={messagesProjects.messageThree}
+      messageFour={messagesProjects.messageFour}
+    />
+  </div>
+  <div className="container mx-auto">
+    <Card cards={projects} />
+  </div>
+  <div>
+    <div className="bg-white container mx-auto">
+      <OpportunitiesList />
+    </div>
+    <div className="bg-white container mx-auto">
+      <FAQ />
+    </div>
+    <div className="bg-white container mx-auto my-10">
+      <UseText
+        messageOne={messagesContact.messageOne}
+        messageTwo={messagesContact.messageTwo}
+        messageThree={messagesContact.messageThree}
+        messageFour={messagesContact.messageFour}
+      />
+    </div>
+    <ContactForm />
+  </div>
+  <div className="p-7 mb-10 container mx-auto">
+    <Subscribe />
+  </div>
+</div>
+
     </div>
   );
 }

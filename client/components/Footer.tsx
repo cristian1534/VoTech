@@ -9,24 +9,24 @@ export default function Footer() {
       <nav className="fixed bottom-2 lg:bottom-8 w-full overflow-hidden z-50">
         <div className="container mx-auto">
           <div
-            className="w-full h-[70px] backdrop-blur-2xl rounded-full max-w-[460px] mx-auto px-4 py-2 flex justify-between text-lg text-white"
+            className="w-full h-[50px] backdrop-blur-2xl rounded-full max-w-[350px] mx-auto px-4 py-2 flex justify-between items-center text-lg text-white"
             style={{
               background:
                 "linear-gradient(to right, rgba(255, 204, 0, 0.7), rgba(255, 105, 0, 0.7))",
             }}
           >
             <Link href="/">
-              <span className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center">
+              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center">
                 <BiHomeAlt />
               </span>
             </Link>
             <Link href="/projects">
-              <span className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center">
+              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center">
                 <BiFileBlank />
               </span>
             </Link>
             <span
-              className="cursor-pointer w-[50px] h-[50px] flex items-center justify-center"
+              className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center"
               onClick={endSession}
             >
               <BiLogIn />
