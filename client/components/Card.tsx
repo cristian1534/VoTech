@@ -11,7 +11,7 @@ interface Card {
   uuid: string;
   name: string;
   description: string;
-  technologies: string,
+  technologies: string[]; 
   image: string;
 }
 

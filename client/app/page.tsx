@@ -9,8 +9,7 @@ import { FAQ } from "../components/FAQ";
 import { TProject } from "../types/typeProjects";
 
 export default async function Home() {
-  const response = await getProjects();
-  const projects: TProject[] = response?.data || [];
+  const projects: TProject[] = await getProjects() || []; 
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
@@ -43,7 +42,7 @@ export default async function Home() {
         />
       </div>
       <div className="container mx-auto">
-        <Card cards={projects || []} />
+        <Card cards={projects} />
       </div>
       <div>
         <div className="bg-white container mx-auto">
@@ -65,4 +64,3 @@ export default async function Home() {
     </div>
   );
 }
-

@@ -17,6 +17,7 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
 
   const project: TProject = {
     id: response.data.id,
+    name:response.name,
     uuid: response.data.uuid,
     title: response.data.name,
     description: response.data.description,

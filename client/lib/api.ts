@@ -1,12 +1,17 @@
 import { TProject } from "../types/typeProjects";
 import axios from "axios";
 
-export async function getProjects(): Promise<TProject[] | null> {
- 
-  try {
-    const response = await axios.get("https://votech.onrender.com/projects/");
+interface ApiResponse {
+  status: number;
+  message: string;
+  data: TProject[];
+}
 
-    return response.data as TProject[];
+export async function getProjects(): Promise<TProject[] | null> {
+  try {
+    const response = await axios.get<ApiResponse>("https://votech.onrender.com/projects/");
+
+    return response.data.data || null; 
   } catch (error) {
     console.error("Axios error:", error);
     return null;
