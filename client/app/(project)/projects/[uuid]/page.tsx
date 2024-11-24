@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {TProject } from "../../../../types/typeProjects";
-
-
+import { TProject } from "../../../../types/typeProjects";
 
 async function getProjectById(uuid: string): Promise<TProject | null> {
   const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
@@ -16,7 +14,6 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
 
   const response = await res.json();
 
-  
   const project: TProject = {
     id: response.data.id,
     uuid: response.data.uuid,
@@ -31,8 +28,11 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
   return project;
 }
 
+type TParams = {
+  uuid: string;
+};
 
-export default async function ProjectDetails({ params }: { params: { uuid: string } }) {
+export default async function ProjectDetails({ params }: { params: TParams }) {
   const project = await getProjectById(params.uuid);
 
   if (!project) {
@@ -85,4 +85,3 @@ export default async function ProjectDetails({ params }: { params: { uuid: strin
     </div>
   );
 }
-
