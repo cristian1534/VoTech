@@ -4,7 +4,7 @@ export function setSession(token: string): void {
 
 export function endSession(): void {
   localStorage.removeItem("session");
-  localStorage.removeItem("user");
+  localStorage.removeItem("currentUser");
   window.location.href = "/";
 }
 

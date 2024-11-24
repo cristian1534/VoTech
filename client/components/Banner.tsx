@@ -1,14 +1,30 @@
-'use client'
+'use client';
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BiCodeAlt } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
 
 export default function Banner() {
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
   const { sessionUser } = useSession();
+  console.log("Current:",sessionUser)
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+
+    if (storedUser) {
+      setCurrentUser(storedUser);
+    } else if (sessionUser) {
+    
+      setCurrentUser(sessionUser);
+      localStorage.setItem("currentUser", sessionUser); 
+    } else {
+      setCurrentUser(null);
+    }
+  }, [sessionUser]);
+
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
-      <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md  p-4 rounded-md">
+      <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
           Team
         </h1>
@@ -32,11 +48,9 @@ export default function Banner() {
           </span>
           .
         </p>
-        {sessionUser ? (
+        {currentUser ? (
           <div className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg font-medium shadow-lg shadow-orange-300">
-            <p className="text-lg">
-              Welcome {sessionUser}!
-            </p>
+            <p className="text-lg">Welcome {currentUser}!</p>
           </div>
         ) : (
           <Link
