@@ -8,6 +8,7 @@ import { OpportunitiesList } from "../components/OpportunitiesList";
 import { FAQ } from "../components/FAQ";
 import { TProject } from "../types/typeProjects";
 import { Subscribe } from "../components/Subscribe";
+import Link from "next/link";
 
 export default async function Home() {
   const projects: TProject[] = (await getProjects()) || [];
@@ -29,45 +30,69 @@ export default async function Home() {
     messageFour: "",
   };
 
+  const messagesPortfolio: TMessage = {
+    messageOne: "🚀 Check Out the Amazing Projects by VoTech Junior Teams!",
+    messageTwo:
+      "Want to see real-world projects created by talented junior teams at VoTech? Explore our portfolio page to view the completed projects, check out the code on GitHub, see the deployed versions, and learn about the amazing contributors behind each project. Do not miss out – visit now!",
+    messageThree: "",
+    messageFour: "",
+  };
+
   return (
     <div>
       <div>
-  <div className="container mx-auto">
-    <Banner />
-  </div>
-  <div className="bg-white container mx-auto my-10">
-    <UseText
-      messageOne={messagesProjects.messageOne}
-      messageTwo={messagesProjects.messageTwo}
-      messageThree={messagesProjects.messageThree}
-      messageFour={messagesProjects.messageFour}
-    />
-  </div>
-  <div className="container mx-auto">
-    <Card cards={projects} />
-  </div>
-  <div>
-    <div className="bg-white container mx-auto">
-      <OpportunitiesList />
-    </div>
-    <div className="bg-white container mx-auto">
-      <FAQ />
-    </div>
-    <div className="bg-white container mx-auto my-10">
-      <UseText
-        messageOne={messagesContact.messageOne}
-        messageTwo={messagesContact.messageTwo}
-        messageThree={messagesContact.messageThree}
-        messageFour={messagesContact.messageFour}
-      />
-    </div>
-    <ContactForm />
-  </div>
-  <div className="p-7 mb-10 container mx-auto">
-    <Subscribe />
-  </div>
-</div>
+        <div className="container mx-auto">
+          <Banner />
+        </div>
+        <div className="bg-white container mx-auto my-10">
+          <UseText
+            messageOne={messagesProjects.messageOne}
+            messageTwo={messagesProjects.messageTwo}
+            messageThree={messagesProjects.messageThree}
+            messageFour={messagesProjects.messageFour}
+          />
+        </div>
+        <div className="container mx-auto">
+          <Card cards={projects} />
+        </div>
+        <div>
+          <div className="bg-white container mx-auto">
+            <OpportunitiesList />
+          </div>
 
+          <div className="bg-white container mx-auto my-10">
+            <UseText
+              messageOne={messagesPortfolio.messageOne}
+              messageTwo={messagesPortfolio.messageTwo}
+              messageThree={messagesPortfolio.messageThree}
+              messageFour={messagesPortfolio.messageFour}
+            />
+            <div className="bg-white container mx-auto text-center pb-4 font-sans">
+              <Link
+                href="/portfolio"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white px-3 py-2 rounded-md"
+              >
+                PORTFOLIO
+              </Link>
+            </div>
+          </div>
+          <div className="bg-white container mx-auto">
+            <FAQ />
+          </div>
+          <div className="bg-white container mx-auto my-10">
+            <UseText
+              messageOne={messagesContact.messageOne}
+              messageTwo={messagesContact.messageTwo}
+              messageThree={messagesContact.messageThree}
+              messageFour={messagesContact.messageFour}
+            />
+          </div>
+          <ContactForm />
+        </div>
+        <div className="p-7 mb-10 container mx-auto">
+          <Subscribe />
+        </div>
+      </div>
     </div>
   );
 }

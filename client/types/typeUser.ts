@@ -4,6 +4,7 @@ export type TAuth = {
 };
 
 export type TUser = TAuth & {
+  uuid?: string;
   name: string;
 };
 
