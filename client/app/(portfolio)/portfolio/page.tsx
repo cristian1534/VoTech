@@ -2,6 +2,8 @@ import React from "react";
 import { PortfolioList } from "../../../components/PortfolioList";
 import Link from "next/link";
 
+
+
 const projects = [
   {
     image:
