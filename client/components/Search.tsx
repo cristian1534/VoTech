@@ -36,7 +36,7 @@ export const Search: React.FC<SearchProps> = ({ projects, onSearch }) => {
         placeholder="Search for projects here..."
         value={searchTerm}
         onChange={handleSearch}
-        className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400"
+        className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
       />
     </div>
   );

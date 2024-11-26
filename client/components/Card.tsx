@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useModal } from "../customHooks/useModal";
 import { Modal } from "./Modal";
 import Link from "next/link";
+// import { useSession } from "../context/SessionContext";
 
 interface Card {
   id: number;
@@ -20,6 +21,7 @@ interface GridProps {
 }
 
 const CardsGrid: React.FC<GridProps> = ({ cards }) => {
+  // const { sessionUser } = useSession();
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 3;
 
@@ -42,6 +44,11 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  // const handleApply = (name: string) => {
+  //   console.log('Apply for:', name );
+  //   console.log('Member: ', sessionUser);
+  // };
 
   return (
     <div className="mb-20 font-sans">
@@ -91,6 +98,7 @@ const CardsGrid: React.FC<GridProps> = ({ cards }) => {
               <button
                 onClick={openModal}
                 className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+                // onClick={()=>handleApply(card.name)}
               >
                 Apply
               </button>

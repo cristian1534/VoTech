@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 interface Project {
   image: string;
@@ -18,7 +19,9 @@ interface SearchedPortfolioProps {
 
 import { Search } from "./Search";
 
-export default function SearchedPortfolio({ projects }: SearchedPortfolioProps) {
+export default function SearchedPortfolio({
+  projects,
+}: SearchedPortfolioProps) {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
   const handleSearch = (filtered: Project[]) => {
@@ -35,12 +38,22 @@ export default function SearchedPortfolio({ projects }: SearchedPortfolioProps) 
             className="bg-white shadow-2xl overflow-hidden transform transition hover:scale-105"
           >
             <div className="shadow-lg p-2">
-              <img
-                src={project.image}
-                alt={project.name}
-                className="w-full h-48 object-cover rounded-t-lg"
-              />
+              <div className="shadow-lg p-2">
+                <div className="relative w-full h-48 bg-gray-200 rounded-t-lg overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.name}
+                    className="object-cover"
+                    layout="responsive"
+                    width={300}
+                    height={200}
+                    quality={100}
+                    loading="lazy"
+                  />
+                </div>
+              </div>
             </div>
+
             <div className="p-4 text">
               <h2 className="text-orange-400 text-2xl font-semibold mb-2">
                 {project.name}

@@ -73,11 +73,21 @@ export default async function ProjectDetails({ params }: any) {
         </Link>
       </div>
       <p className="text-lg mb-4">{project.description}</p>
-      <h2 className="text-2xl font-semibold mb-2">Technologies:</h2>
-      <ul className="list-disc pl-6 mb-12">
+      <h2 className="text-orange-300 text-lg font-semibold mb-2">
+        Technologies:
+      </h2>
+      <ul className="list-disc pl-6">
         {project.technologies.map((tech) => (
-          <li key={tech} className="text-lg">
+          <li key={tech} className="text-md">
             {tech}
+          </li>
+        ))}
+      </ul>
+        <p className="text-lg text-orange-300 font-semibold">Team applied:</p>
+        <ul className="list-none pl-6 mb-12">
+        {project.technologies.map((tech) => (
+          <li key={tech} className="text-md">
+            {"Member"}
           </li>
         ))}
       </ul>
