@@ -16,7 +16,7 @@ export const SignInForm: React.FC = () => {
   const [, setUser] = useState({});
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { setSessionToken, setSessionUser } = useSession();
+  const { setSessionToken, setSessionUser, setSessionEmail } = useSession();
 
   const {
     register,
@@ -38,6 +38,7 @@ export const SignInForm: React.FC = () => {
       if (token) {
         setSession(token);
         setSessionUser(response.data?.data.name)
+        setSessionEmail(response.data?.data.email)
       }
       reset();
       setIsLoading(false);

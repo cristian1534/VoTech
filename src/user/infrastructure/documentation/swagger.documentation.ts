@@ -42,5 +42,5 @@ export const options = {
       },
     ],
   },
-  apis: ["./src/user/infrastructure/routes/user.routes.ts", "./src/project/infrastructure/routes/projects.routes.ts"],
+  apis: ["./src/user/infrastructure/routes/user.routes.ts", "./src/project/infrastructure/routes/projects.routes.ts", "./src/user_project/infrastructure/routes/user_project.routes.ts"],
 };

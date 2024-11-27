@@ -8,6 +8,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { options } from "./user/infrastructure/documentation/swagger.documentation";
 import { connectRedis } from "./user/infrastructure/redis/redis";
+import morgan from "morgan";
 
 const app = express();
 (async () => {
@@ -16,6 +17,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(morgan("tiny"));
 app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));
 const specs = swaggerJSDoc(options);
 

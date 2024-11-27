@@ -6,6 +6,8 @@ interface SessionContextProps {
   setSessionToken: (token: string | null) => void;
   sessionUser: string | null;
   setSessionUser: (name: string | null) => void;
+  sessionEmail: string | null;
+  setSessionEmail: (email: string | null) => void;
 }
 
 const SessionContext = createContext<SessionContextProps | undefined>(undefined);
@@ -13,12 +15,15 @@ const SessionContext = createContext<SessionContextProps | undefined>(undefined)
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [sessionUser, setSessionUser] = useState<string | null>(null);
+  const [sessionEmail, setSessionEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("session");
     const user = localStorage.getItem("user");
+    const userEmail = localStorage.getItem("email");
     setSessionToken(token);
     setSessionUser(user);
+    setSessionEmail(userEmail);
   }, []);
 
   return (
@@ -28,6 +33,8 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         setSessionToken,
         sessionUser,
         setSessionUser,
+        sessionEmail,
+        setSessionEmail,
       }}
     >
       {children}
