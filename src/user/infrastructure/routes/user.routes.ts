@@ -30,17 +30,17 @@ const userCtrl = new UserController(userUseCase);
  *         name:
  *           type: string
  *           description: USER's name
- *         email: 
+ *         email:
  *           type: string
  *           description: USER's email
- *         password: 
+ *         password:
  *           type: string
  *           description: Should be 8 characters in length
  *       example:
  *         name: "Pedro"
  *         email: "pedro@gmail.com"
  *         password: "12345678"
- * 
+ *
  *     Login:
  *       type: object
  *       required:
@@ -119,16 +119,16 @@ routes.post("/auth", userCtrl.logUser);
  *       500:
  *         description: Error when fetching USERS
  */
-routes.get("/" ,userCtrl.getUsers);
+routes.get("/", userCtrl.getUsers);
 /**
  * @swagger
  * /users/{uuid}:
  *   get:
- *     security: 
+ *     security:
  *      - bearerAuth: []
  *     summary: Get the USER selected if registered.
  *     tags: [USER]
- *     parameters: 
+ *     parameters:
  *       - in: path
  *         name: uuid
  *         schema:
@@ -143,7 +143,7 @@ routes.get("/" ,userCtrl.getUsers);
  *               type: object
  *               $ref: '#/components/schemas/Register'
  *       404:
- *         description: USER not found 
+ *         description: USER not found
  *       500:
  *         description: Error fetching USER
  */
@@ -152,7 +152,7 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  * @swagger
  * /users/{uuid}:
  *   delete:
- *     security: 
+ *     security:
  *      - bearerAuth: []
  *     summary: Delete the USER selected if registered.
  *     tags: [USER]
@@ -166,10 +166,10 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  *     responses:
  *       200:
  *         description: Success
- *        
+ *
  *       500:
  *         description: Error when deleting USER
  */
-routes.delete("/:uuid",requireAuth ,userCtrl.deleteUser);
+routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
 
 export default routes;

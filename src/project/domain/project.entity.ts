@@ -4,5 +4,4 @@ export interface IProjectEntity {
   description: string;
   technologies: string;
   image: string;
-  teamMembers?: string[];
 }

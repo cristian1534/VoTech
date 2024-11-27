@@ -13,7 +13,6 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
   }
 
   const response = await res.json();
-  console.log(response);
 
   const project: TProject = {
     id: response.data.id,

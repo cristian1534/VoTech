@@ -23,16 +23,18 @@ export class UserUseCase {
     return users;
   }
   public async logUser(credentials: IAuthEntity) {
-    
     const user = await this.userRepository.getUserByEmail(credentials.email);
     if (!user) return null;
 
-    const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      credentials.password,
+      user.password
+    );
     if (!isPasswordValid) {
-      return null; 
+      return null;
     }
 
-    return user; 
+    return user;
   }
   public async getUserByUuid(uuid: string) {
     const user = await this.userRepository.getUserByUuid(uuid);
