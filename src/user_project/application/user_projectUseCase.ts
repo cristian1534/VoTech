@@ -4,9 +4,9 @@ import { UserProjectRepository } from "../../user_project/domain/user_project.re
 export class UserProjectUseCase {
   constructor(private readonly useProjectUseCase: UserProjectRepository) {}
 
-  public async addUserProject(userId: number, projectId: number) {
+  public async addUserProject(userEmail: string, projectId: number) {
     const userProjectValue = new UserProjectValue({
-      userId,
+      userEmail,
       projectId,
       appliedAt: new Date(),
     });

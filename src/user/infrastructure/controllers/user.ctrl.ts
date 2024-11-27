@@ -80,8 +80,8 @@ export class UserController {
       if (error) {
         return this.httpResponse.BadRequest(res, error.details[0].message);
       }
-
-      const { email, password } = value;
+      
+      const {email, password } = value;
 
       const user = await this.userUseCase.logUser({ email, password });
       if (!user) {

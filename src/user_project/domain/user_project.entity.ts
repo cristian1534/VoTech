@@ -1,5 +1,5 @@
 export interface IUserProject {
-  userId: number;  
+  userEmail: string;  
   projectId: number; 
   appliedAt?: Date;
 }

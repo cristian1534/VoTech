@@ -33,6 +33,7 @@ export const SignInForm: React.FC = () => {
         "https://votech.onrender.com/users/auth",
         data
       );
+      console.log(response);
       const token = response.data?.data?.token;
       if (token) {
         setSession(token);

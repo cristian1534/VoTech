@@ -10,8 +10,8 @@ export class UserProjectController {
 
   public addUserProject = async (req: Request, res: Response): Promise<any> => {
     try {
-      const { userId, projectId } = req.body;
-      await this.userProjectUseCase.addUserProject(userId, projectId);
+      const { userEmail, projectId } = req.body;
+      await this.userProjectUseCase.addUserProject(userEmail, projectId);
       return this.httpResponse.Ok(res, "User added to Project successfully.");
     } catch (err: any) {
       console.error(err);

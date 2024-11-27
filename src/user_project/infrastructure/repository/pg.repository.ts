@@ -8,8 +8,8 @@ export class PGRepository implements UserProjectRepository {
   ): Promise<IUserProject | null> {
     try {
       const client = await clientGenerator();
-      const query = `INSERT INTO user_project_applications (user_id, project_id ) VALUES ($1, $2)`;
-      const values = [userProject.userId, userProject.projectId];
+      const query = `INSERT INTO user_project_applications (user_email, project_id ) VALUES ($1, $2)`;
+      const values = [userProject.userEmail, userProject.projectId];
       await client.query(query, values);
       client.release();
       return userProject;
@@ -25,7 +25,7 @@ export class PGRepository implements UserProjectRepository {
       const client = await clientGenerator();
       const query = `
         SELECT 
-          upa.user_id, 
+          upa.user_email, 
           upa.project_id, 
           upa.applied_at, 
           p.name AS project_name,
@@ -35,7 +35,7 @@ export class PGRepository implements UserProjectRepository {
         JOIN 
           projects p ON upa.project_id = p.id
         JOIN 
-          users u ON upa.user_id = u.id
+          users u ON upa.user_email = u.email
       `;
       const result = await client.query(query);
       client.release();

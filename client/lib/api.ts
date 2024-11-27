@@ -1,5 +1,6 @@
 import { TProject } from "../types/typeProjects";
 import { TUser } from "../types/typeUser";
+import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
 
 interface ProjectApiResponse {
@@ -14,6 +15,11 @@ interface UserApiResponse {
   data: TUser[];
 }
 
+interface UserProjectResponse {
+  status: number;
+  message: string;
+  data: TUserProject[]
+}
 export async function getProjects(): Promise<TProject[] | null> {
   try {
     const response = await axios.get<ProjectApiResponse>(
@@ -54,3 +60,13 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
     console.error("Axios error:", error);
   }
 }
+
+export async function createUserProjectRelation(userId: number, projectId: number): Promise<TUserProject[] | null> {
+  try {
+    const response = await axios.post<UserProjectResponse>(`https://votech.onrender.com/user-project/`, { userId, projectId });
+    return response.data?.data || null;  
+  } catch (error) {
+    console.error("Axios error:", error);
+    return null;  
+  }
+};
