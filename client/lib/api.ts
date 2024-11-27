@@ -15,7 +15,7 @@ interface UserApiResponse {
   data: TUser[];
 }
 
-interface UserProjectResponse {
+interface UserProjectApiResponse {
   status: number;
   message: string;
   data: TUserProject[]
@@ -71,3 +71,13 @@ export async function createUserProjectRelation(userEmail: string, projectId: nu
     return null;  
   }
 };
+
+export async function getAllUserProject():Promise<TUserProject[] | null> {
+  try {
+    const response = await axios.get<UserProjectApiResponse>(`https://votech.onrender.com/user-project/`);
+    return response.data?.data || null;  
+  } catch (error) {
+    console.error("Axios error:", error);
+    return null;  
+  }
+}
