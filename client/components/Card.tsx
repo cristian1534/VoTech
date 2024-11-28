@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Modal } from "./Modal";
 import { useModal } from "../customHooks/useModal";
+import { BiSolidLeftArrow } from "react-icons/bi";
+import { BiSolidRightArrow } from "react-icons/bi";
 
 interface Card {
   id: number;
@@ -20,16 +22,31 @@ interface CardsGridProps {
 }
 
 const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
-  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(cards.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCards = cards.slice(startIndex, startIndex + itemsPerPage);
+
   const { isOpen, openModal, closeModal } = useModal();
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
   return (
     <div className="mb-20 font-sans">
       <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
-        {cards.length === 0 ? (
+        {currentCards.length === 0 ? (
           <div className="text-center text-gray-400">NO PROJECTS FOUND.</div>
         ) : (
-          cards.map((card) => (
+          currentCards.map((card) => (
             <div
               key={card.uuid}
               className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
@@ -74,6 +91,29 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
           ))
         )}
       </div>
+
+      {cards.length > itemsPerPage && (
+        <div className="flex justify-center items-center gap-4 mt-4">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-400 disabled:opacity-50"
+          >
+           <BiSolidLeftArrow/>
+          </button>
+          <span className="text-gray-500">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-400 disabled:opacity-50"
+          >
+            <BiSolidRightArrow/>
+          </button>
+        </div>
+      )}
+
       <Modal isOpen={isOpen} closeModal={closeModal} id={selectedCardId} />
     </div>
   );
