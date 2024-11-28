@@ -19,6 +19,14 @@ export const DashUserProjectList = ({
     messageFour: "",
   };
 
+  const groupedProjects = userProjects.reduce((acc, relation) => {
+    if (!acc[relation.project_name]) {
+      acc[relation.project_name] = [];
+    }
+    acc[relation.project_name].push(relation);
+    return acc;
+  }, {} as Record<string, TUserProject[]>);
+
   return (
     <div className="bg-white container flex flex-col justify-center p-4 mx-auto md:p-8 text-gray-400 font-sans">
       <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-5 rounded-md"></div>
@@ -31,16 +39,24 @@ export const DashUserProjectList = ({
         />
       </div>
       <div className="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-orange-300 my-3">
-        {userProjects?.map((relation) => (
-          <details key={relation.project_id}>
+        {Object.entries(groupedProjects).map(([projectName, relations]) => (
+          <details key={projectName}>
             <summary className="py-2 outline-none cursor-pointer focus:underline">
-              <span className="text-orange-400">PROJECT: </span> {relation.project_name}
+              <span className="text-orange-400">PROJECT: </span> {projectName}
             </summary>
             <div className="px-4 pb-4">
-              <div className="w-full flex items-center gap-6">
-                <p><span className="text-orange-300">Team Member: </span>{relation.user_name}</p>
-                <p><span className="text-orange-300">Contact: </span>{relation.user_email}</p>
-              </div>
+              {relations.map((relation) => (
+                <div key={relation.user_email} className="w-full flex items-center gap-6">
+                  <p>
+                    <span className="text-orange-300">Team Member: </span>
+                    {relation.user_name}
+                  </p>
+                  <p>
+                    <span className="text-orange-300">Contact: </span>
+                    {relation.user_email}
+                  </p>
+                </div>
+              ))}
             </div>
           </details>
         ))}

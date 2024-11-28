@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { BiHomeAlt, BiLogIn, BiFileBlank } from "react-icons/bi";
+import { GrUserAdmin } from "react-icons/gr";
 import { endSession } from "../customHooks/setSession";
 
 export default function Footer() {
@@ -16,17 +17,22 @@ export default function Footer() {
             }}
           >
             <Link href="/">
-              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center">
+              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center transition-transform transform hover:scale-125">
                 <BiHomeAlt />
               </span>
             </Link>
             <Link href="/projects">
-              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center">
+              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center transition-transform transform hover:scale-125">
                 <BiFileBlank />
               </span>
             </Link>
+            <Link href="/dashboard">
+              <span className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center transition-transform transform hover:scale-125">
+                <GrUserAdmin />
+              </span>
+            </Link>
             <span
-              className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center"
+              className="cursor-pointer w-[40px] h-[40px] flex items-center justify-center transition-transform transform hover:scale-125"
               onClick={endSession}
             >
               <BiLogIn />

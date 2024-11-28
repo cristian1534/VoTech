@@ -32,8 +32,8 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
-      <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
+    <div className="flex justify-center items-center min-h-screen font-sans">
+      <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl">
         <h2 className="text-center my-5 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
           Contact Us
         </h2>

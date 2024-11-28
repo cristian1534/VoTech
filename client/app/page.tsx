@@ -8,7 +8,9 @@ import { OpportunitiesList } from "../components/OpportunitiesList";
 import { FAQ } from "../components/FAQ";
 import { TProject } from "../types/typeProjects";
 import { Subscribe } from "../components/Subscribe";
+import { About } from "../components/About";
 import Link from "next/link";
+import { Discord } from "../components/Discord";
 
 export default async function Home() {
   const projects: TProject[] = (await getProjects()) || [];
@@ -43,6 +45,9 @@ export default async function Home() {
       <div>
         <div className="container mx-auto">
           <Banner />
+        </div>
+        <div className="bg-white container mx-auto my-10">
+          <About />
         </div>
         <div className="bg-white container mx-auto my-10">
           <UseText
@@ -87,9 +92,12 @@ export default async function Home() {
               messageFour={messagesContact.messageFour}
             />
           </div>
-          <ContactForm />
+        </div>
+        <div>
+          <Discord />
         </div>
         <div className="p-7 mb-10 container mx-auto">
+          <ContactForm />
           <Subscribe />
         </div>
       </div>

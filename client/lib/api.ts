@@ -63,7 +63,7 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
 
 export async function createUserProjectRelation(userEmail: string, projectId: number): Promise<TUserProject[] | null> {
   try {
-    const response = await axios.post<UserProjectResponse>(`https://votech.onrender.com/user-project/`, { userEmail, projectId });
+    const response = await axios.post<UserProjectApiResponse>(`https://votech.onrender.com/user-project/`, { userEmail, projectId });
     console.log(response)
     return response.data?.data || null;  
   } catch (error) {

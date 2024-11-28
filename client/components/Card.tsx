@@ -1,121 +1,80 @@
-'use client'
+"use client";
+
 import React, { useState } from "react";
-import { BiLeftArrow, BiRightArrow, BiSolidHeart } from "react-icons/bi";
+import { BiSolidHeart } from "react-icons/bi";
 import Image from "next/image";
-import { useModal } from "../customHooks/useModal";
-import { Modal } from "./Modal";
 import Link from "next/link";
-import { useSession } from "../context/SessionContext";
-import { createUserProjectRelation } from "../lib/api";
+import { Modal } from "./Modal";
+import { useModal } from "../customHooks/useModal";
 
 interface Card {
   id: number;
   uuid: string;
   name: string;
   description: string;
-  technologies: string[]; 
   image: string;
 }
 
-interface GridProps {
+interface CardsGridProps {
   cards: Card[];
 }
 
-const CardsGrid: React.FC<GridProps> = ({ cards }) => {
-  const { sessionEmail } = useSession();
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 3;
-
+const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
   const { isOpen, openModal, closeModal } = useModal();
-
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = cards.slice(indexOfFirstCard, indexOfLastCard);
-
-  const totalPages = Math.ceil(cards.length / cardsPerPage);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleApply = (id: number) => {
-    if (!sessionEmail) {
-      alert("You must be logged in to apply.");
-      return;
-    }
-    createUserProjectRelation(sessionEmail, id);
-  };
-  
 
   return (
     <div className="mb-20 font-sans">
-      <div className="flex justify-center gap-4 my-8">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-400 font-bold py-2 px-4 rounded-l"
-        >
-          <BiLeftArrow />
-        </button>
-        <span className="self-center text-lg text-orange-300">{`Page ${currentPage} of ${totalPages}`}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-400 font-bold py-2 px-4 rounded-r"
-        >
-          <BiRightArrow />
-        </button>
-      </div>
-      <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto">
-        {currentCards.map((card) => (
-          <div
-            key={card.id}
-            className="max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
-          >
-            <a href="#">
-              <Image
-                src={card.image.trimEnd()}
-                alt={card.name}
-                className="w-full h-32 object-cover rounded-lg my-4"
-                width={200}
-                height={200}
-              />
-              <h5 className="mb-2 text-xl text-center font-bold text-gray-400">
-                {card.name}
-              </h5>
-            </a>
-            <p className="mb-3 text-gray-400">{card.description}</p>
-            <div className="flex justify-between items-center gap-4">
-              <Link
-                href={`/projects/${card.uuid}`}
-                className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-              >
-                Details
-              </Link>
-              <button
-                // onClick={openModal}
-                className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-                onClick={()=>handleApply(card.id)}
-              >
-                Apply
-              </button>
-              <button className="text-red-500 hover:text-red-700">
-                <BiSolidHeart size={24} />
-              </button>
+      <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
+        {cards.length === 0 ? (
+          <div className="text-center text-gray-400">NO PROJECTS FOUND.</div>
+        ) : (
+          cards.map((card) => (
+            <div
+              key={card.uuid}
+              className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
+            >
+              <a href="#">
+                <div className="relative w-full h-48 rounded-t-lg overflow-hidden shadow-lg my-2">
+                  <Image
+                    src={card.image.trimEnd()}
+                    alt={card.name}
+                    className="object-cover"
+                    layout="fill"
+                    quality={100}
+                    loading="lazy"
+                  />
+                </div>
+                <h5 className="mb-2 text-xl text-center font-bold text-gray-400">
+                  {card.name}
+                </h5>
+              </a>
+              <p className="mb-3 text-gray-400 flex-grow">{card.description}</p>
+              <div className="mt-auto flex justify-between items-center gap-4">
+                <Link
+                  href={`/projects/${card.uuid}`}
+                  className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+                >
+                  Details
+                </Link>
+                <button
+                  onClick={() => {
+                    setSelectedCardId(card.id);
+                    openModal();
+                  }}
+                  className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+                >
+                  Apply
+                </button>
+                <button className="text-red-500 hover:text-red-700">
+                  <BiSolidHeart size={24} />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
-
-      <Modal isOpen={isOpen} closeModal={closeModal} />
+      <Modal isOpen={isOpen} closeModal={closeModal} id={selectedCardId} />
     </div>
   );
 };
