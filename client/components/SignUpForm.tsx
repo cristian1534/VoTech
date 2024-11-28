@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { TUser } from "../types/typeUser";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 export const SignUpForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +22,7 @@ export const SignUpForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<TUser>();
 
   const onSubmit = async (data: TUser): Promise<void> => {
@@ -65,9 +67,15 @@ export const SignUpForm: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+        <motion.h2
+          className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent"
+          variants={fadeIn({ direction: "right", delay: 0.3 })}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.7 }}
+        >
           Join Us Now!
-        </h2>
+        </motion.h2>
         {message && (
           <div
             className={`${
@@ -145,9 +153,7 @@ export const SignUpForm: React.FC = () => {
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
             />
             {errors.password && (
-              <span className="text-orange-500">
-                {errors.password.message}
-              </span>
+              <span className="text-orange-500">{errors.password.message}</span>
             )}
           </div>
           <div className="flex justify-center items-center">

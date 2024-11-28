@@ -1,22 +1,23 @@
-'use client';
+"use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { BiCodeAlt } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 export default function Banner() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const { sessionUser } = useSession();
-  console.log("Current:",sessionUser)
+  console.log("Current:", sessionUser);
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
 
     if (storedUser) {
       setCurrentUser(storedUser);
     } else if (sessionUser) {
-    
       setCurrentUser(sessionUser);
-      localStorage.setItem("currentUser", sessionUser); 
+      localStorage.setItem("currentUser", sessionUser);
     } else {
       setCurrentUser(null);
     }
@@ -24,7 +25,13 @@ export default function Banner() {
 
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
-      <div className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md">
+      <motion.div
+        className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md"
+        variants={fadeIn({ direction: "right", delay: 0.3 })}
+        initial="hidden"
+        whileInView={"show"}
+        viewport={{ once: false, amount: 0.3 }}
+      >
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
           Team
         </h1>
@@ -34,7 +41,7 @@ export default function Banner() {
         <span className="text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-4xl md:text-5xl lg:text-6xl font-extrabold">
           VoTech
         </span>
-      </div>
+      </motion.div>
 
       <div className="flex flex-col items-center justify-center space-y-6 p-6 w-full max-w-md">
         <p className="text-lg md:text-xl font-medium text-gray-400 text-center">
@@ -53,12 +60,25 @@ export default function Banner() {
             <p className="text-lg">Welcome {currentUser}!</p>
           </div>
         ) : (
-          <Link
-            href="/signup"
-            className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+          <motion.div
+            whileTap={{ scale: 0.9 }}
+            animate={{
+              scale: [1, 1.2, 1],
+              transition: {
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut",
+              },
+            }}
           >
-            Join Now!
-          </Link>
+            <Link
+              href="/signup"
+              className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+            >
+              Join Now!
+            </Link>
+          </motion.div>
         )}
       </div>
     </section>

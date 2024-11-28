@@ -1,14 +1,24 @@
+'use client'
 import React from "react";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 export function Subscribe() {
   return (
-    <div className="-mt-24 shadow-md rounded-lg overflow-hidden font-sans">
+    <div className="-mt-24 shadow-md rounded-lg overflow-hidden font-sans"  
+    >
       <div className="items-center justify-between py-10 px-5 bg-white shadow-2xl rounded-lg mx-auto text-center">
         <div className="px-2 -mt-6">
           <div className="text-center">
-            <h2 className="text-center my-5 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+            <motion.h4 
+             className="text-center my-5 text-2xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent"
+             variants={fadeIn({ direction: "right", delay: 0.3 })}
+             initial="hidden"
+             whileInView={"show"}
+             viewport={{ once: false, amount: 0.3 }}
+            >
               Newsletter
-            </h2>
+            </motion.h4>
             <div className="w-full text-center">
               <form action="#">
                 <div className="max-w-sm mx-auto p-1 pr-0 flex items-center">

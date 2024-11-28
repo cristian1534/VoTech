@@ -7,7 +7,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { TAuth, TToken } from "../types/typeUser";
 import { setSession } from "../customHooks/setSession";
-import { useSession } from "../context/SessionContext"
+import { useSession } from "../context/SessionContext";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 export const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -82,9 +84,14 @@ export const SignInForm: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+        <motion.h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent" 
+          variants={fadeIn({ direction: "right", delay: 0.3 })}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.7 }}
+        >
           Ready to Code!
-        </h2>
+        </motion.h2>
         {message && (
           <div
             className={`${

@@ -8,6 +8,8 @@ import { Modal } from "./Modal";
 import { useModal } from "../customHooks/useModal";
 import { BiSolidLeftArrow } from "react-icons/bi";
 import { BiSolidRightArrow } from "react-icons/bi";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 interface Card {
   id: number;
@@ -47,9 +49,18 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
           <div className="text-center text-gray-400">NO PROJECTS FOUND.</div>
         ) : (
           currentCards.map((card) => (
-            <div
-              key={card.uuid}
-              className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
+            <motion.div
+            key={card.uuid}
+            variants={fadeIn({ direction: "down", delay: 0.3 })}
+            initial="hidden"
+            whileInView={"show"}
+            viewport={{ once: false, amount: 0.3 }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.45)",  
+              transition: { type: "spring", stiffness: 300, damping: 20 }
+            }}
+            className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
             >
               <a href="#">
                 <div className="relative w-full h-48 rounded-t-lg overflow-hidden shadow-lg my-2">
@@ -87,7 +98,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                   <BiSolidHeart size={24} />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))
         )}
       </div>

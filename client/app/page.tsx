@@ -64,7 +64,6 @@ export default async function Home() {
           <div className="bg-white container mx-auto">
             <OpportunitiesList />
           </div>
-
           <div className="bg-white container mx-auto my-10">
             <UseText
               messageOne={messagesPortfolio.messageOne}

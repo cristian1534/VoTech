@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,9 +36,15 @@ const ContactForm: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen font-sans">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl">
-        <h2 className="text-center my-5 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-          Contact Us
-        </h2>
+        <motion.p
+          className="text-center my-5 text-2xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent"
+          variants={fadeIn({ direction: "right", delay: 0.3 })}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.3 }}
+        >
+          Still thinking about?
+        </motion.p>
 
         {statusMessage && (
           <div className="bg-green-500 text-white p-2 rounded mb-4 text-center">

@@ -1,8 +1,21 @@
+'use client'
 import React from "react";
+import { motion } from "framer-motion";
+import { fadeIn } from "../helpers/variants";
 
 export const FAQ = () => {
   return (
-    <div className="mt-14 shadow-lg rounded-md">
+    <motion.div
+      className="mt-14 shadow-lg rounded-md"
+      variants={fadeIn({ direction: "up", delay: 0.3 })}
+      initial="hidden"
+      whileInView={"show"}
+      viewport={{ once: false, amount: 0.3 }}
+      whileHover={{
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.45)",
+        transition: { type: "spring", stiffness: 300, damping: 20 },
+      }}
+    >
       <section className="text-gray-400 py-32">
         <div className="container flex flex-col justify-center p-4 mx-auto md:p-8">
           <h2 className="mb-12 text-4xl font-bold leading text-center sm:text-5xl bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
@@ -163,6 +176,6 @@ export const FAQ = () => {
           </div>
         </div>
       </section>
-    </div>
+    </motion.div>
   );
 };
