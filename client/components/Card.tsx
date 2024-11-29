@@ -46,7 +46,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
     <div className="mb-20 font-sans">
       <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
         {currentCards.length === 0 ? (
-          <div className="text-center text-gray-400">NO PROJECTS FOUND.</div>
+          <div className="flex items-center text-center text-gray-400">NO PROJECTS FOUND.</div>
         ) : (
           currentCards.map((card) => (
             <motion.div
