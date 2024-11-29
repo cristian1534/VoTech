@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TProject } from "../../../../types/typeProjects";
+import { getAllUserProject } from "../../../../lib/api";
 
 async function getProjectById(uuid: string): Promise<TProject | null> {
   const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
@@ -32,6 +33,7 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function ProjectDetails({ params }: any) {
   const project = await getProjectById(params.uuid);
+  const userProjects = await getAllUserProject();
 
   if (!project) {
     return (
@@ -59,7 +61,9 @@ export default async function ProjectDetails({ params }: any) {
           />
         ) : (
           <div className="w-96 h-64 flex items-center justify-center bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent rounded-lg">
-            <span className="text-gray-500">No image available</span>
+            <span className="text-gray-500 text-center">
+              No image available
+            </span>
           </div>
         )}
       </div>
@@ -82,13 +86,15 @@ export default async function ProjectDetails({ params }: any) {
           </li>
         ))}
       </ul>
-        <p className="text-lg text-orange-300 font-semibold">Team applied:</p>
-        <ul className="list-none pl-6 mb-12">
-        {project.technologies.map((tech) => (
-          <li key={tech} className="text-md">
-            {"Member"}
-          </li>
-        ))}
+      <p className="text-lg text-orange-300 font-semibold">Team applied:</p>
+      <ul className="list-none pl-6 mb-12">
+        {userProjects
+          ?.filter((userProject) => userProject.project_id === project.id)
+          .map((applicant) => (
+            <li key={applicant.user_email} className="text-md list-disc">
+              {applicant.user_name}
+            </li>
+          ))}
       </ul>
     </div>
   );

@@ -38,22 +38,38 @@ export const DashUserProjectList = ({
           messageFour=""
         />
       </div>
-      <div className="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-orange-300 my-3">
+      <div className="flex flex-col divide-y sm:px-8 lg:px-12 xl:px-32 divide-orange-300 mb-10">
         {Object.entries(groupedProjects).map(([projectName, relations]) => (
-          <details key={projectName}>
-            <summary className="py-2 outline-none cursor-pointer focus:underline">
-              <span className="text-orange-400">PROJECT: </span> {projectName}
+          <details key={projectName} className="py-4">
+            <summary className="py-2 outline-none cursor-pointer focus:underline text-lg">
+              <span className="text-orange-400 font-bold">PROJECT:</span>{" "}
+              {projectName}
             </summary>
             <div className="px-4 pb-4">
               {relations.map((relation) => (
-                <div key={relation.user_email} className="w-full flex items-center gap-6">
-                  <p>
-                    <span className="text-orange-300">Team Member: </span>
+                <div
+                  key={relation.user_email}
+                  className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-base bg-gray-50 p-4 rounded-md  my-3 shadow-2xl"
+                >
+                  <p className="sm:w-1/3">
+                    <span className="text-orange-300 font-bold">
+                      Team Member:
+                    </span>{" "}
                     {relation.user_name}
                   </p>
-                  <p>
-                    <span className="text-orange-300">Contact: </span>
+                  <p className="sm:w-1/3">
+                    <span className="text-orange-300 font-bold">Contact:</span>{" "}
                     {relation.user_email}
+                  </p>
+                  <p className="sm:w-1/3">
+                    <span className="text-orange-300 font-bold">
+                      Applying Date:
+                    </span>{" "}
+                    {relation.applied_at
+                      ? new Date(relation.applied_at).toLocaleDateString(
+                          "en-US"
+                        )
+                      : "N/A"}
                   </p>
                 </div>
               ))}

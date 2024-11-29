@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { deleteUserByUuid } from "../lib/api";
 import { UseText } from "../customHooks/useText";
@@ -31,7 +31,6 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
         <span className="text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-4xl md:text-5xl lg:text-6xl font-extrabold">
           Office
         </span>
-        
       </div>
       <div>
         <UseText
@@ -47,9 +46,10 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
             <summary className="py-2 outline-none cursor-pointer focus:underline">
               {user.name}
             </summary>
-            <div className="px-4 pb-4">
+            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-base bg-gray-50 p-1 rounded-md shadow-2xl">
               <div className="w-full flex items-center gap-2">
-              <span className="text-orange-300">Contact:</span>{user.email}
+                <span className="text-orange-300">Contact:</span>
+                {user.email}
                 <ButtonDelete
                   onDelete={deleteUserByUuid}
                   uuid={user.uuid || ""}

@@ -14,7 +14,6 @@ export const ButtonDelete: React.FC<ButtonProps> = ({ uuid, onDelete }) => {
       onClick={() => onDelete(uuid)}
     >
       <BiTrash size={20} />
-      Delete
     </button>
   );
 };
