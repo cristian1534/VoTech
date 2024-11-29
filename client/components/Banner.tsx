@@ -5,19 +5,21 @@ import { BiCodeAlt } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
+import Cookies from "js-cookie"; 
 
 export default function Banner() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const { sessionUser } = useSession();
   console.log("Current:", sessionUser);
+
   useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
+    const storedUser = Cookies.get("user"); 
 
     if (storedUser) {
       setCurrentUser(storedUser);
     } else if (sessionUser) {
       setCurrentUser(sessionUser);
-      localStorage.setItem("currentUser", sessionUser);
+      Cookies.set("currentUser", sessionUser, { expires: 7, secure: true, sameSite: "strict" }); 
     } else {
       setCurrentUser(null);
     }

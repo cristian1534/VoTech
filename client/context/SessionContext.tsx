@@ -1,5 +1,6 @@
-'use client'
+"use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 interface SessionContextProps {
   sessionToken: string | null;
@@ -10,7 +11,9 @@ interface SessionContextProps {
   setSessionEmail: (email: string | null) => void;
 }
 
-const SessionContext = createContext<SessionContextProps | undefined>(undefined);
+const SessionContext = createContext<SessionContextProps | undefined>(
+  undefined
+);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [sessionToken, setSessionToken] = useState<string | null>(null);
@@ -18,23 +21,45 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [sessionEmail, setSessionEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("session");
-    const user = localStorage.getItem("user");
-    const userEmail = localStorage.getItem("email");
-    setSessionToken(token);
-    setSessionUser(user);
-    setSessionEmail(userEmail);
+    const token = Cookies.get("token");
+    const user = Cookies.get("user");
+    const userEmail = Cookies.get("email");
+
+    setSessionToken(token || null);
+    setSessionUser(user || null);
+    setSessionEmail(userEmail || null);
   }, []);
 
   return (
     <SessionContext.Provider
       value={{
         sessionToken,
-        setSessionToken,
+        setSessionToken: (token) => {
+          setSessionToken(token);
+          if (token) {
+            Cookies.set("token", token, { secure: true, sameSite: "strict" });
+          } else {
+            Cookies.remove("token");
+          }
+        },
         sessionUser,
-        setSessionUser,
+        setSessionUser: (user) => {
+          setSessionUser(user);
+          if (user) {
+            Cookies.set("user", user, { secure: true, sameSite: "strict" });
+          } else {
+            Cookies.remove("user");
+          }
+        },
         sessionEmail,
-        setSessionEmail,
+        setSessionEmail: (email) => {
+          setSessionEmail(email);
+          if (email) {
+            Cookies.set("email", email, { secure: true, sameSite: "strict" });
+          } else {
+            Cookies.remove("email");
+          }
+        },
       }}
     >
       {children}

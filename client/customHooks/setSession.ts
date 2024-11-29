@@ -1,17 +1,19 @@
+import Cookies from "js-cookie";
+
 export function setSession(token: string): void {
-  localStorage.setItem("session", token);
+  Cookies.set("token", token, { secure: true, sameSite: "strict" });
 }
 
 export function endSession(): void {
-  localStorage.removeItem("session");
-  localStorage.removeItem("currentUser");
+  Cookies.remove("token");
+  Cookies.remove("user");
+  Cookies.remove("email");
   window.location.href = "/";
 }
 
 export function getSessions(): string | null {
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("session");
-
+    const token = Cookies.get("token"); 
     if (!token) {
       throw new Error("No session found");
     }

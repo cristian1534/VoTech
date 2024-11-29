@@ -13,7 +13,10 @@ import Link from "next/link";
 import { Discord } from "../components/Discord";
 
 export default async function Home() {
+  
+
   const projects: TProject[] = (await getProjects()) || [];
+
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",

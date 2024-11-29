@@ -10,6 +10,7 @@ import { setSession } from "../customHooks/setSession";
 import { useSession } from "../context/SessionContext";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
+import Cookies from "js-cookie";
 
 export const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ export const SignInForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<TAuth>();
 
   const onSubmit = async (data: TAuth): Promise<void> => {
@@ -37,17 +38,22 @@ export const SignInForm: React.FC = () => {
       );
       console.log(response);
       const token = response.data?.data?.token;
+
       if (token) {
+        Cookies.set("token", token, { secure: true, sameSite: "strict" });
+
         setSession(token);
-        setSessionUser(response.data?.data.name)
-        setSessionEmail(response.data?.data.email)
+        setSessionUser(response.data?.data.name);
+        setSessionEmail(response.data?.data.email);
       }
+
       reset();
       setIsLoading(false);
       setMessage("Welcome!");
+
       setTimeout(() => {
         router.push("/");
-        setSessionToken(token);
+        setSessionToken(token); 
       }, 1500);
     } catch (error: unknown) {
       setIsLoading(false);
@@ -84,7 +90,8 @@ export const SignInForm: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-        <motion.h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent" 
+        <motion.h2
+          className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent"
           variants={fadeIn({ direction: "right", delay: 0.3 })}
           initial="hidden"
           whileInView={"show"}
