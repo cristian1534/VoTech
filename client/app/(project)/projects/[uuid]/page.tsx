@@ -100,4 +100,5 @@ export default async function ProjectDetails({ params }: { params: { uuid: strin
       </div>
     </div>
   );
+  
 }
