@@ -2,8 +2,6 @@ import React from "react";
 import { PortfolioList } from "../../../components/PortfolioList";
 import Link from "next/link";
 
-
-
 const projects = [
   {
     image:
@@ -34,7 +32,7 @@ export default function page() {
       <div className="container flex justify-end w-full p-2 font-sans">
         <Link
           href="/"
-          className="text-white px-6 py-2 mb-2 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+          className="text-white px-6 py-2 mb-10 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
         >
           Back
         </Link>
