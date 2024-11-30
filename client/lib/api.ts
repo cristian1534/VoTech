@@ -3,7 +3,8 @@ import { TUser } from "../types/typeUser";
 import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
-import { getSessions } from "../customHooks/setSession";
+import { getSessions, endSession } from "../customHooks/setSession";
+
 
 interface ProjectApiResponse {
   status: number;
@@ -55,12 +56,15 @@ export async function getUsers(): Promise<TUser[] | null> {
 
 export async function deleteUserByUuid(uuid: string): Promise<void> {
   const token = getSessions();
+
   try {
     await axios.delete(`https://votech.onrender.com/users/${uuid}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    endSession();
+    window.location.reload();
   } catch (error) {
     console.error("Axios error:", error);
   }
@@ -97,15 +101,9 @@ export async function getAllUserProject(): Promise<TUserProject[] | null> {
 }
 
 export async function getSubscriptions(): Promise<TSubscription[]> {
-  const token = getSessions();
   try {
     const response = await axios.post<UserSubscriptionApiResponse>(
-      `https://votech.onrender.com/users/subscriptions/`,{},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `https://votech.onrender.com/users/subscriptions/`
     );
     return response.data?.data || [];
   } catch (error) {

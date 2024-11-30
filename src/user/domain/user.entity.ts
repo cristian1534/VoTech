@@ -6,4 +6,5 @@ export interface IAuthEntity {
 export interface IUserEntity extends IAuthEntity {
   uuid: string;
   name: string;
+  active?: boolean;
 }
