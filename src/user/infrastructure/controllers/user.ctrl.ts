@@ -80,8 +80,8 @@ export class UserController {
       if (error) {
         return this.httpResponse.BadRequest(res, error.details[0].message);
       }
-      
-      const {email, password } = value;
+
+      const { email, password } = value;
 
       const user = await this.userUseCase.logUser({ email, password });
       if (!user) {
@@ -119,6 +119,19 @@ export class UserController {
       return this.httpResponse.Ok(res, {
         message: "User deleted successfully.",
       });
+    } catch (err: any) {
+      console.error(err);
+      return this.httpResponse.InternalServerError(res, "An error occurred.");
+    }
+  };
+
+  public getSubscriptions = async (
+    req: Request,
+    res: Response
+  ): Promise<any> => {
+    try {
+      const subscriptions = await this.userUseCase.getSubscriptions();
+      return this.httpResponse.Ok(res, subscriptions);
     } catch (err: any) {
       console.error(err);
       return this.httpResponse.InternalServerError(res, "An error occurred.");

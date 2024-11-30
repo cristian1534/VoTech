@@ -7,4 +7,5 @@ export interface UserRepository {
   getUserByEmail(email: string): Promise<IUserEntity | null>
   getUsers(): Promise<IUserEntity[] | null>;
   deleteUsers(uuid: string): Promise<IUserEntity | null>;
+  getSubscriptions(): Promise<any| null>;
 }

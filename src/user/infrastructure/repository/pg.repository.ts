@@ -6,29 +6,27 @@ export class PGRepository implements UserRepository {
   async addUser(user: IUserEntity): Promise<any> {
     try {
       const client = await clientGenerator();
-  
+
       const query = `INSERT INTO users (uuid, name, email, password) VALUES ($1, $2, $3, $4) RETURNING id`;
       const values = [user.uuid, user.name, user.email, user.password];
       const res = await client.query(query, values);
-      const userId = res.rows[0].id; 
-  
-     
+      const userId = res.rows[0].id;
+
       const subscriptionQuery = `
         INSERT INTO subscriptions (user_id, plan, price, start_date)
         VALUES ($1, $2, $3, CURRENT_DATE)
       `;
-      const subscriptionValues = [userId, 'Basic Plan', 5.00]; 
+      const subscriptionValues = [userId, "Basic Plan", 5.0];
       await client.query(subscriptionQuery, subscriptionValues);
-  
+
       client.release();
-  
-      return { ...user, subscription: { plan: 'Basic Plan', price: 5.00 } };
+
+      return { ...user, subscription: { plan: "Basic Plan", price: 5.0 } };
     } catch (err: any) {
       console.error(err);
       throw new Error("An error occurred while adding user to the database.");
     }
   }
-  
 
   async getUsers(): Promise<any | null> {
     try {
@@ -110,6 +108,35 @@ export class PGRepository implements UserRepository {
     } catch (err: any) {
       console.error(err);
       throw new Error("An error occurred while getting user by email.");
+    }
+  }
+
+  async getSubscriptions(): Promise<any | null> {
+    try {
+      const client = await clientGenerator();
+      const query = `
+        SELECT 
+          DATE(start_date) AS date,
+          COUNT(user_id) AS total_users,
+          SUM(price) AS total_revenue,
+          COUNT(user_id) - LAG(COUNT(user_id), 1, 0) OVER (ORDER BY DATE(start_date)) AS user_change
+        FROM 
+          subscriptions
+        GROUP BY 
+          DATE(start_date)
+        ORDER BY 
+          DATE(start_date);
+      `;
+
+      const result = await client.query(query);
+      client.release();
+
+      return result.rows;
+    } catch (err) {
+      console.error(err);
+      throw new Error(
+        "An error occurred while retrieving subscription trends with changes from the database."
+      );
     }
   }
 }

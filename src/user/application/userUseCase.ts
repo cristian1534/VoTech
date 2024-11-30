@@ -45,4 +45,9 @@ export class UserUseCase {
     const user = await this.userRepository.getUserByEmail(email);
     return user;
   }
+
+  public async getSubscriptions() {
+    const subscriptions = await this.userRepository.getSubscriptions();
+    return subscriptions;
+  }
 }

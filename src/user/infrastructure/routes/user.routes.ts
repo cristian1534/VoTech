@@ -171,5 +171,47 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  *         description: Error when deleting USER
  */
 routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
+/**
+ * @swagger
+ * /users/subscriptions:
+ *   get:
+ *     summary: Get subscription trends with user changes and revenue
+ *     tags: [USER]
+ *     responses:
+ *       200:
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   date:
+ *                     type: string
+ *                     format: date
+ *                     description: The date of the subscription trend.
+ *                   total_users:
+ *                     type: integer
+ *                     description: Total number of users on the given date.
+ *                   total_revenue:
+ *                     type: number
+ *                     format: float
+ *                     description: Total revenue generated on the given date.
+ *                   user_change:
+ *                     type: integer
+ *                     description: Change in user count compared to the previous date.
+ *                 example:
+ *                   date: "2024-11-28"
+ *                   total_users: 25
+ *                   total_revenue: 125.00
+ *                   user_change: 5
+ *       404:
+ *         description: Not Found
+ *       500:
+ *         description: Error fetching subscription trends
+ */
+
+routes.get("/subscriptions", userCtrl.getSubscriptions);
 
 export default routes;

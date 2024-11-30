@@ -2,6 +2,7 @@ import { TProject } from "../types/typeProjects";
 import { TUser } from "../types/typeUser";
 import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
+import { getSessions } from "../customHooks/setSession";
 
 interface ProjectApiResponse {
   status: number;
@@ -46,7 +47,7 @@ export async function getUsers(): Promise<TUser[] | null> {
 }
 
 export async function deleteUserByUuid(uuid: string): Promise<void> {
-  const token = localStorage.getItem("session");
+  const token = getSessions();
   try {
     await axios.delete(`https://votech.onrender.com/users/${uuid}`, {
       headers: {
