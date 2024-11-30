@@ -1,13 +1,16 @@
 import React from "react";
 import { DashUsersList } from "../../../components/DashUserList";
 import { DashUserProjectList } from "../../../components/DashUserProjectList";
-import { getUsers, getAllUserProject } from "../../../lib/api";
+import { getUsers, getAllUserProject, getSubscriptions } from "../../../lib/api";
 import { Rentability } from "../../../components/Rentability";
 
 export default async function page() {
   const users = await getUsers();
   const userProjects = await getAllUserProject();
-  console.log(userProjects);
+  const userSubscriptions = await getSubscriptions();
+  console.log(userSubscriptions)
+  
+
 
   return (
     <div>

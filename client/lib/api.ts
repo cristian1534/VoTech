@@ -1,5 +1,6 @@
 import { TProject } from "../types/typeProjects";
 import { TUser } from "../types/typeUser";
+import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
 import { getSessions } from "../customHooks/setSession";
@@ -19,7 +20,13 @@ interface UserApiResponse {
 interface UserProjectApiResponse {
   status: number;
   message: string;
-  data: TUserProject[]
+  data: TUserProject[];
+}
+
+interface UserSubscriptionApiResponse {
+  status: number;
+  message: string;
+  data: TSubscription[];
 }
 export async function getProjects(): Promise<TProject[] | null> {
   try {
@@ -54,35 +61,55 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
         Authorization: `Bearer ${token}`,
       },
     });
-    localStorage.removeItem("session");
-    localStorage.removeItem("currentUser");
-    window.location.reload();
   } catch (error) {
     console.error("Axios error:", error);
   }
 }
 
-
-
-
-export async function createUserProjectRelation(userEmail: string, projectId: number): Promise<TUserProject[] | null> {
+export async function createUserProjectRelation(
+  userEmail: string,
+  projectId: number
+): Promise<TUserProject[] | null> {
   try {
-    const response = await axios.post<UserProjectApiResponse>(`https://votech.onrender.com/user-project/`, { userEmail, projectId });
-    console.log(response)
-    return response.data?.data || null;  
+    const response = await axios.post<UserProjectApiResponse>(
+      `https://votech.onrender.com/user-project/`,
+      { userEmail, projectId }
+    );
+    console.log(response);
+    return response.data?.data || null;
   } catch (error) {
     console.log(error);
-    alert("You have applied the project before.")
-    return null;  
+    alert("You have applied the project before.");
+    return null;
   }
-};
+}
 
-export async function getAllUserProject():Promise<TUserProject[] | null> {
+export async function getAllUserProject(): Promise<TUserProject[] | null> {
   try {
-    const response = await axios.get<UserProjectApiResponse>(`https://votech.onrender.com/user-project/`);
-    return response.data?.data || null;  
+    const response = await axios.get<UserProjectApiResponse>(
+      `https://votech.onrender.com/user-project/`
+    );
+    return response.data?.data || null;
   } catch (error) {
     console.error("Axios error:", error);
-    return null;  
+    return null;
+  }
+}
+
+export async function getSubscriptions(): Promise<TSubscription[]> {
+  const token = getSessions();
+  try {
+    const response = await axios.post<UserSubscriptionApiResponse>(
+      `https://votech.onrender.com/users/subscriptions/`,{},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data?.data || [];
+  } catch (error) {
+    console.error("Axios error:", error);
+    return [];
   }
 }
