@@ -6,16 +6,29 @@ export class PGRepository implements UserRepository {
   async addUser(user: IUserEntity): Promise<any> {
     try {
       const client = await clientGenerator();
-      const query = `INSERT INTO users (uuid, name, email, password) VALUES ($1, $2, $3, $4)`;
+  
+      const query = `INSERT INTO users (uuid, name, email, password) VALUES ($1, $2, $3, $4) RETURNING id`;
       const values = [user.uuid, user.name, user.email, user.password];
-      await client.query(query, values);
+      const res = await client.query(query, values);
+      const userId = res.rows[0].id; 
+  
+     
+      const subscriptionQuery = `
+        INSERT INTO subscriptions (user_id, plan, price, start_date)
+        VALUES ($1, $2, $3, CURRENT_DATE)
+      `;
+      const subscriptionValues = [userId, 'Basic Plan', 5.00]; 
+      await client.query(subscriptionQuery, subscriptionValues);
+  
       client.release();
-      return user;
+  
+      return { ...user, subscription: { plan: 'Basic Plan', price: 5.00 } };
     } catch (err: any) {
       console.error(err);
       throw new Error("An error occurred while adding user to the database.");
     }
   }
+  
 
   async getUsers(): Promise<any | null> {
     try {
