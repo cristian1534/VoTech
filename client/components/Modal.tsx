@@ -10,24 +10,31 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, id }) => {
   const { sessionEmail } = useSession();
-  const [showMessage, setShowMessage] = useState(false);  
+  const [showMessage, setShowMessage] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
+  const [message, setMessage] = useState<string>();
 
   const applyMessage = () => {
     return (
       <div
-        className="bg-green-500 border-t border-b border-green-200 text-white px-4 py-3 my-3 shadow-2xl"
+        className="bg-green-500 border-t border-b border-green-200 text-white px-4 py-3 my-3 shadow-2xl font-sans rounded-md"
         role="alert"
       >
+        <div className="bg-white text-green-500 text-center font-bold p-2 rounded-md">
+          <p className="text-sm">{message}</p>
+        </div>
         <p className="font-bold">Important Information</p>
-        <p className="text-sm">We will get in touch via email to confirm once the Team is ready.</p>
+        <p className="text-sm">
+          We will get in touch via email to confirm once the Team is ready.
+        </p>
       </div>
     );
   };
+
   const applyWarning = () => {
     return (
       <div
-        className="bg-red-400 border-t border-b border-orange-200 text-white px-4 py-3 my-3 shadow-2xl"
+        className="bg-red-400 border-t border-b border-orange-200 text-white px-4 py-3 my-3 shadow-2xl font-sans rounded-md"
         role="alert"
       >
         <p className="font-bold">Sing In is required</p>
@@ -38,7 +45,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, id }) => {
 
   if (!isOpen) return null;
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (!sessionEmail) {
       setShowWarning(true);
       return;
@@ -49,8 +56,13 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, id }) => {
       return;
     }
 
-    createUserProjectRelation(sessionEmail, id);
-    setShowMessage(true); 
+    const response = await createUserProjectRelation(sessionEmail, id);
+    if (typeof response === "string") {
+      setMessage(response);
+    } else {
+      setMessage("An unexpected error occurred.");
+    }
+    setShowMessage(true);
     closeModal();
   };
 
@@ -94,7 +106,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, id }) => {
               You will apply to be part of the team. You will receive an email
               when it is ready to start developing this awesome project!
             </p>
-            {showMessage && applyMessage()}  
+            {showMessage && applyMessage()}
             {showWarning && applyWarning()}
           </div>
           <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t">

@@ -3,6 +3,7 @@ import cors from "cors";
 import userRoutes from "./user/infrastructure/routes/user.routes";
 import projectRoutes from "./project/infrastructure/routes/projects.routes";
 import userProjectRoutes from "./user_project/infrastructure/routes/user_project.routes";
+import contactRoutes from "./contact/infrastructure/routes/contact.routes";
 import path from "path";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
@@ -25,6 +26,7 @@ app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
 app.use("/user-project", userProjectRoutes);
+app.use("/contacts", contactRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile("index.html");

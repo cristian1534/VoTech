@@ -73,20 +73,19 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
 export async function createUserProjectRelation(
   userEmail: string,
   projectId: number
-): Promise<TUserProject[] | null> {
+): Promise<TUserProject[] | string | null> {  
   try {
     const response = await axios.post<UserProjectApiResponse>(
       `https://votech.onrender.com/user-project/`,
       { userEmail, projectId }
     );
-    console.log(response);
     return response.data?.data || null;
   } catch (error) {
     console.log(error);
-    alert("You have applied the project before.");
-    return null;
+    return "You have applied for the project before."; 
   }
 }
+
 
 export async function getAllUserProject(): Promise<TUserProject[] | null> {
   try {
