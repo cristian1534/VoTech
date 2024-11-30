@@ -63,7 +63,7 @@ export default async function Home() {
         <div className="container mx-auto">
           <Card cards={projects} />
         </div>
-        <div>
+        <>
           <div className="bg-white container mx-auto">
             <OpportunitiesList />
           </div>
@@ -83,9 +83,7 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-          <div className="bg-white container mx-auto">
             <FAQ />
-          </div>
           <div className="bg-white container mx-auto my-10">
             <UseText
               messageOne={messagesContact.messageOne}
@@ -94,7 +92,7 @@ export default async function Home() {
               messageFour={messagesContact.messageFour}
             />
           </div>
-        </div>
+        </>
         <div>
           <Discord />
         </div>

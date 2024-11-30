@@ -7,5 +7,5 @@ export type TSubscription = {
   user_uuid: string;
   user_name: string;
   user_email: string;
-  active: boolean;
+  user_active: boolean;
 };

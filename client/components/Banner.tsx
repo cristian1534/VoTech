@@ -5,7 +5,7 @@ import { BiCodeAlt } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
 
 export default function Banner() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
@@ -13,13 +13,17 @@ export default function Banner() {
   console.log("Current:", sessionUser);
 
   useEffect(() => {
-    const storedUser = Cookies.get("user"); 
+    const storedUser = Cookies.get("user");
 
     if (storedUser) {
       setCurrentUser(storedUser);
     } else if (sessionUser) {
       setCurrentUser(sessionUser);
-      Cookies.set("currentUser", sessionUser, { expires: 7, secure: true, sameSite: "strict" }); 
+      Cookies.set("currentUser", sessionUser, {
+        expires: 7,
+        secure: true,
+        sameSite: "strict",
+      });
     } else {
       setCurrentUser(null);
     }
@@ -28,21 +32,23 @@ export default function Banner() {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
       <motion.div
-        className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md"
+        className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md "
         variants={fadeIn({ direction: "right", delay: 0.3 })}
         initial="hidden"
         whileInView={"show"}
         viewport={{ once: false, amount: 0.3 }}
       >
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-          Team
-        </h1>
-        <span className="text-orange-300">
-          <BiCodeAlt size={50} />
-        </span>
-        <span className="text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-4xl md:text-5xl lg:text-6xl font-extrabold">
-          VoTech
-        </span>
+        <div className="flex flex-col items-center justify-center text-center space-x-4 w-full max-w-md p-6 rounded-md shadow-2xl mb-8 bg-gradient-to-r from-orange-400 to-yellow-500">
+          <h1 className="text-5xl font-extrabold text-transparent bg-clip-text text-white">
+            Team
+          </h1>
+          <span className="text-white">
+            <BiCodeAlt size={48} />
+          </span>
+          <h1 className="text-5xl font-extrabold text-transparent bg-clip-text text-white">
+            VoTech
+          </h1>
+        </div>
       </motion.div>
 
       <div className="flex flex-col items-center justify-center space-y-6 p-6 w-full max-w-md">
