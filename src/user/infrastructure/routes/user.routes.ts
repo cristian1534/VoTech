@@ -230,5 +230,5 @@ routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
  *         description: Error fetching subscription trends
  */
 
-routes.post("/subscriptions", requireAuth, userCtrl.getSubscriptions);
+routes.post("/subscriptions", userCtrl.getSubscriptions);
 export default routes;

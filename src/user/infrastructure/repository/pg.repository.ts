@@ -116,17 +116,17 @@ export class PGRepository implements UserRepository {
       const client = await clientGenerator();
       const query = `
      SELECT 
-        s.id AS subscription_id,
-        s.plan,
-        s.price,
-        s.start_date,
-        u.id AS user_id,
-        u.uuid AS user_uuid,
-        u.name AS user_name,
-        u.email AS user_email
-      FROM subscriptions s
-      JOIN users u ON s.user_id = u.id
-      ORDER BY s.start_date DESC;
+    s.id AS subscription_id,
+    s.plan,
+    s.price,
+    s.start_date,
+    u.id AS user_id,
+    u.name AS user_name,
+    (SELECT SUM(price) FROM subscriptions WHERE user_id = s.user_id) AS total_facturado
+    FROM subscriptions s
+    JOIN users u ON s.user_id = u.id
+    ORDER BY s.start_date DESC;
+
 
       `;
 
