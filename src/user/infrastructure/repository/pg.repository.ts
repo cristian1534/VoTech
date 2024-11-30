@@ -115,17 +115,19 @@ export class PGRepository implements UserRepository {
     try {
       const client = await clientGenerator();
       const query = `
-        SELECT 
-          DATE(start_date) AS date,
-          COUNT(user_id) AS total_users,
-          SUM(price) AS total_revenue,
-          COUNT(user_id) - LAG(COUNT(user_id), 1, 0) OVER (ORDER BY DATE(start_date)) AS user_change
-        FROM 
-          subscriptions
-        GROUP BY 
-          DATE(start_date)
-        ORDER BY 
-          DATE(start_date);
+     SELECT 
+        s.id AS subscription_id,
+        s.plan,
+        s.price,
+        s.start_date,
+        u.id AS user_id,
+        u.uuid AS user_uuid,
+        u.name AS user_name,
+        u.email AS user_email
+      FROM subscriptions s
+      JOIN users u ON s.user_id = u.id
+      ORDER BY s.start_date DESC;
+
       `;
 
       const result = await client.query(query);
@@ -135,7 +137,7 @@ export class PGRepository implements UserRepository {
     } catch (err) {
       console.error(err);
       throw new Error(
-        "An error occurred while retrieving subscription trends with changes from the database."
+        "An error occurred while retrieving subscription trends from the database."
       );
     }
   }

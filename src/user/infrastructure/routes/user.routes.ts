@@ -171,11 +171,12 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  *         description: Error when deleting USER
  */
 routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
+
 /**
  * @swagger
  * /users/subscriptions:
- *   get:
- *     summary: Get subscription trends with user changes and revenue
+ *   post:
+ *     summary: Get all subscriptions with user details
  *     tags: [USER]
  *     responses:
  *       200:
@@ -187,31 +188,47 @@ routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
  *               items:
  *                 type: object
  *                 properties:
- *                   date:
- *                     type: string
- *                     format: date
- *                     description: The date of the subscription trend.
- *                   total_users:
+ *                   subscription_id:
  *                     type: integer
- *                     description: Total number of users on the given date.
- *                   total_revenue:
+ *                     description: Subscription ID.
+ *                   plan:
+ *                     type: string
+ *                     description: The subscription plan.
+ *                   price:
  *                     type: number
  *                     format: float
- *                     description: Total revenue generated on the given date.
- *                   user_change:
+ *                     description: Price of the subscription.
+ *                   start_date:
+ *                     type: string
+ *                     format: date
+ *                     description: The start date of the subscription.
+ *                   user_id:
  *                     type: integer
- *                     description: Change in user count compared to the previous date.
+ *                     description: ID of the user associated with the subscription.
+ *                   user_uuid:
+ *                     type: string
+ *                     description: UUID of the user.
+ *                   user_name:
+ *                     type: string
+ *                     description: Name of the user.
+ *                   user_email:
+ *                     type: string
+ *                     format: email
+ *                     description: Email of the user.
  *                 example:
- *                   date: "2024-11-28"
- *                   total_users: 25
- *                   total_revenue: 125.00
- *                   user_change: 5
+ *                   subscription_id: 2
+ *                   plan: "Basic Plan"
+ *                   price: 5.00
+ *                   start_date: "2024-11-30"
+ *                   user_id: 38
+ *                   user_uuid: "cb110ab3-2065-4ef5-85ad-178b6fb0dc69"
+ *                   user_name: "Cristian"
+ *                   user_email: "cristian@gmail.com"
  *       404:
  *         description: Not Found
  *       500:
  *         description: Error fetching subscription trends
  */
 
-routes.get("/subscriptions", userCtrl.getSubscriptions);
-
+routes.post("/subscriptions", requireAuth, userCtrl.getSubscriptions);
 export default routes;
