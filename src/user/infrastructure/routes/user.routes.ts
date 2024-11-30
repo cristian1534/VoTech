@@ -26,6 +26,7 @@ const userCtrl = new UserController(userUseCase);
  *         - name
  *         - email
  *         - password
+ *         - active
  *       properties:
  *         name:
  *           type: string
@@ -36,10 +37,14 @@ const userCtrl = new UserController(userUseCase);
  *         password:
  *           type: string
  *           description: Should be 8 characters in length
+ *         active:
+ *           type: boolean
+ *           description: State of Payment
  *       example:
  *         name: "Pedro"
  *         email: "pedro@gmail.com"
  *         password: "12345678"
+ *         active: true
  *
  *     Login:
  *       type: object
