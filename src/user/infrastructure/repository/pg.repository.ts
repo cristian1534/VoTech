@@ -115,19 +115,18 @@ export class PGRepository implements UserRepository {
     try {
       const client = await clientGenerator();
       const query = `
-     SELECT 
-    s.id AS subscription_id,
-    s.plan,
-    s.price,
-    s.start_date,
-    u.id AS user_id,
-    u.name AS user_name,
-    (SELECT SUM(price) FROM subscriptions WHERE user_id = s.user_id) AS total_facturado
-    FROM subscriptions s
-    JOIN users u ON s.user_id = u.id
-    ORDER BY s.start_date DESC;
-
-
+        SELECT 
+          s.id AS subscription_id,
+          s.plan,
+          s.price,
+          s.start_date,
+          u.id AS user_id,
+          u.name AS user_name,
+          u.active AS user_active,  -- Se agrega el campo 'active' de la tabla 'users'
+          (SELECT SUM(price) FROM subscriptions WHERE user_id = s.user_id) AS total_facturado
+        FROM subscriptions s
+        JOIN users u ON s.user_id = u.id
+        ORDER BY s.start_date DESC;
       `;
 
       const result = await client.query(query);

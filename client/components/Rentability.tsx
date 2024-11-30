@@ -20,22 +20,23 @@ interface RentabilityProps {
   userSubscriptions: TSubscription[];
 }
 export const Rentability = ({ userSubscriptions }: RentabilityProps) => {
-
+  console.log(userSubscriptions)
   const monthlyData = userSubscriptions.reduce((acc: Record<string, { new: number; canceled: number }>, sub) => {
     const startDate = new Date(sub.start_date);
     const monthKey = `${startDate.getFullYear()}-${startDate.getMonth() + 1}`;
-
+  
     if (!acc[monthKey]) {
       acc[monthKey] = { new: 0, canceled: 0 };
     }
-
+  
     acc[monthKey].new += 1;
-
-    const isCanceled = !sub.active;
+  
+    const isCanceled = sub.active === false;
     if (isCanceled) acc[monthKey].canceled += 1;
-
+  
     return acc;
   }, {});
+  
 
 
   const months = Object.keys(monthlyData).sort();

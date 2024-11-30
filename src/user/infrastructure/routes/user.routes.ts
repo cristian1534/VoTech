@@ -220,6 +220,9 @@ routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
  *                     type: string
  *                     format: email
  *                     description: Email of the user.
+ *                   active:
+ *                     type: boolean
+ *                     description: Status of the subscription
  *                 example:
  *                   subscription_id: 2
  *                   plan: "Basic Plan"
@@ -229,6 +232,7 @@ routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
  *                   user_uuid: "cb110ab3-2065-4ef5-85ad-178b6fb0dc69"
  *                   user_name: "Cristian"
  *                   user_email: "cristian@gmail.com"
+ *                   active: true
  *       404:
  *         description: Not Found
  *       500:
