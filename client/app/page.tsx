@@ -12,12 +12,7 @@ import Link from "next/link";
 import { Discord } from "../components/Discord";
 
 export default async function Home() {
-  const paypalOptions = {
-    clientId:
-      "AY4mu4puKcmUP8AuIWx4xmaXWsMkIxxcZYlLT8E2yU3CXGKClu-MxTp1cBeqm_K49vRmHJYoCMCRuBTh",
-    currency_code: "USD",
-    locale: "en_US",
-  };
+  
 
   const projects = await getProjects();
 
