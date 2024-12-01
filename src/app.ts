@@ -18,9 +18,10 @@ const app = express();
 })();
 
 app.use(cors());
-app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));
+app.use(express.raw({ type: 'application/x-www-form-urlencoded' })); // Para manejar datos en formato x-www-form-urlencoded
+
 const specs = swaggerJSDoc(options);
 
 app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs));
@@ -30,7 +31,7 @@ app.use("/user-project", userProjectRoutes);
 app.use("/contacts", contactRoutes);
 
 app.post("/api/paypal/ipn", async (req, res) => {
-  const ipnData = req.body;
+  const ipnData = req.body.toString(); 
 
   const validationParams = new URLSearchParams(ipnData);
   validationParams.append('cmd', '_notify-validate');
