@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Link from "next/link";
 import React from "react";
 import { FaCcPaypal } from "react-icons/fa6";
@@ -19,19 +19,20 @@ export const Pricing = () => {
             </h2>
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <motion.div className="flex flex-col items-center aspect-auto p-4 sm:p-8 rounded-3xl bg-gradient-to-r from-yellow-300 to-orange-400 shadow-orange-300 shadow-lg m-2 flex-1 max-w-md" 
-             initial={{ opacity: 0, scale: 0.9 }}
-             animate={{ opacity: 1, scale: 1 }}
-             whileHover={{
-               scale: 1.05,
-               boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)",
-             }}
-             transition={{
-               duration: 0.5,
-               type: "spring",
-               stiffness: 300,
-               damping: 20,
-             }}
+            <motion.div
+              className="flex flex-col items-center aspect-auto p-4 sm:p-8 rounded-3xl bg-gradient-to-r from-yellow-300 to-orange-400 shadow-orange-300 shadow-lg m-2 flex-1 max-w-md"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)",
+              }}
+              transition={{
+                duration: 0.5,
+                type: "spring",
+                stiffness: 300,
+                damping: 20,
+              }}
             >
               <h2 className="text-lg sm:text-xl font-medium text-white mb-2">
                 Awesome Pricing
