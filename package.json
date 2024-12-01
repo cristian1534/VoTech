@@ -53,6 +53,7 @@
     "@types/jwt-simple": "^0.5.36",
     "@types/moment": "^2.11.29",
     "@types/morgan": "^1.9.9",
+    "@types/paypal__checkout-server-sdk": "^1.0.8",
     "@types/pg": "^8.11.10",
     "@types/redis": "^4.0.10",
     "@types/sequelize": "^4.28.20",

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React, { useState } from "react";
 import { BiShow } from "react-icons/bi";
 import { useForm } from "react-hook-form";
@@ -34,7 +33,7 @@ export const SignUpForm: React.FC = () => {
       setIsLoading(false);
       setMessage("User registered successfully!");
       setTimeout(() => {
-        router.push("/signin");
+        router.push("/");
       }, 1500);
     } catch (error: unknown) {
       setIsLoading(false);
@@ -159,17 +158,10 @@ export const SignUpForm: React.FC = () => {
           <div className="flex justify-center items-center">
             <button
               type="submit"
-              className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+              className="w-full mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
             >
               {isLoading ? "Sending..." : "Send"}
             </button>
-            <span className="ml-auto font-sans text-gray-400">
-              Already registered?{" "}
-              <Link href="/signin">
-                {" "}
-                <span className="text-orange-300">Sing In</span>
-              </Link>
-            </span>
           </div>
         </form>
       </div>

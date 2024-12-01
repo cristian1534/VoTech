@@ -32,7 +32,7 @@ export default function Banner() {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
       <motion.div
-        className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md "
+        className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md"
         variants={fadeIn({ direction: "right", delay: 0.3 })}
         initial="hidden"
         whileInView={"show"}
@@ -68,25 +68,32 @@ export default function Banner() {
             <p className="text-lg">Welcome {currentUser}!</p>
           </div>
         ) : (
-          <motion.div
-            whileTap={{ scale: 0.9 }}
-            animate={{
-              scale: [1, 1.2, 1],
-              transition: {
-                duration: 2,
-                repeat: Infinity,
-                repeatType: "loop",
-                ease: "easeInOut",
-              },
-            }}
-          >
-            <Link
-              href="/signup"
-              className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+          <div className="flex flex-col items-center space-y-10">
+            <motion.div
+              whileTap={{ scale: 0.9 }}
+              animate={{
+                scale: [1, 1.2, 1],
+                transition: {
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                },
+              }}
             >
-              Join Now!
-            </Link>
-          </motion.div>
+              <Link
+                target="_blank"
+                href="https://www.sandbox.paypal.com/ncp/payment/8F9AZY58Z77J6"
+                rel="noreferrer"
+                className="text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+              >
+                Join Now!
+              </Link>
+            </motion.div>
+            <div className="text-center text-orange-400 bg-white p-2 rounded-xl shadow-2xl">
+              <Link href="/signin">Already Registered?</Link>
+            </div>
+          </div>
         )}
       </div>
     </section>

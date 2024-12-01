@@ -6,17 +6,20 @@ import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import { OpportunitiesList } from "../components/OpportunitiesList";
 import { FAQ } from "../components/FAQ";
-import { TProject } from "../types/typeProjects";
 import { Subscribe } from "../components/Subscribe";
 import { About } from "../components/About";
 import Link from "next/link";
 import { Discord } from "../components/Discord";
 
 export default async function Home() {
-  
+  const paypalOptions = {
+    clientId:
+      "AY4mu4puKcmUP8AuIWx4xmaXWsMkIxxcZYlLT8E2yU3CXGKClu-MxTp1cBeqm_K49vRmHJYoCMCRuBTh",
+    currency_code: "USD",
+    locale: "en_US",
+  };
 
-  const projects: TProject[] = (await getProjects()) || [];
-
+  const projects = await getProjects();
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
@@ -43,6 +46,8 @@ export default async function Home() {
     messageFour: "",
   };
 
+  const projectCards = projects ?? [];
+
   return (
     <div>
       <div>
@@ -61,7 +66,7 @@ export default async function Home() {
           />
         </div>
         <div className="container mx-auto">
-          <Card cards={projects} />
+          <Card cards={projectCards} />
         </div>
         <>
           <div className="bg-white container mx-auto">
@@ -83,7 +88,7 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-            <FAQ />
+          <FAQ />
           <div className="bg-white container mx-auto my-10">
             <UseText
               messageOne={messagesContact.messageOne}

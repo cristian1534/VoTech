@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { BiSolidHeart } from "react-icons/bi";
+import React, { useState, useEffect } from "react";
+import { BiSolidHeart, BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import Image from "next/image";
 import Link from "next/link";
 import { Modal } from "./Modal";
 import { useModal } from "../customHooks/useModal";
-import { BiSolidLeftArrow } from "react-icons/bi";
-import { BiSolidRightArrow } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
 
@@ -25,6 +23,7 @@ interface CardsGridProps {
 
 const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 3;
   const totalPages = Math.ceil(cards.length / itemsPerPage);
 
@@ -34,6 +33,13 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [cards]);
+
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
@@ -42,27 +48,35 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500">Loading cards, please wait...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-20 font-sans">
       <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
-        {!currentCards.length? (
+        {!currentCards.length ? (
           <div className="flex justify-center bg-orange-400 rounded-md ml-auto container">
             <p className="text-center text-white p-2 w-full">NO PROJECTS TO SHOW...</p>
           </div>
         ) : (
           currentCards.map((card) => (
             <motion.div
-            key={card.uuid}
-            variants={fadeIn({ direction: "down", delay: 0.3 })}
-            initial="hidden"
-            whileInView={"show"}
-            viewport={{ once: false, amount: 0.3 }}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.45)",  
-              transition: { type: "spring", stiffness: 300, damping: 20 }
-            }}
-            className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
+              key={card.uuid}
+              variants={fadeIn({ direction: "down", delay: 0.3 })}
+              initial="hidden"
+              whileInView={"show"}
+              viewport={{ once: false, amount: 0.3 }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 10px 20px rgba(0, 0, 0, 0.45)",
+                transition: { type: "spring", stiffness: 300, damping: 20 },
+              }}
+              className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
             >
               <a href="#">
                 <div className="relative w-full h-48 rounded-t-lg overflow-hidden shadow-lg my-2">
@@ -112,7 +126,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
             disabled={currentPage === 1}
             className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-400 disabled:opacity-50"
           >
-           <BiSolidLeftArrow/>
+            <BiSolidLeftArrow />
           </button>
           <span className="text-gray-500">
             Page {currentPage} of {totalPages}
@@ -122,7 +136,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
             disabled={currentPage === totalPages}
             className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-400 disabled:opacity-50"
           >
-            <BiSolidRightArrow/>
+            <BiSolidRightArrow />
           </button>
         </div>
       )}
