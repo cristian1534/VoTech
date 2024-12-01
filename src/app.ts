@@ -18,6 +18,7 @@ const app = express();
 
 app.use(cors());
 app.use(morgan("tiny"));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));
 
 const specs = swaggerJSDoc(options);
