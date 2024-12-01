@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-CREATE TABLE subscription (
+CREATE TABLE subscriptions (
     id SERIAL PRIMARY KEY,
     user_id INTEGER,
     plan VARCHAR(50) NOT NULL,

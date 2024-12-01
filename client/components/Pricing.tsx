@@ -59,7 +59,7 @@ export const Pricing = () => {
               </p>
               <Link
                 target="_blank"
-                href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CZ5S5TBPFREMS"
+                href="https://www.sandbox.paypal.com/ncp/payment/8F9AZY58Z77J6"
                 rel="noreferrer"
                 className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-white before:transition before:duration-300 hover:before:scale-110 active:duration-75 active:before:scale-95 sm:w-max"
               >
