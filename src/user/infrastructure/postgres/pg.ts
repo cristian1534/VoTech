@@ -4,7 +4,7 @@ import { Pool } from "pg";
 const pgConfig =
   process.env.NODE_ENV === "production"
     ? {
-        connectionString: process.env.DATABASE_URL,
+        connectionString: process.env.POSTGRES_URL,
         ssl: {
           rejectUnauthorized: false,
         },
