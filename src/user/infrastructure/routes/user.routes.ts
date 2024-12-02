@@ -78,7 +78,6 @@ const userCtrl = new UserController(userUseCase);
  *       500:
  *         description: Error adding new USER
  */
-
 routes.post("/", userCtrl.addUser);
 /**
  * @swagger
@@ -171,7 +170,6 @@ routes.get("/:uuid", requireAuth, userCtrl.getUserByUuid);
  *         description: Error when deleting USER
  */
 routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
-
 /**
  * @swagger
  * /users/subscriptions:
@@ -233,6 +231,74 @@ routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
  *       500:
  *         description: Error fetching subscription trends
  */
-
 routes.post("/subscriptions", userCtrl.getSubscriptions);
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *
+ *   schemas:
+ *     PaymentConfirmation:
+ *       type: object
+ *       required:
+ *         - cc
+ *         - amt
+ *         - tx
+ *         - st
+ *       properties:
+ *         cc:
+ *           type: string
+ *           description: Currency code (e.g., USD)
+ *         amt:
+ *           type: string
+ *           description: Payment amount
+ *         tx:
+ *           type: string
+ *           description: Transaction ID
+ *         st:
+ *           type: string
+ *           description: Payment status (e.g., COMPLETED)
+ *       example:
+ *         cc: "USD"
+ *         amt: "5.00"
+ *         tx: "0LG68181391911848"
+ *         st: "COMPLETED"
+ *
+ * /users/paypal/confirm:
+ *   post:
+ *     summary: Confirm a PayPal payment
+ *     tags: [USER]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/PaymentConfirmation'
+ *     responses:
+ *       200:
+ *         description: Payment confirmed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   description: Indicates if the payment was successfully confirmed
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   description: Confirmation message
+ *                   example: "Payment confirmed successfully"
+ *       400:
+ *         description: Invalid request parameters
+ *       500:
+ *         description: Internal server error
+ */
+routes.post("/paypal/confirm", userCtrl.paymentSuccess);
 export default routes;

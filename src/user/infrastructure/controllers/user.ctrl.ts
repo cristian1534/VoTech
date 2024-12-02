@@ -137,4 +137,8 @@ export class UserController {
       return this.httpResponse.InternalServerError(res, "An error occurred.");
     }
   };
+
+  public paymentSuccess = async (req: Request, res: Response) =>{
+    await res.redirect("/success");
+  }
 }

@@ -30,9 +30,6 @@ app.use("/projects", projectRoutes);
 app.use("/user-project", userProjectRoutes);
 app.use("/contacts", contactRoutes);
 
-app.post('/paypal/confirm', (req, res) => {
-  res.redirect('/success'); 
-});
 
 app.get("/", (req, res) => {
   res.sendFile("index.html");
