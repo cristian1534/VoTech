@@ -139,6 +139,6 @@ export class UserController {
   };
 
   public paymentSuccess = async (req: Request, res: Response) =>{
-    await res.redirect("/success");
+    await res.redirect("https://vo-tech.vercel.app/success");
   }
 }

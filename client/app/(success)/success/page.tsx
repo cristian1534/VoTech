@@ -18,17 +18,22 @@ const Success = () => {
   }, [router]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 font-sans">
-      <div className="text-center bg-white p-8 rounded-lg shadow-2xl w-80 sm:w-96">
-        <h1 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-orange-100 via-orange-50 to-yellow-100 font-sans">
+      <div className="text-center bg-white p-8 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105 w-80 sm:w-96">
+        <h1 className="text-center text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-500">
           Payment Successful!
         </h1>
-        <p className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-          Preparing your Sign Up...
+        <p className="mt-4 text-lg text-gray-600">
+          Preparing your Sign Up, please wait...
         </p>
-        <div className="mt-6">
-          <div className="w-full h-2 bg-orange-400 rounded-full animate-pulse"></div>
+        <div className="relative mt-6">
+          <div className="w-full h-2 bg-gray-200 rounded-full">
+            <div className="h-2 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-full animate-progress"></div>
+          </div>
         </div>
+        <p className="mt-4 text-sm text-gray-400">
+          Redirecting you in 10 seconds...
+        </p>
       </div>
     </div>
   );
