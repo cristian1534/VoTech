@@ -12,6 +12,7 @@ import { connectRedis } from "./user/infrastructure/redis/redis";
 import morgan from "morgan";
 
 const app = express();
+
 (async () => {
   await connectRedis();
 })();
@@ -22,13 +23,16 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));
 
 const specs = swaggerJSDoc(options);
-
 app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs));
+
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);
 app.use("/user-project", userProjectRoutes);
 app.use("/contacts", contactRoutes);
 
+app.post('/paypal/confirm', (req, res) => {
+  res.redirect('/success'); 
+});
 
 app.get("/", (req, res) => {
   res.sendFile("index.html");

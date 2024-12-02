@@ -3,8 +3,10 @@ import Link from "next/link";
 import { BiHomeAlt, BiLogIn, BiFileBlank } from "react-icons/bi";
 import { GrUserAdmin } from "react-icons/gr";
 import { endSession } from "../customHooks/setSession";
+import { useSession } from "../context/SessionContext";
 
 export default function Footer() {
+  const { sessionEmail } = useSession();
   return (
     <div className="fixed bottom-4 w-full z-50">
       <div className="mx-auto max-w-4xl px-6 py-3">
@@ -25,11 +27,13 @@ export default function Footer() {
               <BiFileBlank size={24} />
             </span>
           </Link>
-          <Link href="/dashboard">
-            <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
-              <GrUserAdmin size={24} />
-            </span>
-          </Link>
+          {sessionEmail === "admin@votech.com" && (
+            <Link href="/dashboard">
+              <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
+                <GrUserAdmin size={24} />
+              </span>
+            </Link>
+          )}
           <span
             className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300"
             onClick={endSession}
