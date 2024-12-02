@@ -33,7 +33,7 @@ export const SignUpForm: React.FC = () => {
       setIsLoading(false);
       setMessage("User registered successfully!");
       setTimeout(() => {
-        router.push("/");
+        router.push("/signin");
       }, 1500);
     } catch (error: unknown) {
       setIsLoading(false);

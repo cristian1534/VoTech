@@ -8,6 +8,7 @@ export function endSession(): void {
   Cookies.remove("token");
   Cookies.remove("user");
   Cookies.remove("email");
+  Cookies.remove("paymentCompleted");
   window.location.href = "/";
 }
 
