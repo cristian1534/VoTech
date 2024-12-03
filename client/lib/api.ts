@@ -70,6 +70,15 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
   }
 }
 
+export async function handlePaymentState(
+  uuid: string | undefined,
+  payment: boolean,
+  setPayment: React.Dispatch<React.SetStateAction<boolean>>
+): Promise<void> {
+  setPayment(!payment); 
+}
+
+
 export async function createUserProjectRelation(
   userEmail: string,
   projectId: number

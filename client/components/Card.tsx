@@ -1,13 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { BiSolidHeart, BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import {
+  BiSolidHeart,
+  BiSolidLeftArrow,
+  BiSolidRightArrow,
+} from "react-icons/bi";
 import Image from "next/image";
 import Link from "next/link";
 import { Modal } from "./Modal";
 import { useModal } from "../customHooks/useModal";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
+import { getUsers } from "../lib/api";
+import { useSession } from "../context/SessionContext";
 
 interface Card {
   id: number;
@@ -24,6 +30,9 @@ interface CardsGridProps {
 const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
+  const { sessionEmail } = useSession();
+
   const itemsPerPage = 3;
   const totalPages = Math.ceil(cards.length / itemsPerPage);
 
@@ -32,13 +41,37 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
 
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+  const paymentWarning = () => {
+    return (
+      <div
+        className="bg-red-400 border-t border-b border-orange-200 text-center text-white px-4 py-3 my-3 shadow-2xl font-sans rounded-md"
+        role="alert"
+      >
+        <p className="font-bold text-lg">Subscription Expired</p>
+        <p className="text-md">Please update your Payment.</p>
+      </div>
+    );
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [cards]);
+    const fetchUsers = async () => {
+      try {
+        const users = await getUsers();
+        if (users) {
+          const currentPayment = users.find(
+            (user) => user.email === sessionEmail
+          )?.active;
+          setStateOfPayment(currentPayment ?? null);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [cards, stateOfPayment, sessionEmail]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -58,10 +91,13 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
 
   return (
     <div className="mb-20 font-sans">
+      <div>{!stateOfPayment && paymentWarning()}</div>
       <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
         {!currentCards.length ? (
           <div className="flex justify-center bg-orange-400 rounded-md ml-auto container">
-            <p className="text-center text-white p-2 w-full">NO PROJECTS TO SHOW...</p>
+            <p className="text-center text-white p-2 w-full">
+              NO PROJECTS TO SHOW...
+            </p>
           </div>
         ) : (
           currentCards.map((card) => (
@@ -106,7 +142,13 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                     setSelectedCardId(card.id);
                     openModal();
                   }}
-                  className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+                  className={`mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300
+                    ${
+                      stateOfPayment === false
+                        ? "cursor-not-allowed opacity-50"
+                        : ""
+                    }`}
+                  disabled={stateOfPayment === false}
                 >
                   Apply
                 </button>

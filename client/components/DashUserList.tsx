@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
-import { deleteUserByUuid } from "../lib/api";
+import React, { useState } from "react";
+import { deleteUserByUuid, handlePaymentState } from "../lib/api";
 import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import { BiCodeAlt } from "react-icons/bi";
 import { ButtonDelete } from "./ButtonDelete";
+import { ButtonStateAccount } from "./ButtonStateAccount";
 import { TUser } from "../types/typeUser";
 
 interface DashUsersListProps {
@@ -12,6 +13,7 @@ interface DashUsersListProps {
 }
 
 export const DashUsersList = ({ users }: DashUsersListProps) => {
+  const [payment, setPayment] = useState(true);
   const messagesAdmin: TMessage = {
     messageOne: "Membership Information",
     messageTwo: "Manage user information effectively.",
@@ -23,7 +25,7 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
     <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-700 font-sans">
       <div className="flex flex-col items-center justify-center text-center space-x-4 w-full max-w-md p-6 rounded-lg shadow-xl mb-8">
         <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">
-          Admin 
+          Admin
         </h1>
         <span className="text-orange-500">
           <BiCodeAlt size={48} />
@@ -42,7 +44,10 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
 
       <div className="space-y-6 mt-6">
         {users?.map((user) => (
-          <details key={user.uuid} className="group border border-gray-200 p-4 rounded-lg bg-white shadow-md hover:shadow-xl transition-all">
+          <details
+            key={user.uuid}
+            className="group border border-gray-200 p-4 rounded-lg bg-white shadow-md hover:shadow-xl transition-all"
+          >
             <summary className="text-xl font-semibold cursor-pointer text-gray-400 group-open:text-orange-500 group-open:font-bold">
               {user.name}
             </summary>
@@ -51,6 +56,15 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
                 <span className="font-medium text-orange-400">Email:</span>
                 <span className="text-gray-400">{user.email}</span>
               </div>
+              <ButtonStateAccount
+                handlePaymentState={() =>
+                  handlePaymentState(user.uuid, payment, setPayment)
+                }
+                payment={payment}
+                uuid={user.uuid || ""}
+                className="mt-3 sm:mt-0"
+              />
+
               <ButtonDelete
                 onDelete={deleteUserByUuid}
                 uuid={user.uuid || ""}
@@ -63,4 +77,3 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
     </div>
   );
 };
-

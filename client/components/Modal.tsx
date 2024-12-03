@@ -50,12 +50,10 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, id }) => {
       setShowWarning(true);
       return;
     }
-
     if (id === null) {
       alert("No card ID selected.");
       return;
     }
-
     const response = await createUserProjectRelation(sessionEmail, id);
     if (typeof response === "string") {
       setMessage(response);
