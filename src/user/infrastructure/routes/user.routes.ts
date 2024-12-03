@@ -232,5 +232,57 @@ routes.delete("/:uuid", requireAuth, userCtrl.deleteUser);
  *         description: Error fetching subscription trends
  */
 routes.post("/subscriptions", userCtrl.getSubscriptions);
+/**
+ * @swagger
+ * /users/{uuid}:
+ *   patch:
+ *     security:
+ *      - bearerAuth: []
+ *     summary: Update the active status of a USER
+ *     tags: [USER]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The USER's UUID to be updated.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               active:
+ *                 type: boolean
+ *                 description: Status of the user
+ *             example:
+ *               active: true
+ *     responses:
+ *       200:
+ *         description: USER updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 uuid:
+ *                   type: string
+ *                   description: UUID of the user
+ *                 active:
+ *                   type: boolean
+ *                   description: Updated status of the user
+ *               example:
+ *                 uuid: "cb110ab3-2065-4ef5-85ad-178b6fb0dc69"
+ *                 active: true
+ *       400:
+ *         description: Validation error for the input data
+ *       404:
+ *         description: USER not found
+ *       500:
+ *         description: Internal server error
+ */
+routes.patch("/:uuid", userCtrl.patchUser);
 
 export default routes;

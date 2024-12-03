@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { logSchema, userSchema } from "../helpers/schema.validator";
+import { logSchema, userSchema, partialUserSchema } from "../helpers/schema.validator";
 import bcrypt from "bcryptjs";
 import { UserUseCase } from "../../application/userUseCase";
 import { HttpResponse } from "../helpers/error.handler";
@@ -132,6 +132,26 @@ export class UserController {
     try {
       const subscriptions = await this.userUseCase.getSubscriptions();
       return this.httpResponse.Ok(res, subscriptions);
+    } catch (err: any) {
+      console.error(err);
+      return this.httpResponse.InternalServerError(res, "An error occurred.");
+    }
+  };
+
+  public patchUser = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { uuid } = req.params;
+      const { error, value } = partialUserSchema.validate(req.body);
+      if (error) {
+        return this.httpResponse.BadRequest(res, error.details[0].message);
+      }
+
+      const updatedUser = await this.userUseCase.patchUser(uuid, value);
+      if (!updatedUser)
+        return this.httpResponse.NotFound(res, "User not found.");
+
+      const { password, ...rest } = updatedUser;
+      return this.httpResponse.Ok(res, rest);
     } catch (err: any) {
       console.error(err);
       return this.httpResponse.InternalServerError(res, "An error occurred.");

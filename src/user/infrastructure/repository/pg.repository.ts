@@ -140,4 +140,24 @@ export class PGRepository implements UserRepository {
       );
     }
   }
+
+  async patchUser(uuid: string, updates: { active: boolean }): Promise<IUserEntity | null> {
+    try {
+      const client = await clientGenerator();
+      const query = "UPDATE users SET active = $1 WHERE uuid = $2 RETURNING *";
+      const values = [updates.active, uuid];  
+      const result = await client.query(query, values);
+      client.release();
+  
+      if (result.rowCount === 0) {
+        return null;
+      }
+      return result.rows[0];
+    } catch (err: any) {
+      console.error(err);
+      throw new Error("An error occurred while updating user in the database.");
+    }
+  }
+  
+
 }

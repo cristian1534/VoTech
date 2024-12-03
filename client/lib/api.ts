@@ -1,5 +1,5 @@
 import { TProject } from "../types/typeProjects";
-import { TUser } from "../types/typeUser";
+import { TUser } from '../types/typeUser';
 import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
@@ -76,6 +76,7 @@ export async function handlePaymentState(
   setPayment: React.Dispatch<React.SetStateAction<boolean>>
 ): Promise<void> {
   setPayment(!payment); 
+ 
 }
 
 

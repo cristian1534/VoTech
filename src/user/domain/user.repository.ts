@@ -6,6 +6,7 @@ export interface UserRepository {
   getUserByUuid(uuid: string): Promise<IUserEntity | null>;
   getUserByEmail(email: string): Promise<IUserEntity | null>
   getUsers(): Promise<IUserEntity[] | null>;
+  patchUser(uuid: string, updates:{active: boolean}): Promise<IUserEntity | null>
   deleteUsers(uuid: string): Promise<IUserEntity | null>;
   getSubscriptions(): Promise<any| null>;
 }

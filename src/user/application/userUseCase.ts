@@ -50,4 +50,9 @@ export class UserUseCase {
     const subscriptions = await this.userRepository.getSubscriptions();
     return subscriptions;
   }
+
+  public async patchUser(uuid: string, updates: {active: boolean}) {
+    const updatedUser = await this.userRepository.patchUser(uuid, updates);
+    return updatedUser;
+  }
 }
