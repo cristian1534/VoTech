@@ -88,14 +88,13 @@ export async function handlePaymentState(
     console.error("UUID is required");
     return;
   }
-
   setPayment(!payment);
-
   try {
-    await axios.patch(
+    const result = await axios.patch(
       `https://votech.onrender.com/users/${uuid}`,  
       { active: !payment } 
     );
+   console.log('RESULT:', result);
   } catch (error) {
     console.error("Error updating payment state:", error);
   }
