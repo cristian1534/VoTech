@@ -1,4 +1,4 @@
-import { getProjects } from "../lib/api";
+import {  getStaticProps } from "../lib/api";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 import ContactForm from "../components/ContactForm";
@@ -14,7 +14,7 @@ import { Discord } from "../components/Discord";
 export default async function Home() {
   
 
-  const projects = await getProjects();
+  const projects = await getStaticProps();
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
@@ -41,7 +41,7 @@ export default async function Home() {
     messageFour: "",
   };
 
-  const projectCards = projects ?? [];
+  const projectCards = projects.props.projects ?? [];
 
   return (
     <div>

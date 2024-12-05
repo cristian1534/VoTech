@@ -91,7 +91,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
 
   return (
     <div className="mb-20 font-sans">
-      <div>{!stateOfPayment && paymentWarning()}</div>
+      <div>{!stateOfPayment && sessionEmail && paymentWarning()}</div>
       <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
         {!currentCards.length ? (
           <div className="flex justify-center bg-orange-400 rounded-md ml-auto container">

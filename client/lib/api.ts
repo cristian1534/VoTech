@@ -1,10 +1,9 @@
 import { TProject } from "../types/typeProjects";
-import { TUser } from '../types/typeUser';
+import { TUser } from "../types/typeUser";
 import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
 import { getSessions, endSession } from "../customHooks/setSession";
-
 
 interface ProjectApiResponse {
   status: number;
@@ -29,16 +28,26 @@ interface UserSubscriptionApiResponse {
   message: string;
   data: TSubscription[];
 }
-export async function getProjects(): Promise<TProject[] | null> {
+
+export async function getStaticProps() {
   try {
     const response = await axios.get<ProjectApiResponse>(
       "https://votech.onrender.com/projects/"
     );
-
-    return response.data.data || null;
+    return {
+      props: {
+        projects: response.data.data || null,
+      },
+      revalidate: 10, 
+    };
   } catch (error) {
     console.error("Axios error:", error);
-    return null;
+    return {
+      props: {
+        projects: null,
+      },
+      revalidate: 10,
+    };
   }
 }
 
@@ -75,15 +84,28 @@ export async function handlePaymentState(
   payment: boolean,
   setPayment: React.Dispatch<React.SetStateAction<boolean>>
 ): Promise<void> {
-  setPayment(!payment); 
- 
+  if (!uuid) {
+    console.error("UUID is required");
+    return;
+  }
+
+  setPayment(!payment);
+
+  try {
+    await axios.patch(
+      `https://votech.onrender.com/users/${uuid}`,  
+      { active: !payment } 
+    );
+  } catch (error) {
+    console.error("Error updating payment state:", error);
+  }
 }
 
 
 export async function createUserProjectRelation(
   userEmail: string,
   projectId: number
-): Promise<TUserProject[] | string | null> {  
+): Promise<TUserProject[] | string | null> {
   try {
     const response = await axios.post<UserProjectApiResponse>(
       `https://votech.onrender.com/user-project/`,
@@ -92,10 +114,9 @@ export async function createUserProjectRelation(
     return response.data?.data || null;
   } catch (error) {
     console.log(error);
-    return "You have applied for the project before."; 
+    return "You have applied for the project before.";
   }
 }
-
 
 export async function getAllUserProject(): Promise<TUserProject[] | null> {
   try {
