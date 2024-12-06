@@ -125,11 +125,12 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                     loading="lazy"
                   />
                 </div>
-                <h5 className="mb-2 text-xl text-center font-bold text-gray-400">
+                <h5 className="mb-2 text-xl text-center font-bold text-orange-400">
                   {card.name}
                 </h5>
               </a>
-              <p className="mb-3 text-gray-400 flex-grow">{card.description}</p>
+              <p className="mb-3 text-gray-400 flex-grow line-clamp-2">{card.description}</p>
+              <span className="text-orange-300">...view more details</span>
               <div className="mt-auto flex justify-between items-center gap-4">
                 <Link
                   href={`/projects/${card.uuid}`}
