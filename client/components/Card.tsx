@@ -129,7 +129,9 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                   {card.name}
                 </h5>
               </a>
-              <p className="mb-3 text-gray-400 flex-grow line-clamp-2">{card.description}</p>
+              <p className="mb-3 text-gray-400 flex-grow line-clamp-2">
+                {card.description}
+              </p>
               <span className="text-orange-300">...view more details</span>
               <div className="mt-auto flex justify-between items-center gap-4">
                 <Link
@@ -153,9 +155,14 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                 >
                   Apply
                 </button>
-                <button className="text-red-500 hover:text-red-700">
-                  <BiSolidHeart size={24} />
-                </button>
+                <div className="flex flex-col items-center justify-center gap-x-2 m-auto mt-3">
+                  <span className="font-sans font-bold text-orange-300">
+                    100
+                  </span>
+                  <button className="text-red-500 hover:text-red-700 flex items-center">
+                    <BiSolidHeart size={28} />
+                  </button>
+                </div>
               </div>
             </motion.div>
           ))

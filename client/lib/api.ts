@@ -1,10 +1,12 @@
 import { TProject } from "../types/typeProjects";
 import { TUser } from "../types/typeUser";
+import { TContact } from "../types/typeContact";
 import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
 import axios from "axios";
 import { getSessions, endSession } from "../customHooks/setSession";
 
+// INTERFACES SECTION
 interface ProjectApiResponse {
   status: number;
   message: string;
@@ -29,6 +31,13 @@ interface UserSubscriptionApiResponse {
   data: TSubscription[];
 }
 
+interface ContactApiResponse {
+  status: number;
+  message: string;
+  data: TContact[];
+}
+
+// GET SECTION
 export async function getStaticProps() {
   try {
     const response = await axios.get<ProjectApiResponse>(
@@ -63,6 +72,43 @@ export async function getUsers(): Promise<TUser[] | null> {
   }
 }
 
+export async function getAllUserProject(): Promise<TUserProject[] | null> {
+  try {
+    const response = await axios.get<UserProjectApiResponse>(
+      `https://votech.onrender.com/user-project/`
+    );
+    return response.data?.data || null;
+  } catch (error) {
+    console.error("Axios error:", error);
+    return null;
+  }
+}
+
+export async function getSubscriptions(): Promise<TSubscription[]> {
+  try {
+    const response = await axios.post<UserSubscriptionApiResponse>(
+      `https://votech.onrender.com/users/subscriptions/`
+    );
+    return response.data?.data || [];
+  } catch (error) {
+    console.error("Axios error:", error);
+    return [];
+  }
+}
+
+export async function getAllMessages(): Promise<TContact[]  | null> {
+  try {
+    const response = await axios.get<ContactApiResponse>(
+      "https://votech.onrender.com/contacts/"
+    );
+    return response.data?.data || null;
+  } catch (error) {
+    console.error("Axios error:", error);
+    return null;
+  }
+}
+
+// DELETE SECTION 
 export async function deleteUserByUuid(uuid: string): Promise<void> {
   const token = getSessions();
 
@@ -78,7 +124,22 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
     console.error("Axios error:", error);
   }
 }
+export async function deleteMessageByUuid(uuid: string): Promise<void> {
+  const token = getSessions();
 
+  try {
+    await axios.post(`https://votech.onrender.com/messages/${uuid}`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Axios error:", error);
+  }
+}
+
+
+// HANDLING SECTION
 export async function handlePaymentState(
   uuid: string | undefined,
   payment: boolean,
@@ -117,26 +178,4 @@ export async function createUserProjectRelation(
   }
 }
 
-export async function getAllUserProject(): Promise<TUserProject[] | null> {
-  try {
-    const response = await axios.get<UserProjectApiResponse>(
-      `https://votech.onrender.com/user-project/`
-    );
-    return response.data?.data || null;
-  } catch (error) {
-    console.error("Axios error:", error);
-    return null;
-  }
-}
 
-export async function getSubscriptions(): Promise<TSubscription[]> {
-  try {
-    const response = await axios.post<UserSubscriptionApiResponse>(
-      `https://votech.onrender.com/users/subscriptions/`
-    );
-    return response.data?.data || [];
-  } catch (error) {
-    console.error("Axios error:", error);
-    return [];
-  }
-}

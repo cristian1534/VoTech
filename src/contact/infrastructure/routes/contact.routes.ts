@@ -80,7 +80,7 @@ routes.post("/", contactCtrl.addContact);
  *       500:
  *         description: An error occurred while getting messages.
  */
-routes.get("/", requireAuth, contactCtrl.getContacts);
+routes.get("/", contactCtrl.getContacts);
 /**
  * @swagger
  * /contacts/{uuid}:
