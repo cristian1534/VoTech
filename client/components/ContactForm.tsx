@@ -27,7 +27,13 @@ const ContactForm: React.FC = () => {
       });
       reset();
       setIsLoading(false);
-      setResponse("We will touch you soon, thanks!");
+      setTimeout(() =>{
+        setResponse("Thank you for your message! We will contact you soon.")
+        setTimeout(()=>{
+          setResponse("")
+        },5000)
+      },1000)
+
 
     } catch (error: unknown) {
       setIsLoading(false);

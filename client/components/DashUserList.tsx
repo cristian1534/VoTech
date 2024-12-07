@@ -23,7 +23,7 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-700 font-sans">
-      <div className="flex flex-col items-center justify-center text-center space-x-4 w-full max-w-md p-6 rounded-lg shadow-xl mb-8">
+      <div className="flex flex-col items-center justify-center text-center space-x-4 w-full  p-6  mb-8">
         <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">
           Admin
         </h1>

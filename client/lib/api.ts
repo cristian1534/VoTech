@@ -47,7 +47,7 @@ export async function getStaticProps() {
       props: {
         projects: response.data.data || null,
       },
-      revalidate: 10, 
+      revalidate: 10,
     };
   } catch (error) {
     console.error("Axios error:", error);
@@ -96,7 +96,7 @@ export async function getSubscriptions(): Promise<TSubscription[]> {
   }
 }
 
-export async function getAllMessages(): Promise<TContact[]  | null> {
+export async function getAllMessages(): Promise<TContact[] | null> {
   try {
     const response = await axios.get<ContactApiResponse>(
       "https://votech.onrender.com/contacts/"
@@ -108,7 +108,7 @@ export async function getAllMessages(): Promise<TContact[]  | null> {
   }
 }
 
-// DELETE SECTION 
+// DELETE SECTION
 export async function deleteUserByUuid(uuid: string): Promise<void> {
   const token = getSessions();
 
@@ -126,18 +126,20 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
 }
 export async function deleteMessageByUuid(uuid: string): Promise<void> {
   const token = getSessions();
-
   try {
-    await axios.post(`https://votech.onrender.com/messages/${uuid}`, {}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    await axios.delete(
+      `https://votech.onrender.com/contacts/${uuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    window.location.reload();
   } catch (error) {
     console.error("Axios error:", error);
   }
 }
-
 
 // HANDLING SECTION
 export async function handlePaymentState(
@@ -152,15 +154,14 @@ export async function handlePaymentState(
   setPayment(!payment);
   try {
     const result = await axios.patch(
-      `https://votech.onrender.com/users/${uuid}`,  
-      { active: !payment } 
+      `https://votech.onrender.com/users/${uuid}`,
+      { active: !payment }
     );
-   console.log('RESULT:', result);
+    console.log("RESULT:", result);
   } catch (error) {
     console.error("Error updating payment state:", error);
   }
 }
-
 
 export async function createUserProjectRelation(
   userEmail: string,
@@ -177,5 +178,3 @@ export async function createUserProjectRelation(
     return "You have applied for the project before.";
   }
 }
-
-

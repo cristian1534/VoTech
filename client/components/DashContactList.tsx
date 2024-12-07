@@ -6,6 +6,7 @@ import { TMessage } from "../types/typeMessages";
 import { ButtonDelete } from "./ButtonDelete";
 import { TContact } from "../types/typeContact";
 
+
 interface DashContactListProps {
   contacts: TContact[];
 }
@@ -28,7 +29,7 @@ export const DashContactList = ({ contacts }: DashContactListProps) => {
         messageFour=""
       />
 
-      <div className="space-y-6 mt-6">
+      <div className="space-y-6 mt-6 mb-10">
         {contacts?.map((message) => (
           <details
             key={message.uuid}
@@ -41,6 +42,8 @@ export const DashContactList = ({ contacts }: DashContactListProps) => {
               <div className="w-full flex items-center gap-3 text-gray-400">
                 <span className="font-medium text-orange-400">Email:</span>
                 <span className="text-gray-400">{message.email}</span>
+                <span className="font-medium text-orange-400">Message:</span>
+                <span className="text-gray-400">{message.message}</span>
               </div>
               <ButtonDelete
                 onDelete={deleteMessageByUuid}
