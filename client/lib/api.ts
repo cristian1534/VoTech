@@ -127,15 +127,26 @@ export async function deleteUserByUuid(uuid: string): Promise<void> {
 export async function deleteMessageByUuid(uuid: string): Promise<void> {
   const token = getSessions();
   try {
-    await axios.delete(
-      `https://votech.onrender.com/contacts/${uuid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.delete(`https://votech.onrender.com/contacts/${uuid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     window.location.reload();
+  } catch (error) {
+    console.error("Axios error:", error);
+  }
+}
+
+// UPDATE SECTION
+export async function updateVotes(
+  uuid: string,
+  votes: number
+): Promise<void> {
+  try {
+    await axios.patch(`https://votech.onrender.com/projects/${uuid}`, {
+      votes,
+    });
   } catch (error) {
     console.error("Axios error:", error);
   }
