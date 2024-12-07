@@ -8,10 +8,10 @@ import { TContact } from "../types/typeContact";
 
 
 interface DashContactListProps {
-  contacts: TContact[];
+  messages: TContact[];
 }
 
-export const DashContactList = ({ contacts }: DashContactListProps) => {
+export const DashContactList = ({ messages }: DashContactListProps) => {
   
   const messagesAdmin: TMessage = {
     messageOne: "Messages from Memberships",
@@ -30,7 +30,7 @@ export const DashContactList = ({ contacts }: DashContactListProps) => {
       />
 
       <div className="space-y-6 mt-6 mb-10">
-        {contacts?.map((message) => (
+        {messages?.map((message) => (
           <details
             key={message.uuid}
             className="group border border-gray-200 p-4 rounded-lg bg-white shadow-md hover:shadow-xl transition-all"

@@ -11,17 +11,19 @@ import { Rentability } from "../../../components/Rentability";
 import { DashContactList } from "../../../components/DashContactList";
 
 export default async function page() {
-  const users = await getUsers();
-  const userProjects = await getAllUserProject();
-  const userSubscriptions = await getSubscriptions();
-  const messages = await getAllMessages();
+  const [users, userProjects, userSubscriptions, messages] = await Promise.all([
+    getUsers(),
+    getAllUserProject(),
+    getSubscriptions(),
+    getAllMessages(),
+  ]);
 
   return (
     <div>
       <DashUsersList users={users || []} />
       <Rentability userSubscriptions={userSubscriptions} />
       <DashUserProjectList userProjects={userProjects ?? []} />
-      <DashContactList contacts={messages ?? []} />
+      <DashContactList messages={messages ?? []} />
     </div>
   );
 }
