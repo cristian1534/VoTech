@@ -87,4 +87,23 @@ export class ProjectController {
       );
     }
   };
+
+  public updateProject = async (req: Request, res: Response): Promise<any> => {
+    const { uuid } = req.params;
+    const body = req.body;
+    try {
+      const updatedProject = await this.projectUseCase.updateProject(
+        uuid,
+        body
+      );
+
+      return this.httpResponse.Ok(res, updatedProject);
+    } catch (err: any) {
+      console.log(err.message);
+      return this.httpResponse.InternalServerError(
+        res,
+        "An error occurred while updating a project."
+      );
+    }
+  };
 }

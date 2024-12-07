@@ -5,4 +5,8 @@ export interface ProjectRepository {
   getProjects(): Promise<IProjectEntity[] | null>;
   getProjectByUuid(uuid: string): Promise<IProjectEntity> | null;
   deleteProject(uuid: string): Promise<IProjectEntity | null>;
+  updateProjectByUuid(
+    uuid: string,
+    data: Partial<IProjectEntity>
+  ): Promise<IProjectEntity | null>;
 }

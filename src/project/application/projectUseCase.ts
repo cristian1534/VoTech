@@ -29,4 +29,12 @@ export class ProjectUseCase {
     const project = await this.projectRepository.getProjectByUuid(uuid);
     return project;
   }
+
+  public async updateProject(uuid: string, data: Partial<IProjectEntity>) {
+    const updatedProject = await this.projectRepository.updateProjectByUuid(
+      uuid,
+      data
+    );
+    return updatedProject;
+  }
 }

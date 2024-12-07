@@ -72,4 +72,30 @@ export class PGRepository implements ProjectRepository {
       );
     }
   }
+
+  async updateProjectByUuid(
+    uuid: string,
+    data: Partial<IProjectEntity>
+  ): Promise<any> {
+    try {
+      const client = await clientGenerator();
+  
+      if (data.votes === undefined) {
+        throw new Error("Votes field is required for this update.");
+      }
+  
+      const query = `UPDATE projects SET votes = $1 WHERE uuid = $2`;
+      const values = [data.votes, uuid];
+  
+      await client.query(query, values);
+      client.release();
+  
+      return await this.getProjectByUuid(uuid);
+    } catch (err: any) {
+      console.error(err);
+      throw new Error(
+        "An error occurred while updating the votes in the database."
+      );
+    }
+  }
 }

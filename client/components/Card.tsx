@@ -21,6 +21,7 @@ interface Card {
   name: string;
   description: string;
   image: string;
+  votes: number;
 }
 
 interface CardsGridProps {
@@ -157,7 +158,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                 </button>
                 <div className="flex flex-col items-center justify-center gap-x-2 m-auto mt-3">
                   <span className="font-sans font-bold text-orange-300">
-                    100
+                    {card.votes}
                   </span>
                   <button className="text-red-500 hover:text-red-700 flex items-center">
                     <BiSolidHeart size={28} />

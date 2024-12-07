@@ -2,7 +2,7 @@ import { Router } from "express";
 import { PGRepository } from "../repository/pg.repository";
 import { ProjectUseCase } from "../../application/projectUseCase";
 import { ProjectController } from "../controllers/project.ctrl";
-import { requireAuth } from '../../../user/infrastructure/middleware/auth';
+import { requireAuth } from "../../../user/infrastructure/middleware/auth";
 
 const routes = Router();
 
@@ -16,7 +16,7 @@ const projectCtrl = new ProjectController(projectUseCase);
  *   securitySchemes:
  *     bearerAuth:
  *       type: http
- *       scheme: bearer
+ *       scheme: bearer updateProjectByUuid(uuid: string, data:<>): Promise<>;
  *       required:
  *         - JWT Token
  *
@@ -32,10 +32,10 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         name:
  *           type: string
  *           description: PROJECT's name
- *         description: 
+ *         description:
  *           type: string
  *           description: PROJECT's email
- *         technologies: 
+ *         technologies:
  *           type: string
  *           description: Information about the project
  *         image:
@@ -46,7 +46,7 @@ const projectCtrl = new ProjectController(projectUseCase);
  *         description: "Fintech awesome project"
  *         technologies: "ReactJS, NodeJS"
  *         image: "https://...."
- * 
+ *
  * /projects:
  *   post:
  *     summary: Create a new PROJECT
@@ -67,9 +67,8 @@ const projectCtrl = new ProjectController(projectUseCase);
  *       500:
  *         description: An error occurred while adding a project.
  */
-routes.post("/",requireAuth, projectCtrl.addProject);
-
- /**
+routes.post("/", requireAuth, projectCtrl.addProject);
+/**
  * @swagger
  * /projects:
  *   get:
@@ -85,13 +84,12 @@ routes.post("/",requireAuth, projectCtrl.addProject);
  *       500:
  *         description: An error occurred while getting projects.
  */
-routes.get("/", projectCtrl.getProjects)
-
+routes.get("/", projectCtrl.getProjects);
 /**
  * @swagger
  * /projects/{uuid}:
  *   delete:
- *     security: 
+ *     security:
  *      - bearerAuth: []
  *     summary: Delete the PROJECT selected if created.
  *     tags: [PROJECT]
@@ -105,21 +103,20 @@ routes.get("/", projectCtrl.getProjects)
  *     responses:
  *       200:
  *         description: Success
- *        
+ *
  *       500:
  *         description: An error occurred while deleting a project.
  */
 routes.delete("/:uuid", requireAuth, projectCtrl.deleteProject);
-
 /**
  * @swagger
  * /projects/{uuid}:
  *   get:
- *     security: 
+ *     security:
  *      - bearerAuth: []
  *     summary: Get the PROJECT selected if created.
  *     tags: [PROJECT]
- *     parameters: 
+ *     parameters:
  *       - in: path
  *         name: uuid
  *         schema:
@@ -134,10 +131,51 @@ routes.delete("/:uuid", requireAuth, projectCtrl.deleteProject);
  *               type: object
  *               $ref: '#/components/schemas/Product'
  *       404:
- *         description: PRODUCT not found 
+ *         description: PRODUCT not found
  *       500:
  *         description: Error fetching PRODUCT
  */
-routes.get("/:uuid", projectCtrl.getProjectByUuid); 
+routes.get("/:uuid", projectCtrl.getProjectByUuid);
+/**
+ * @swagger
+ * /projects/{uuid}:
+ *   patch:
+ *     summary: Update the PROJECT selected.
+ *     tags: [PROJECT]
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The PROJECT's uuid.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             description: Fields to update for the PROJECT
+ *             properties:
+ *               votes:
+ *                 description: Updated votes for the PROJECT
+ *                 type: number
+ *             example:
+ *               votes: 2
+ *     responses:
+ *       200:
+ *         description: PROJECT updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Project'
+ *       400:
+ *         description: Invalid input or validation error.
+ *       404:
+ *         description: PROJECT not found.
+ *       500:
+ *         description: Error updating the PROJECT.
+ */
+routes.patch("/:uuid", projectCtrl.updateProject);
 
 export default routes;
