@@ -25,6 +25,7 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
       ? response.data.technologies.split(",").map((tech: string) => tech.trim())
       : [],
     image: response.data.image.trim(),
+    votes: response.data.votes,
   };
 
   return project;
