@@ -4,4 +4,5 @@ export interface IProjectEntity {
   description: string;
   technologies: string;
   image: string;
+  votes?: number;
 }
