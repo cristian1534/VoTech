@@ -14,6 +14,7 @@ export const UploadForm = () => {
     formState: { errors },
   } = useForm<TUpload>();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmit = async (data: TUpload): Promise<void> => {
     try {
       setIsLoading(true);

@@ -9,9 +9,14 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { options } from "./user/infrastructure/documentation/swagger.documentation";
 import { connectRedis } from "./user/infrastructure/redis/redis";
+import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import morgan from "morgan";
 
 const app = express();
+const swaggerUiOptions = {
+  explorer: true,
+  customCss: new SwaggerTheme().getBuffer(SwaggerThemeNameEnum.ONE_DARK),
+};
 
 (async () => {
   await connectRedis();
@@ -23,7 +28,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));
 
 const specs = swaggerJSDoc(options);
-app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs));
+app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(specs, swaggerUiOptions));
 
 app.use("/users", userRoutes);
 app.use("/projects", projectRoutes);

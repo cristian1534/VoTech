@@ -1,5 +1,4 @@
 import "dotenv/config";
-
 const nodeEnv = process.env.NODE_ENV;
 
 const URL =
@@ -7,7 +6,8 @@ const URL =
     ? "https://votech.onrender.com/"
     : "http://localhost:4000";
 
-``
+
+
 export const options = {
   definition: {
     openapi: "3.0.0",
@@ -23,7 +23,7 @@ export const options = {
     },
     servers: [
       {
-        url: URL ,
+        url: URL,
         description: "Backend NodeJS - TS Hexagonal Structure.",
       },
     ],
@@ -42,5 +42,10 @@ export const options = {
       },
     ],
   },
-  apis: ["./src/user/infrastructure/routes/user.routes.ts", "./src/project/infrastructure/routes/projects.routes.ts", "./src/user_project/infrastructure/routes/user_project.routes.ts", "./src/contact/infrastructure/routes/contact.routes.ts"],
+  apis: [
+    "./src/user/infrastructure/routes/user.routes.ts",
+    "./src/project/infrastructure/routes/projects.routes.ts",
+    "./src/user_project/infrastructure/routes/user_project.routes.ts",
+    "./src/contact/infrastructure/routes/contact.routes.ts",
+  ],
 };
