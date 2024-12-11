@@ -30,3 +30,13 @@ export const partialUserSchema = Joi.object({
   password: Joi.string().min(8),
   active: Joi.boolean().optional()
 });
+
+export const portfolioSchema = Joi.object({
+  title: Joi.string().min(3).max(50).required(),
+  description: Joi.string().min(10).max(255).required(),
+  technologies: Joi.array().items(Joi.string().min(3).max(50)).required(),
+  members: Joi.array().items(Joi.string().min(3).max(50)).required(),
+  deployment: Joi.string().min(10).max(255).required(),
+  github: Joi.string().uri().required(),
+  image: Joi.string().min(10).max(255).required(),
+})

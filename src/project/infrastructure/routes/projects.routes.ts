@@ -16,7 +16,7 @@ const projectCtrl = new ProjectController(projectUseCase);
  *   securitySchemes:
  *     bearerAuth:
  *       type: http
- *       scheme: bearer updateProjectByUuid(uuid: string, data:<>): Promise<>;
+ *       scheme: bearer 
  *       required:
  *         - JWT Token
  *

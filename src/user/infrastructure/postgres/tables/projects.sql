@@ -7,7 +7,7 @@ CREATE TABLE projects (
     description VARCHAR(255) NOT NULL,
     technologies VARCHAR(255) NOT NULL,
     image VARCHAR(255) NOT NULL,
-    votes INTEGER DEFAULT 0,
+    votes INTEGER DEFAULT 0
 );
 
 COMMIT TRANSACTION;

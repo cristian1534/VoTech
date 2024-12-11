@@ -47,5 +47,6 @@ export const options = {
     "./src/project/infrastructure/routes/projects.routes.ts",
     "./src/user_project/infrastructure/routes/user_project.routes.ts",
     "./src/contact/infrastructure/routes/contact.routes.ts",
+    "./src/portfolio/infrastructure/routes/portfolio.routes.ts"
   ],
 };
