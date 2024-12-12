@@ -8,7 +8,6 @@ export const UploadForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string>();
   const [error, setError] = useState<string | null>();
-  const [, setProject] = useState({})
 
   const {
     register,
@@ -20,24 +19,34 @@ export const UploadForm = () => {
   const onSubmit = async (data: TUpload): Promise<void> => {
     try {
       setIsLoading(true);
-      setProject(data);
-      const res = await axios.post<TUpload>("https://votech.onrender.com/portfolio", data);
-      console.log(res);
-      console.log(data)
+  
+      const technologies = typeof data.technologies === "string"
+        ? data.technologies.split(',').map(tech => tech.trim()) 
+        : data.technologies;
+
+      const members = typeof data.members === "string"
+      ? data.members.split(',').map(member => member.trim())
+      : data.members;
+  
+      const projectData = { ...data, technologies, members };
+  
+      await axios.post<TUpload>("https://votech.onrender.com/portfolio", projectData);
+      
       reset();
       setIsLoading(false);
       setMessage("Project shared successfully");
+      
       setTimeout(() => {
         setMessage("");
       }, 1000);
     } catch (error: unknown) {
       setIsLoading(false);
       let message = "An unexpected error occurred.";
-
+  
       if (error instanceof Error) {
         message = error.message;
       }
-
+  
       if (error && typeof error === "object" && "response" in error) {
         const axiosError = error as {
           response?: { data?: { message?: string } };
@@ -49,7 +58,7 @@ export const UploadForm = () => {
           JSON.stringify(errorResponse?.data) ||
           message;
       }
-
+  
       setMessage(message);
       setTimeout(() => {
         setError(null);
@@ -57,6 +66,7 @@ export const UploadForm = () => {
       }, 2000);
     }
   };
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl">

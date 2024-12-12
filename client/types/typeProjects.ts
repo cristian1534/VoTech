@@ -5,6 +5,6 @@ export type TProject = {
   image: string;
   title: string;
   description: string;
-  technologies: string[];
+  technologies: string | string[];
   votes: number;
 };

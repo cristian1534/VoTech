@@ -116,7 +116,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                   scale: 1.02,
                   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
                 }}
-                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl w-1/2"
+                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl md:w-1/2 sm:w-1/3"
               >
                 <div className="flex flex-col w-full md:w-2/3">
                   <h5 className="text-xl font-bold text-orange-400">

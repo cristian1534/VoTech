@@ -9,7 +9,6 @@ import { useSession } from "../context/SessionContext";
 export const CreateProjectForm: React.FC = () => {
   const [error, setError] = useState<string | null>();
   const [message, setMessage] = useState("");
-  const [, setProject] = useState({});
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { sessionToken: token } = useSession();
@@ -24,23 +23,30 @@ export const CreateProjectForm: React.FC = () => {
   const onSubmit = async (data: TProject): Promise<void> => {
     try {
       setIsLoading(true);
-      setProject(data);
-      await axios.post<TProject>("https://votech.onrender.com/projects", data, {
+      
+      const technologies = typeof data.technologies === "string"
+        ? data.technologies.split(',').map(tech => tech.trim()) 
+        : data.technologies;
+  
+      const projectData = { ...data, technologies };
+  
+      await axios.post<TProject>("https://votech.onrender.com/projects", projectData, {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
+  
       reset();
       router.push("/");
       setIsLoading(false);
     } catch (error: unknown) {
       setIsLoading(false);
       let message = "An unexpected error occurred.";
-
+  
       if (error instanceof Error) {
         message = error.message;
       }
-
+  
       if (error && typeof error === "object" && "response" in error) {
         const axiosError = error as {
           response?: { data?: { message?: string } };
@@ -52,7 +58,7 @@ export const CreateProjectForm: React.FC = () => {
           JSON.stringify(errorResponse?.data) ||
           message;
       }
-
+  
       setMessage(message);
       setTimeout(() => {
         setError(null);
@@ -60,7 +66,7 @@ export const CreateProjectForm: React.FC = () => {
       }, 2000);
     }
   };
-
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
       <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl">
