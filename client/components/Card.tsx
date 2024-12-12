@@ -34,7 +34,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
   const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
   const { sessionEmail } = useSession();
 
-  const itemsPerPage = 3;
+  const itemsPerPage = 2;
   const totalPages = Math.ceil(cards.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -93,9 +93,9 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
   return (
     <div className="mb-20 font-sans">
       <div>{!stateOfPayment && sessionEmail && paymentWarning()}</div>
-      <div className="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6 mx-auto shadow-2xl">
+      <div className="container flex flex-col items-center justify-center mx-auto p-4 gap-6">
         {!currentCards.length ? (
-          <div className="flex justify-center bg-orange-400 rounded-md ml-auto container">
+          <div className="flex justify-center bg-orange-400 rounded-md mx-auto w-full">
             <p className="text-center text-white p-2 w-full">
               NO PROJECTS TO SHOW...
             </p>
@@ -108,83 +108,77 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
             return (
               <motion.div
                 key={card.uuid}
-                variants={fadeIn({ direction: "down", delay: 0.3 })}
+                variants={fadeIn({ direction: "right", delay: 0.3 })}
                 initial="hidden"
                 whileInView={"show"}
                 viewport={{ once: false, amount: 0.3 }}
                 whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 20px rgba(0, 0, 0, 0.45)",
-                  transition: { type: "spring", stiffness: 300, damping: 20 },
+                  scale: 1.02,
+                  boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
                 }}
-                className="flex flex-col max-w-xs p-6 bg-white border border-gray-200 rounded-xl shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 mx-auto"
+                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl w-1/2"
               >
-                <a href="#">
-                  <div className="relative w-full h-48 rounded-t-lg overflow-hidden shadow-lg my-2">
-                    <Image
-                      src={card.image.trimEnd()}
-                      alt={card.name}
-                      className="object-cover"
-                      layout="fill"
-                      quality={100}
-                      loading="lazy"
-                    />
-                  </div>
-                  <h5 className="mb-2 text-xl text-center font-bold text-orange-400">
+                <div className="flex flex-col w-full md:w-2/3">
+                  <h5 className="text-xl font-bold text-orange-400">
                     {card.name}
                   </h5>
-                </a>
-                <p className="mb-3 text-gray-400 flex-grow line-clamp-2">
-                  {card.description}
-                </p>
-                <span className="text-orange-300 text-end">...view more</span>
-                <div className="flex items-center">
-                  <span className="mr-2 text-orange-300">%</span>
-                  <div className="w-full bg-gray-200 rounded-full h-4">
-                    <div
-                      className="bg-orange-300 h-4 rounded-full"
-                      style={{ width: `${percentage}%` }}
-                    ></div>
+                  <p className="text-gray-500 mt-2 line-clamp-3">
+                    {card.description}
+                  </p>
+                  <div className="flex items-center mt-4">
+                    <span className="mr-2 text-orange-300">Progress:</span>
+                    <div className="w-full bg-gray-200 rounded-full h-4">
+                      <div
+                        className="bg-orange-300 h-4 rounded-full"
+                        style={{ width: `${percentage}%` }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-
-                <div className="mt-auto flex justify-between items-center gap-4">
-                  <Link
-                    href={`/projects/${card.uuid}`}
-                    className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-                  >
-                    Details
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setSelectedCardId(card.id);
-                      openModal();
-                    }}
-                    className={`mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300
-                      ${
+                  <div className="mt-4 flex items-center gap-4">
+                    <Link
+                      href={`/projects/${card.uuid}`}
+                      className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
+                    >
+                      Details
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setSelectedCardId(card.id);
+                        openModal();
+                      }}
+                      className={`px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all ${
                         stateOfPayment === false
                           ? "cursor-not-allowed opacity-50"
                           : ""
                       }`}
-                    disabled={stateOfPayment === false}
-                  >
-                    Apply
-                  </button>
-
-                  <div className="flex flex-col items-center justify-center gap-x-2 m-auto mt-3">
-                    <span className="font-sans font-bold text-orange-300">
-                      {card.votes}
-                    </span>
-
-                    <button
-                      className="text-red-500 hover:text-red-700 flex items-center"
-                      onClick={async () => {
-                        await updateVotes(card.uuid, card.votes + 1);
-                      }}
+                      disabled={stateOfPayment === false}
                     >
-                      <BiSolidHeart size={24} />
+                      Apply
                     </button>
+                    <div className="flex flex-col items-center justify-start gap-x-2   md:mt-0">
+                      <span className="font-sans font-bold text-orange-300">
+                        {card.votes}
+                      </span>
+                      <button
+                        className="text-red-500 hover:text-red-700 flex items-center"
+                        onClick={async () => {
+                          await updateVotes(card.uuid, card.votes + 1);
+                        }}
+                      >
+                        <BiSolidHeart size={24} />
+                      </button>
+                    </div>
                   </div>
+                </div>
+                <div className="relative w-full md:w-1/3 h-48">
+                  <Image
+                    src={card.image.trimEnd()}
+                    alt={card.name}
+                    className="object-cover rounded-lg"
+                    layout="fill"
+                    quality={100}
+                    loading="lazy"
+                  />
                 </div>
               </motion.div>
             );
@@ -197,17 +191,17 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-400 disabled:opacity-50"
+            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
           >
             <BiSolidLeftArrow />
           </button>
-          <span className="text-gray-500">
+          <span className="text-gray-400 font-sans">
             Page {currentPage} of {totalPages}
           </span>
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-400 disabled:opacity-50"
+            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
           >
             <BiSolidRightArrow />
           </button>

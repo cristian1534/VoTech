@@ -23,6 +23,7 @@ export const UploadForm = () => {
       setProject(data);
       const res = await axios.post<TUpload>("https://votech.onrender.com/portfolio", data);
       console.log(res);
+      console.log(data)
       reset();
       setIsLoading(false);
       setMessage("Project shared successfully");
