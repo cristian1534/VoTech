@@ -2,26 +2,58 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { TUpload } from "../types/typeUpload";
-import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export const UploadForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [message, setMessage] = useState<string>();
+  const [error, setError] = useState<string | null>();
+  const [, setProject] = useState({})
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TUpload>();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSubmit = async (data: TUpload): Promise<void> => {
     try {
       setIsLoading(true);
-      router.push("/portfolio")
+      setProject(data);
+      const res = await axios.post<TUpload>("https://votech.onrender.com/portfolio", data);
+      console.log(res);
+      reset();
       setIsLoading(false);
-    } catch (e) {
-      console.log(e);
+      setMessage("Project shared successfully");
+      setTimeout(() => {
+        setMessage("");
+      }, 1000);
+    } catch (error: unknown) {
+      setIsLoading(false);
+      let message = "An unexpected error occurred.";
+
+      if (error instanceof Error) {
+        message = error.message;
+      }
+
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        setError(axiosError.response?.data?.message);
+        const errorResponse = axiosError.response;
+        message =
+          errorResponse?.data?.message ||
+          JSON.stringify(errorResponse?.data) ||
+          message;
+      }
+
+      setMessage(message);
+      setTimeout(() => {
+        setError(null);
+        setMessage("");
+      }, 2000);
     }
   };
   return (
@@ -30,7 +62,15 @@ export const UploadForm = () => {
         <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
           Show Task
         </h2>
-
+        {message && (
+          <div
+            className={`${
+              error ? "bg-red-500" : "bg-green-500"
+            } text-white p-2 rounded mb-4 text-center`}
+          >
+            {message}
+          </div>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className="mb-10">
           <div className="mb-4">
             <label
@@ -89,7 +129,9 @@ export const UploadForm = () => {
               className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
             />
             {errors.technologies && (
-              <span className="text-orange-500">{errors.technologies.message}</span>
+              <span className="text-orange-500">
+                {errors.technologies.message}
+              </span>
             )}
           </div>
           <div className="mb-4">

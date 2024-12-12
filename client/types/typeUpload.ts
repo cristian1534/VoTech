@@ -1,6 +1,5 @@
 export type TUpload = {
-  id: number;
-  uuid: string;
+  uuid?: string;
   title: string;
   description: string;
   technologies: string[];
