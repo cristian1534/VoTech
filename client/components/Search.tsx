@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 interface Project {
   image: string;
-  name: string;
+  title: string;
   description: string;
   technologies: string[];
   members: string[];
@@ -24,7 +24,7 @@ export const Search: React.FC<SearchProps> = ({ projects, onSearch }) => {
     setSearchTerm(value);
 
     const filteredProjects = projects.filter((project) =>
-      project.name.toLowerCase().includes(value)
+      project.title.toLowerCase().includes(value)
     );
     onSearch(filteredProjects);
   };

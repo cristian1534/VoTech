@@ -5,7 +5,7 @@ import Image from "next/image";
 
 interface Project {
   image: string;
-  name: string;
+  title: string;
   description: string;
   technologies: string[];
   members: string[];
@@ -42,7 +42,7 @@ export default function SearchedPortfolio({
                 <div className="relative w-full h-48 bg-gray-200 rounded-t-lg overflow-hidden">
                   <Image
                     src={project.image}
-                    alt={project.name}
+                    alt={project.title}
                     className="object-cover"
                     layout="responsive"
                     width={300}
@@ -56,7 +56,7 @@ export default function SearchedPortfolio({
 
             <div className="p-4 text">
               <h2 className="text-orange-400 text-2xl font-semibold mb-2">
-                {project.name}
+                {project.title}
               </h2>
               <p className="text-gray-400 mb-4">{project.description}</p>
               <div className="mb-4">

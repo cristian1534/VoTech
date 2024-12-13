@@ -3,39 +3,24 @@ import { TUser } from "../types/typeUser";
 import { TContact } from "../types/typeContact";
 import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
+import { TPortfolio } from "../types/typePortfolio";
 import axios from "axios";
 import { getSessions, endSession } from "../customHooks/setSession";
 
 // INTERFACES SECTION
-interface ProjectApiResponse {
+interface ApiResponse<T> {
   status: number;
   message: string;
-  data: TProject[];
+  data: T[];
 }
 
-interface UserApiResponse {
-  status: number;
-  message: string;
-  data: TUser[];
-}
+type ProjectApiResponse = ApiResponse<TProject>;
+type UserApiResponse = ApiResponse<TUser>;
+type UserProjectApiResponse = ApiResponse<TUserProject>;
+type UserSubscriptionApiResponse = ApiResponse<TSubscription>;
+type ContactApiResponse = ApiResponse<TContact>;
+type PortfolioApiResponse = ApiResponse<TPortfolio>;
 
-interface UserProjectApiResponse {
-  status: number;
-  message: string;
-  data: TUserProject[];
-}
-
-interface UserSubscriptionApiResponse {
-  status: number;
-  message: string;
-  data: TSubscription[];
-}
-
-interface ContactApiResponse {
-  status: number;
-  message: string;
-  data: TContact[];
-}
 
 // GET SECTION
 export async function getStaticProps() {
@@ -100,6 +85,18 @@ export async function getAllMessages(): Promise<TContact[] | null> {
   try {
     const response = await axios.get<ContactApiResponse>(
       "https://votech.onrender.com/contacts/"
+    );
+    return response.data?.data || null;
+  } catch (error) {
+    console.error("Axios error:", error);
+    return null;
+  }
+}
+
+export async function getPortfolio(): Promise<TPortfolio[] | null> {
+  try {
+    const response = await axios.get<PortfolioApiResponse>(
+      "https://votech.onrender.com/portfolio/"
     );
     return response.data?.data || null;
   } catch (error) {

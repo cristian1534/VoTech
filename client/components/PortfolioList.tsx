@@ -3,10 +3,11 @@ import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import SearchedPortfolio from "./SearchedPortfolio";
 
+
 interface PortfolioProps {
   projects: {
     image: string;
-    name: string;
+    title: string;
     description: string;
     technologies: string[];
     members: string[];
@@ -22,6 +23,8 @@ const messagesPortfolio: TMessage = {
   messageThree: "",
   messageFour: "",
 };
+
+
 export const PortfolioList = ({ projects }: PortfolioProps) => {
   return (
     <div className="container mx-auto p-4">
