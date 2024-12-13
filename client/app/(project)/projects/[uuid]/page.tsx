@@ -82,9 +82,13 @@ export default async function ProjectDetails({ params }: any) {
     <div>
       <h3 className="text-orange-300 text-xl font-semibold mb-3">Technologies:</h3>
       <ul className="list-disc pl-6 space-y-2">
-        {project.technologies.map((tech) => (
-          <li key={tech} className="text-md">{tech}</li>
-        ))}
+        {Array.isArray(project.technologies) ? (
+          project.technologies.map((tech) => (
+            <li key={tech} className="text-md">{tech}</li>
+          ))
+        ) : (
+          <li className="text-md">No technologies specified</li>
+        )}
       </ul>
     </div>
 
