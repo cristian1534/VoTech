@@ -64,9 +64,11 @@ export default function SearchedPortfolio({
                   Technologies:
                 </h3>
                 <ul className="list-disc pl-6 text-gray-400">
-                  {project.technologies.map((tech, i) => (
-                    <li key={i}>{tech}</li>
-                  ))}
+                  {Array.isArray(project.technologies)
+                    ? project.technologies.map((tech, i) => (
+                        <li key={i}>{tech}</li>
+                      ))
+                    : project.technologies}
                 </ul>
               </div>
               <p className="text-orange-400 mb-2">
