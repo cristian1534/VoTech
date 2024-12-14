@@ -42,18 +42,14 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-let PORT = Number(process.env.PORT) || 4000;
+const PORT = process.env.PORT || 4000;
 
-if (process.env.RENDER_INSTANCE && parseInt(process.env.RENDER_INSTANCE) > 1) {
-  PORT += 1;  // Si hay más de una instancia, sumar 1 al puerto 4000
-}
 
-console.log(`Using PORT: ${PORT}`);
+app.listen(PORT, () => {
 
-app.listen(PORT, "0.0.0.0", () => {
   process.env.NODE_ENV === "development"
-    ? console.log(`Server running at ${PORT} in Development mode`)
-    : console.log(`Server running at ${PORT} in Production mode`);
+    ? console.log(`Server running at ${PORT} Development`)
+    : console.log(`Server running at ${PORT} Production`);
 });
 
 export default app;
