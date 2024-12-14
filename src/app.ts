@@ -42,10 +42,11 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-const PORT = Number(process.env.PORT) || 4000;
+const PORT = process.env.PORT || 4000;
 
 
-app.listen(PORT,'0.0.0.0', () => {
+app.listen(PORT, () => {
+
   process.env.NODE_ENV === "development"
     ? console.log(`Server running at ${PORT} Development`)
     : console.log(`Server running at ${PORT} Production`);
