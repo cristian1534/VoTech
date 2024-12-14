@@ -1,6 +1,6 @@
 import { IProjectEntity } from "../../domain/project.entity";
-import { ProjectRepository } from "project/domain/project.respository";
 import { clientGenerator } from "../../../user/utils/pgPoolConector";
+import { ProjectRepository } from "../../../project/domain/project.repository";
 
 export class PGRepository implements ProjectRepository {
   async addProject(project: IProjectEntity): Promise<any> {

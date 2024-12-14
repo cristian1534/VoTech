@@ -1,4 +1,4 @@
-import { ProjectRepository } from "../domain/project.respository";
+import { ProjectRepository } from "../domain/project.repository";
 import { ProjectValue } from "../domain/project.value";
 import { IProjectEntity } from "../domain/project.entity";
 import { v4 as uuiGenerator } from "uuid";

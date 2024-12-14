@@ -1,5 +1,6 @@
+\i '/docker-entrypoint-initdb.d/tables/users.sql'
 \i '/docker-entrypoint-initdb.d/tables/contacts.sql'
 \i '/docker-entrypoint-initdb.d/tables/subscriptions.sql'
-\i '/docker-entrypoint-initdb.d/tables/user_project.sql'
 \i '/docker-entrypoint-initdb.d/tables/projects.sql'
-\i '/docker-entrypoint-initdb.d/tables/users.sql'
+\i '/docker-entrypoint-initdb.d/tables/user_project.sql'
+\i '/docker-entrypoint-initdb.d/tables/portfolio.sql'
