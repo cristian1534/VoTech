@@ -12,4 +12,8 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["pm2-runtime", "npm", "--", "run", "dev"]
+ENV PM2_PUBLIC_KEY txepqo9xcpuv8iy
+
+ENV PM2_SECRET_KEY v0xpx759e6rfa0m
+
+CMD ["pm2-runtime", "src/app.ts"]
