@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-const PORT = Number(process.env.PORT) || 10000;
+const PORT = Number(process.env.PORT) || 4000;
 console.log("USING PORT: " + PORT);
 
 app.listen(PORT, "0.0.0.0", () => {
