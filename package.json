@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon ./src/app.ts",
     "test": "jest --detectOpenHandles --forceExit --coverage",
-    "dev": "PORT=$PORT pm2-runtime ./src/app.ts --name 'app' --interpreter ts-node"
+    "dev": "PORT=$PORT pm2-runtime ./src/app.ts --name 'app' --interpreter ts-node -i 3"
   },
   "repository": {
     "type": "git",
