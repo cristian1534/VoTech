@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "Backend Service.",
   "main": "index.js",
-"scripts": {
-  "start": "nodemon ./src/app.ts",
-  "test": "jest --detectOpenHandles --forceExit --coverage",
-  "dev": "pm2 start ./src/app.ts --name 'app' --interpreter ts-node && pm2 scale app 2"
-
-},
+  "scripts": {
+    "start": "nodemon ./src/app.ts",
+    "test": "jest --detectOpenHandles --forceExit --coverage",
+    "dev": "pm2 start ./src/app.ts --name 'app' --interpreter ts-node -i 2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cristian1534/VoTech.git"
@@ -35,6 +34,7 @@
     "nodemon": "^3.1.7",
     "pg": "^8.13.0",
     "pm2": "^5.4.3",
+    "portfinder": "^1.0.32",
     "redis": "^4.7.0",
     "sequelize": "^6.37.4",
     "supertest": "^7.0.0",

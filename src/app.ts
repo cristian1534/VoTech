@@ -12,6 +12,7 @@ import { options } from "./user/infrastructure/documentation/swagger.documentati
 import { connectRedis } from "./user/infrastructure/redis/redis";
 import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import morgan from "morgan";
+import portfinder from "portfinder";  // Importa portfinder
 
 const app = express();
 const swaggerUiOptions = {
@@ -37,19 +38,23 @@ app.use("/user-project", userProjectRoutes);
 app.use("/contacts", contactRoutes);
 app.use("/portfolio", portfolioRoutes);
 
-
 app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-const PORT = Number(process.env.PORT);
-console.log("USING THIS PORT: ", PORT)
+const DEFAULT_PORT = 4000;
 
-app.listen(PORT,"0.0.0.0", () => {
- 
-  process.env.NODE_ENV === "development"
-    ? console.log(`Server running at ${PORT} Development`)
-    : console.log(`Server running at ${PORT} Production`);
-});
+// Usa portfinder para encontrar un puerto libre
+portfinder.getPortPromise({ port: DEFAULT_PORT })
+  .then((port) => {
+    app.listen(port, () => {
+      process.env.NODE_ENV === "development"
+        ? console.log(`Server running at http://localhost:${port} in Development mode`)
+        : console.log(`Server running at http://localhost:${port} in Production mode`);
+    });
+  })
+  .catch((err) => {
+    console.error("Error finding available port:", err);
+  });
 
 export default app;

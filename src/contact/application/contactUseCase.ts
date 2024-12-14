@@ -1,6 +1,6 @@
 import { IContact } from "../../contact/domain/contact.entity";
 import { ContactValue } from "../../contact/domain/contact.value";
-import { ContactRepository } from "contact/domain/contact.repository";
+import { ContactRepository } from "../../contact/domain/contact.repository";
 import { v4 as uuidGenerator } from "uuid";
 
 export class ContactUseCase {
