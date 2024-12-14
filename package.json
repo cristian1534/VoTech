@@ -6,7 +6,7 @@
 "scripts": {
   "start": "nodemon ./src/app.ts",
   "test": "jest --detectOpenHandles --forceExit --coverage",
-  "dev": "pm2-runtime ./src/app.ts --name 'app' --interpreter ts-node -i 2"
+  "dev": "pm2-runtime ecosystem.config.ts --interpreter ts-node -i 2"
 },
   "repository": {
     "type": "git",
