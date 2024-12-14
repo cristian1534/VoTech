@@ -4,7 +4,7 @@ module.exports = {
         name: 'app',
         script: './src/app.ts',
         interpreter: 'ts-node', 
-        instances: 2, 
+        instances: 1, 
         exec_mode: 'cluster', 
         env: {
           NODE_ENV: 'production', 
