@@ -42,10 +42,11 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
-const DEFAULT_PORT = 4000;
+const DEFAULT_PORT =  4000;
 
-// Usa portfinder para encontrar un puerto libre
-portfinder.getPortPromise({ port: DEFAULT_PORT })
+const port = Number(process.env.PORT) || DEFAULT_PORT;
+
+portfinder.getPortPromise({ port })
   .then((port) => {
     app.listen(port, () => {
       process.env.NODE_ENV === "development"
@@ -56,5 +57,3 @@ portfinder.getPortPromise({ port: DEFAULT_PORT })
   .catch((err) => {
     console.error("Error finding available port:", err);
   });
-
-export default app;
