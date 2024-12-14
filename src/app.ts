@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 const PORT = Number(process.env.PORT) || 4000;
 
 
-app.listen(PORT, () => {
+app.listen(PORT,"0.0.0.0", () => {
 
   process.env.NODE_ENV === "development"
     ? console.log(`Server running at ${PORT} Development`)
