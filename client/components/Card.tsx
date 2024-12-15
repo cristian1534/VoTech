@@ -161,8 +161,8 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                       </span>
                       <button
                         className="text-red-500 hover:text-red-700 flex items-center"
-                        onClick={async () => {
-                          await updateVotes(card.uuid, card.votes + 1);
+                        onClick={() => {
+                          updateVotes(card.uuid, card.votes + 1);
                         }}
                       >
                         <BiSolidHeart size={24} />
