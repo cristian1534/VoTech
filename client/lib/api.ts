@@ -144,6 +144,7 @@ export async function updateVotes(
     await axios.patch(`https://votech.onrender.com/projects/${uuid}`, {
       votes,
     });
+    window.location.reload();
   } catch (error) {
     console.error("Axios error:", error);
   }
