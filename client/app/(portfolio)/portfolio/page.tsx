@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default async function page() {
   const projects: TPortfolio[] | null = await getPortfolio();
+  console.log(projects)
   return (
     <div>
       <PortfolioList projects={projects || []} />
