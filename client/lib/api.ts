@@ -140,10 +140,9 @@ export async function updateVotes(
   votes: number
 ): Promise<void> {
   try {
-    const res = await axios.patch(`https://votech.onrender.com/projects/${uuid}`, {
+    await axios.patch(`https://votech.onrender.com/projects/${uuid}`, {
       votes,
     });
-    console.log(res)
   } catch (error) {
     console.error("Axios error:", error);
   }

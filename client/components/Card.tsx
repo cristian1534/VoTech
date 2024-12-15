@@ -28,7 +28,8 @@ interface CardsGridProps {
   cards: Card[];
 }
 
-const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
+const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
+  const [cards, setCards] = useState<Card[]>(initialCards);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
@@ -42,6 +43,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
 
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
+
   const paymentWarning = () => {
     return (
       <div
@@ -52,6 +54,24 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
         <p className="text-md">Please update your Payment.</p>
       </div>
     );
+  };
+
+  const handleVoteUpdate = async (uuid: string) => {
+    try {
+      const card = cards.find((card) => card.uuid === uuid);
+      if (!card) return;
+
+      const updatedVotes = card.votes + 1;
+      await updateVotes(uuid, updatedVotes);
+
+      const updatedCards = cards.map((card) =>
+        card.uuid === uuid ? { ...card, votes: updatedVotes } : card
+      );
+
+      setCards(updatedCards);
+    } catch (error) {
+      console.error("Error updating votes:", error);
+    }
   };
 
   useEffect(() => {
@@ -155,15 +175,13 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards }) => {
                     >
                       Apply
                     </button>
-                    <div className="flex flex-col items-center justify-start gap-x-2   md:mt-0">
+                    <div className="flex flex-col items-center justify-start gap-x-2 md:mt-0">
                       <span className="font-sans font-bold text-orange-300">
                         {card.votes}
                       </span>
                       <button
                         className="text-red-500 hover:text-red-700 flex items-center"
-                        onClick={() => {
-                          updateVotes(card.uuid, card.votes + 1);
-                        }}
+                        onClick={() => handleVoteUpdate(card.uuid)}
                       >
                         <BiSolidHeart size={24} />
                       </button>
