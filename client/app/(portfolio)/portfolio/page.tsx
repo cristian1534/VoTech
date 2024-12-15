@@ -1,12 +1,16 @@
-import React from "react";
+// app/portfolio/page.tsx
 import { PortfolioList } from "../../../components/PortfolioList";
-import { getPortfolio } from "../../../lib/api";
 import { TPortfolio } from "../../../types/typePortfolio";
 import Link from "next/link";
 
-export default async function page() {
-  const projects: TPortfolio[] | null = await getPortfolio();
-  console.log(projects)
+// Server Component: La función se ejecuta en el servidor
+export default async function Page() {
+  // Llamada a la API en el servidor para obtener los proyectos más actualizados
+  const response = await fetch("https://votech.onrender.com/portfolio/");
+  const data = await response.json();
+
+  const projects: TPortfolio[] | null = data?.data || null;
+
   return (
     <div>
       <PortfolioList projects={projects || []} />

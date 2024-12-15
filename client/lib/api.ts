@@ -93,25 +93,15 @@ export async function getAllMessages(): Promise<TContact[] | null> {
 }
 
 export async function getPortfolio(): Promise<TPortfolio[] | null> {
-  let portfolioData: TPortfolio[] | null = null;
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get<PortfolioApiResponse>(
-        "https://votech.onrender.com/portfolio/"
-      );
-      portfolioData = response.data?.data || null;
-      console.log("Portfolio data updated:", portfolioData);
-    } catch (error) {
-      console.error("Axios error:", error);
-    }
-  };
-
-  await fetchData();
-
-  setInterval(fetchData, 30000);
-
-  return portfolioData;
+  try {
+    const response = await axios.get<PortfolioApiResponse>(
+      "https://votech.onrender.com/portfolio/"
+    );
+    return response.data?.data || null;
+  } catch (error) {
+    console.error("Axios error:", error);
+    return null;
+  }
 }
 
 // DELETE SECTION
