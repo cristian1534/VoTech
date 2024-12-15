@@ -23,7 +23,7 @@ type PortfolioApiResponse = ApiResponse<TPortfolio>;
 
 
 // GET SECTION
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const response = await axios.get<ProjectApiResponse>(
       "https://votech.onrender.com/projects/"
@@ -32,7 +32,6 @@ export async function getStaticProps() {
       props: {
         projects: response.data.data || null,
       },
-      revalidate: 10,
     };
   } catch (error) {
     console.error("Axios error:", error);
@@ -40,10 +39,10 @@ export async function getStaticProps() {
       props: {
         projects: null,
       },
-      revalidate: 10,
     };
   }
 }
+
 
 export async function getUsers(): Promise<TUser[] | null> {
   try {
