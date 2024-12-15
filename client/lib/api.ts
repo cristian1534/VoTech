@@ -3,7 +3,6 @@ import { TUser } from "../types/typeUser";
 import { TContact } from "../types/typeContact";
 import { TSubscription } from "../types/typeSubscriptions";
 import { TUserProject } from "../types/typeUserProject";
-import { TPortfolio } from "../types/typePortfolio";
 import axios from "axios";
 import { getSessions, endSession } from "../customHooks/setSession";
 
@@ -19,7 +18,6 @@ type UserApiResponse = ApiResponse<TUser>;
 type UserProjectApiResponse = ApiResponse<TUserProject>;
 type UserSubscriptionApiResponse = ApiResponse<TSubscription>;
 type ContactApiResponse = ApiResponse<TContact>;
-type PortfolioApiResponse = ApiResponse<TPortfolio>;
 
 
 // GET SECTION
@@ -84,18 +82,6 @@ export async function getAllMessages(): Promise<TContact[] | null> {
   try {
     const response = await axios.get<ContactApiResponse>(
       "https://votech.onrender.com/contacts/"
-    );
-    return response.data?.data || null;
-  } catch (error) {
-    console.error("Axios error:", error);
-    return null;
-  }
-}
-
-export async function getPortfolio(): Promise<TPortfolio[] | null> {
-  try {
-    const response = await axios.get<PortfolioApiResponse>(
-      "https://votech.onrender.com/portfolio/"
     );
     return response.data?.data || null;
   } catch (error) {
