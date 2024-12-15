@@ -6,7 +6,9 @@ import Link from "next/link";
 // Server Component: La función se ejecuta en el servidor
 export default async function Page() {
   // Llamada a la API en el servidor para obtener los proyectos más actualizados
-  const response = await fetch("https://votech.onrender.com/portfolio/");
+  const response = await fetch("https://votech.onrender.com/portfolio/", {
+    cache: "no-store", // Ensure no cache in client
+  });
   const data = await response.json();
 
   const projects: TPortfolio[] | null = data?.data || null;
