@@ -11,6 +11,7 @@ import { About } from "../components/About";
 import Link from "next/link";
 import { Discord } from "../components/Discord";
 
+
 export default async function Home() {
   
 
