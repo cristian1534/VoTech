@@ -5,6 +5,7 @@ import projectRoutes from "./project/infrastructure/routes/projects.routes";
 import userProjectRoutes from "./user_project/infrastructure/routes/user_project.routes";
 import contactRoutes from "./contact/infrastructure/routes/contact.routes";
 import portfolioRoutes from "./portfolio/infrastructure/routes/portfolio.routes";
+import newsLetterRoutes from "./newsletter/infrastructure/routes/newsletter.routes";
 import path from "path";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
@@ -36,6 +37,7 @@ app.use("/projects", projectRoutes);
 app.use("/user-project", userProjectRoutes);
 app.use("/contacts", contactRoutes);
 app.use("/portfolio", portfolioRoutes);
+app.use("/newsletter", newsLetterRoutes);
 
 
 app.get("/", (req, res) => {

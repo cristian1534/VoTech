@@ -1,0 +1,7 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE newsletter (
+    id serial PRIMARY KEY,
+    email VARCHAR(100) NOT NULL
+);
+COMMIT TRANSACTION;

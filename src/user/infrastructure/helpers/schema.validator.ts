@@ -40,3 +40,7 @@ export const portfolioSchema = Joi.object({
   github: Joi.string().uri().required(),
   image: Joi.string().min(10).max(255).required(),
 });
+
+export const newsLetterSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
