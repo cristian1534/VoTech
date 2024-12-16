@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { NewsLetterUseCase } from "../../../newsletter/application/newsletterUseCase";
 import { HttpResponse } from "../../../user/infrastructure/helpers/error.handler";
 import { newsLetterSchema } from "../../../user/infrastructure/helpers/schema.validator";
+import { sendEmail } from "../helpers/email.service";
 
 export class NewsLetterController {
   constructor(
@@ -28,6 +29,7 @@ export class NewsLetterController {
           "An account with this email already exists."
         );
       }
+      await sendEmail(value.email);
       const newsletter = await this.newsLetterUseCase.addNewsletter(value);
       return this.httpResponse.Ok(res, newsletter);
     } catch (error) {
@@ -71,6 +73,7 @@ export class NewsLetterController {
       );
     }
   };
+
   public getAccountByEmail = async (
     req: Request,
     res: Response

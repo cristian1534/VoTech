@@ -142,7 +142,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
                   <h5 className="text-xl font-bold text-orange-400">
                     {card.name}
                   </h5>
-                  <p className="text-gray-500 mt-2 line-clamp-3">
+                  <p className="text-gray-400 mt-2 line-clamp-3">
                     {card.description}
                   </p>
                   <div className="flex items-center mt-4">
