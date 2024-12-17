@@ -6,7 +6,7 @@
     <title>Chat</title>
     <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
     <style>
-      body {
+         body {
         margin: 0;
         padding: 0;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -30,10 +30,11 @@
         max-width: 400px;
         background-color: #ffffff;
         border-radius: 15px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 16px rgba(127, 121, 121, 0.9);
         display: flex;
         flex-direction: column;
         height: 80vh;
+        overflow: hidden;
       }
 
       .chat-header {
@@ -44,33 +45,70 @@
         font-size: 1.6rem;
         font-weight: 600;
         border-radius: 15px 15px 0 0;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 4px 4px 15px rgba(220, 133, 12, 0.9);
       }
 
       #messages {
         flex: 1;
-        padding: 20px;
+        padding: 10px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
         gap: 15px;
       }
 
+      #messages::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      #messages::-webkit-scrollbar-thumb {
+        background: #888888;
+        border-radius: 4px; 
+      }
+     
+      #messages::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }
+
       .message {
         padding: 12px;
         border-radius: 15px;
-        background-color: #e8e8e8;
+        background-color: #e7b11a;
+        color: #fff;
         max-width: 80%;
         word-wrap: break-word;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         font-size: 1.1rem;
         align-self: flex-start;
+        position: relative;
       }
 
       .message.user {
         background-color: #f59e0b;
         color: #fff;
         align-self: flex-end;
+        position: relative;
+      }
+
+      .message .time {
+        font-size: 0.85rem;
+        color: #f7f7f7;
+        margin-top: 2px;
+        align-self: flex-end;  
+      }
+
+      .message.user::after {
+        top: 10px;
+        right: -10px;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent #f59e0b;
+      }
+
+      .message::after {
+        top: 10px;
+        left: -10px;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent #e8e8e8 transparent transparent;
       }
 
       .typing {
@@ -97,8 +135,9 @@
         background-color: #ffffff;
         padding: 10px 20px;
         align-items: center;
-        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.08);
         border-radius: 0 0 15px 15px;
+        margin-bottom: 5rem;
       }
 
       input[type="text"] {
@@ -125,46 +164,10 @@
         border-radius: 10px;
         transition: background-color 0.3s ease;
         margin-left: 10px;
+        box-shadow: 4px 4px 15px rgba(220, 133, 12, 0.9);
       }
 
       button:hover {
-        background: linear-gradient(to right, #f97316, #fbbf24);
-      }
-
-      .nickname-form {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f7f7f7;
-      }
-
-      .nickname-form input {
-        padding: 12px 20px;
-        font-size: 1.2rem;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        outline: none;
-        transition: border-color 0.3s ease;
-      }
-
-      .nickname-form input:focus {
-        border-color: #f59e0b;
-      }
-
-      .nickname-form button {
-        padding: 12px 20px;
-        background: linear-gradient(to right, #fb923c, #f59e0b);
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        font-size: 1.2rem;
-        border-radius: 10px;
-        transition: background-color 0.3s ease;
-        margin-left: 10px;
-      }
-
-      .nickname-form button:hover {
         background: linear-gradient(to right, #f97316, #fbbf24);
       }
 
@@ -193,14 +196,6 @@
           font-size: 0.9rem;
           padding: 10px 15px;
         }
-
-        .nickname-form input {
-          font-size: 1rem;
-        }
-
-        .nickname-form button {
-          font-size: 1rem;
-        }
       }
 
       @media (max-width: 400px) {
@@ -226,6 +221,7 @@
           padding: 8px 12px;
         }
       }
+
     </style>
   </head>
   <body>
@@ -241,7 +237,7 @@
       <div id="online-users" class="online-users">
         <span id="user-connected" class="joined"></span><br />
         <span id="user-disconnected" class="left"></span><br />
-        <strong>Users online:</strong> <span id="user-count">0</span>
+        <strong>Online:</strong> <span id="user-count">0</span>
         <ul id="user-list"></ul>
       </div>
       <div class="input-container">
@@ -252,7 +248,7 @@
     </div>
 
     <script>
-      const socket = io("http://localhost:4000/");
+      const socket = io("https://votech.onrender.com");
       const messagesDiv = document.getElementById("messages");
       const messageInput = document.getElementById("messageInput");
       const sendButton = document.getElementById("sendButton");
@@ -361,13 +357,26 @@ socket.on("userStopTyping", () => {
       });
     
       function addMessageToChat(user, message, isUser) {
-        const messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-        if (isUser) messageElement.classList.add("user");
-        messageElement.textContent = `${user}: ${message}`;
-        messagesDiv.appendChild(messageElement);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      }
+      const messageElement = document.createElement("div");
+      messageElement.classList.add("message");
+
+      if (isUser) messageElement.classList.add("user");
+
+      const messageText = document.createElement("p");
+      messageText.textContent = `${user}: ${message}`;
+
+      const messageTime = document.createElement("span");
+      messageTime.classList.add("time");
+      messageTime.textContent = new Date().toLocaleTimeString(); 
+
+      messageElement.appendChild(messageText);
+      messageElement.appendChild(messageTime);
+
+      messagesDiv.appendChild(messageElement);
+
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
     </script>
     
     

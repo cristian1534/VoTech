@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/cristian1534/VoTech#readme",
   "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
     "@types/supertest": "^6.0.2",
     "axios": "^1.7.8",
     "bcryptjs": "^2.4.3",

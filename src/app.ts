@@ -15,17 +15,30 @@ import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import morgan from "morgan";
 import http from "http";
 import { Server } from "socket.io";
+import { instrument } from "@socket.io/admin-ui";
+
 
 const app = express();
 const server = http.createServer(app);
 
+app.use(cors());
+app.use(morgan("tiny"));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));  
+app.use("/admin", express.static('./node_modules/@socket.io/admin-ui/ui/dist'));
+
+
 const io = new Server(server, {
   cors: {
-    origin: "*", 
-    methods: ["GET", "POST"], 
-  },
+    origin: "*",
+    credentials: true
+  }
 });
 
+instrument(io, {
+  auth: false,
+  mode: "development",
+});
 
 let onlineUsers: string[] = [];
 
@@ -66,11 +79,6 @@ const swaggerUiOptions = {
 (async () => {
   await connectRedis();
 })();
-
-app.use(cors());
-app.use(morgan("tiny"));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "user/infrastructure/postgres")));  
 
 const specs = swaggerJSDoc(options);
 app.use(
