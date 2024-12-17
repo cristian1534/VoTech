@@ -1,30 +1,375 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Prueba</title>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+    <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .online-users {
+        padding: 10px;
+        background-color: #f0f0f0;
+        color: #3df155;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+
+      .chat-container {
+        width: 100%;
+        max-width: 400px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+      }
+
+      .chat-header {
+        background: linear-gradient(to right, #fb923c, #f59e0b);
+        color: #ffffff;
+        text-align: center;
+        padding: 15px 0;
+        font-size: 1.6rem;
+        font-weight: 600;
+        border-radius: 15px 15px 0 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .message {
+        padding: 12px;
+        border-radius: 15px;
+        background-color: #e8e8e8;
+        max-width: 80%;
+        word-wrap: break-word;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        font-size: 1.1rem;
+        align-self: flex-start;
+      }
+
+      .message.user {
+        background-color: #f59e0b;
+        color: #fff;
+        align-self: flex-end;
+      }
+
+      .typing {
+        font-size: 0.95rem;
+        color: #a3a3a3;
+        padding: 0 20px;
+        font-style: italic;
+      }
+      .joined {
+        font-size: 0.95rem;
+        color: #46a80d;
+        font-style: italic;
+      }
+
+      .left {
+        font-size: 0.95rem;
+        color: #e33f17;
+        font-style: italic;
+      }
+
+      .input-container {
+        display: flex;
+        border-top: 1px solid #f0f0f0;
+        background-color: #ffffff;
+        padding: 10px 20px;
+        align-items: center;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 0 0 15px 15px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: #f59e0b;
+      }
+
+      button {
+        padding: 12px 20px;
+        background: linear-gradient(to right, #fb923c, #f59e0b);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+      }
+
+      button:hover {
+        background: linear-gradient(to right, #f97316, #fbbf24);
+      }
+
+      .nickname-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f7f7f7;
+      }
+
+      .nickname-form input {
+        padding: 12px 20px;
+        font-size: 1.2rem;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+
+      .nickname-form input:focus {
+        border-color: #f59e0b;
+      }
+
+      .nickname-form button {
+        padding: 12px 20px;
+        background: linear-gradient(to right, #fb923c, #f59e0b);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+      }
+
+      .nickname-form button:hover {
+        background: linear-gradient(to right, #f97316, #fbbf24);
+      }
+
+      /* Responsive styles */
+      @media (max-width: 600px) {
+        .chat-container {
+          max-width: 100%;
+          height: 90vh;
         }
-        .container {
-            text-align: center;
+
+        .chat-header {
+          font-size: 1.3rem;
         }
-        .icon {
-            font-size: 5rem;
+
+        .message {
+          font-size: 1rem;
+          max-width: 100%;
         }
+
+        input[type="text"] {
+          font-size: 0.9rem;
+          padding: 10px;
+        }
+
+        button {
+          font-size: 0.9rem;
+          padding: 10px 15px;
+        }
+
+        .nickname-form input {
+          font-size: 1rem;
+        }
+
+        .nickname-form button {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .chat-header {
+          font-size: 1.2rem;
+        }
+
+        .message {
+          font-size: 0.9rem;
+        }
+
+        .typing {
+          font-size: 0.85rem;
+        }
+
+        input[type="text"] {
+          font-size: 0.85rem;
+          padding: 8px;
+        }
+
+        button {
+          font-size: 0.85rem;
+          padding: 8px 12px;
+        }
+      }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to VoTech!</h1>
-        <p>Backend Service now is running.</p>
-        <p class="icon">👍</p>
+  </head>
+  <body>
+    <div id="nickname-form" class="nickname-form">
+      <input type="text" id="nickname" placeholder="Enter your nickname" />
+      <button id="nickname-submit">Join Chat</button>
     </div>
-</body>
+
+    <div class="chat-container" id="chat-container" style="display: none">
+      <div class="chat-header">VoTech Live Chat</div>
+      <div id="messages"></div>
+      <div id="typing" class="typing"></div>
+      <div id="online-users" class="online-users">
+        <span id="user-connected" class="joined"></span><br />
+        <span id="user-disconnected" class="left"></span><br />
+        <strong>Users online:</strong> <span id="user-count">0</span>
+        <ul id="user-list"></ul>
+      </div>
+      <div class="input-container">
+        <input type="text" id="messageInput" placeholder="Type a message" />
+        <button id="sendButton">Send</button>
+      </div>
+    </div>
+    </div>
+
+    <script>
+      const socket = io("http://localhost:4000/");
+      const messagesDiv = document.getElementById("messages");
+      const messageInput = document.getElementById("messageInput");
+      const sendButton = document.getElementById("sendButton");
+      const typingDiv = document.getElementById("typing");
+      const nicknameForm = document.getElementById("nickname-form");
+      const chatContainer = document.getElementById("chat-container");
+      const onlineUsersDiv = document.getElementById("online-users");
+      const userCountElement = document.getElementById("user-count");
+      const userConnected = document.getElementById("user-connected");
+      const userDisconnected = document.getElementById("user-disconnected");
+      const userListElement = document.getElementById("user-list");
+      
+      let nickname;
+    
+      document.getElementById("nickname-submit").addEventListener("click", () => {
+        nickname = document.getElementById("nickname").value.trim();
+        if (nickname) {
+          socket.emit("setNickname", nickname);
+          nicknameForm.style.display = "none";
+          chatContainer.style.display = "flex";
+        }
+      });
+    
+      function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message) {
+          socket.emit("sendMessage", { sender: nickname, message });
+          messageInput.value = ""; 
+          addMessageToChat(nickname, message, true); 
+        }
+      }
+    
+      sendButton.addEventListener("click", sendMessage);
+    
+      let typingTimeout;  
+
+      messageInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+
+  if (messageInput.value.trim().length > 0) {
+    socket.emit("typing", nickname);  
+    
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit("stopTyping");  
+    }, 1000);
+  } else {
+    socket.emit("stopTyping");  
+  }
+});
+
+socket.on("userTyping", (user) => {
+  typingDiv.textContent = `${user} is typing...`;
+});
+
+socket.on("userStopTyping", () => {
+  typingDiv.textContent = "";
+});
+
+
+
+    
+      socket.on("userConnected", (nickname) => {
+        userConnected.textContent = `${nickname} has joined the chat`;
+        userConnected.style.display = "block";
+        setTimeout(() => {
+          userConnected.style.display = "none";
+        }, 3000);
+      });
+    
+      socket.on("userDisconnected", (nickname) => {
+        userDisconnected.textContent = `${nickname} has left the chat`;
+        userDisconnected.style.display = "block";
+        setTimeout(() => {
+          userDisconnected.style.display = "none";
+        }, 3000);
+      });
+    
+      socket.on("userCount", (count) => {
+        userCountElement.textContent = count;
+      });
+    
+      socket.on("userList", (users) => {
+        userListElement.innerHTML = "";
+        users.forEach((user) => {
+          const userElement = document.createElement("li");
+          userElement.textContent = user;
+          userListElement.appendChild(userElement);
+        });
+      });
+    
+      socket.on("receiveMessage", ({ sender, message }) => {
+        if (sender !== nickname) {
+          addMessageToChat(sender, message, false);
+        }
+      });
+    
+      socket.on("userTyping", (user) => {
+        typingDiv.textContent = `${user} is typing...`;
+      });
+    
+      socket.on("userStopTyping", () => {
+        typingDiv.textContent = "";
+      });
+    
+      function addMessageToChat(user, message, isUser) {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+        if (isUser) messageElement.classList.add("user");
+        messageElement.textContent = `${user}: ${message}`;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    </script>
+    
+    
+  </body>
+</html>
