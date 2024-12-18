@@ -34,40 +34,32 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
   const { sessionEmail } = useSession();
-
   const itemsPerPage = 2;
   const totalPages = Math.ceil(cards.length / itemsPerPage);
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentCards = cards.slice(startIndex, startIndex + itemsPerPage);
-
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
-  const paymentWarning = () => {
-    return (
-      <div
-        className="bg-red-400 border-t border-b border-orange-200 text-center text-white px-4 py-3 my-3 shadow-2xl font-sans rounded-md"
-        role="alert"
-      >
-        <p className="font-bold text-lg">Subscription Expired</p>
-        <p className="text-md">Please update your Payment.</p>
-      </div>
-    );
-  };
+  const paymentWarning = () => (
+    <div
+      className="bg-red-400 border-t border-b border-orange-200 text-center text-white px-4 py-3 my-3 shadow-2xl font-sans rounded-md"
+      role="alert"
+    >
+      <p className="font-bold text-lg">Subscription Expired</p>
+      <p className="text-md">Please update your Payment.</p>
+    </div>
+  );
 
   const handleVoteUpdate = async (uuid: string) => {
     try {
       const card = cards.find((card) => card.uuid === uuid);
       if (!card) return;
-
       const updatedVotes = card.votes + 1;
       await updateVotes(uuid, updatedVotes);
-
       const updatedCards = cards.map((card) =>
         card.uuid === uuid ? { ...card, votes: updatedVotes } : card
       );
-
       setCards(updatedCards);
     } catch (error) {
       console.error("Error updating votes:", error);
@@ -90,7 +82,6 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
         setIsLoading(false);
       }
     };
-
     fetchUsers();
   }, [cards, stateOfPayment, sessionEmail]);
 
@@ -111,9 +102,19 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
   }
 
   return (
-    <div className="mb-20 font-sans">
-      <div>{!stateOfPayment && sessionEmail && paymentWarning()}</div>
-      <div className="container flex flex-col items-center justify-center mx-auto p-4 gap-6">
+    <div className="mb-20 font-sans flex flex-col lg:flex-row gap-8">
+      <div className="g:w-1/4 bg-white flex flex-col items-center justify-center p-4 text-gray-400  border border-gray-200 rounded-xl shadow-lg space-y-4">
+        <h3 className="text-orange-400 text-lg font-bold">Public Chat</h3>
+        <p className="mt-2 text-center">Join our public chat for updates!</p>
+        <Link
+          href="https://votech.onrender.com/" target="blank"
+          className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
+        >
+          Go to Chat
+        </Link>
+      </div>
+      <div className="w-3/4 flex flex-col items-center justify-center mx-auto p-4 gap-6">
+        {!stateOfPayment && sessionEmail && paymentWarning()}
         {!currentCards.length ? (
           <div className="flex justify-center bg-orange-400 rounded-md mx-auto w-full">
             <p className="text-center text-white p-2 w-full">
@@ -124,7 +125,6 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
           currentCards.map((card) => {
             const maxVotes = 30;
             const percentage = (card.votes / maxVotes) * 100;
-
             return (
               <motion.div
                 key={card.uuid}
@@ -136,7 +136,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
                   scale: 1.02,
                   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
                 }}
-                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl md:w-1/2 sm:w-1/3"
+                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl md:w-full sm:w-1/3"
               >
                 <div className="flex flex-col w-full md:w-2/3">
                   <h5 className="text-xl font-bold text-orange-400">
@@ -188,12 +188,12 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
                     </div>
                   </div>
                 </div>
-                <div className="relative w-full md:w-1/3 h-48">
+                <div className="relative w-full md:w-1/3 lg:w-2/3 xl:w-2/3 h-48 lg:h-64">
                   <Image
                     src={card.image.trimEnd()}
                     alt={card.name}
                     className="object-cover rounded-lg"
-                    layout="fill"
+                    fill
                     quality={100}
                     loading="lazy"
                   />
@@ -202,30 +202,28 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
             );
           })
         )}
+        {cards.length > itemsPerPage && (
+          <div className="flex justify-center items-center gap-4 mt-4">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
+            >
+              <BiSolidLeftArrow />
+            </button>
+            <span className="text-gray-400 font-sans">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
+            >
+              <BiSolidRightArrow />
+            </button>
+          </div>
+        )}
       </div>
-
-      {cards.length > itemsPerPage && (
-        <div className="flex justify-center items-center gap-4 mt-4">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
-          >
-            <BiSolidLeftArrow />
-          </button>
-          <span className="text-gray-400 font-sans">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
-          >
-            <BiSolidRightArrow />
-          </button>
-        </div>
-      )}
-
       <Modal isOpen={isOpen} closeModal={closeModal} id={selectedCardId} />
     </div>
   );

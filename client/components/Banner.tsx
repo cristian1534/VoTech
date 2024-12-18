@@ -10,11 +10,9 @@ import Cookies from "js-cookie";
 export default function Banner() {
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const { sessionUser } = useSession();
-  console.log("Current:", sessionUser);
 
   useEffect(() => {
     const storedUser = Cookies.get("user");
-
     if (storedUser) {
       setCurrentUser(storedUser);
     } else if (sessionUser) {
@@ -30,72 +28,69 @@ export default function Banner() {
   }, [sessionUser]);
 
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-center my-10 space-y-8 lg:space-y-0 w-full font-sans p-4 max-w-screen-lg mx-auto">
-      <motion.div
-        className="flex items-center justify-center text-center space-x-4 w-full max-w-md p-4 rounded-md"
-        variants={fadeIn({ direction: "right", delay: 0.3 })}
-        initial="hidden"
-        whileInView={"show"}
-        viewport={{ once: false, amount: 0.3 }}
-      >
-        <div className="flex flex-col items-center justify-center text-center space-x-4 w-full max-w-md p-6 rounded-md shadow-2xl mb-8 bg-gradient-to-r from-orange-400 to-yellow-500">
-          <h1 className="text-5xl font-extrabold text-transparent bg-clip-text text-white">
-            Team
-          </h1>
-          <span className="text-white">
-            <BiCodeAlt size={48} />
-          </span>
-          <h1 className="text-5xl font-extrabold text-transparent bg-clip-text text-white">
-            VoTech
-          </h1>
-        </div>
-      </motion.div>
-
-      <div className="flex flex-col items-center justify-center space-y-6 p-6 w-full max-w-md">
-        <p className="text-lg md:text-xl font-medium text-gray-400 text-center">
-          Join a{" "}
-          <span className="font-semibold text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text">
-            PROFESSIONAL TEAM
-          </span>{" "}
-          and contribute to the development of{" "}
-          <span className="font-semibold text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text">
-            IMPACTFUL PROJECTS
-          </span>
-          .
-        </p>
-        {currentUser ? (
-          <div className="mt-6 text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg font-medium shadow-lg shadow-orange-300">
-            <p className="text-lg">Welcome {currentUser}!</p>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center space-y-10">
-            <motion.div
-              whileTap={{ scale: 0.9 }}
-              animate={{
-                scale: [1, 1.2, 1],
-                transition: {
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  ease: "easeInOut",
-                },
-              }}
-            >
-              <Link
-                target="_blank"
-                href="https://www.sandbox.paypal.com/ncp/payment/8F9AZY58Z77J6"
-                rel="noreferrer"
-                className="text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-              >
-                Join Now!
-              </Link>
-            </motion.div>
-            <div className="text-center text-orange-400 bg-white p-2 rounded-xl shadow-2xl">
-              <Link href="/signin">Already Registered?</Link>
+    <section className="relative overflow-hidden bg-gradient-to-br from-orange-100 to-yellow-50 py-20 font-sans">
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between">
+          <motion.div
+            className="lg:w-1/2 mb-10 lg:mb-0"
+            variants={fadeIn({ direction: "right", delay: 0.3 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.3 }}
+          >
+            <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-gray-800">
+              Team <span className="text-orange-500">VoTech</span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Join a <span className="font-semibold text-orange-500">PROFESSIONAL TEAM</span> and 
+              contribute to the development of <span className="font-semibold text-orange-500">IMPACTFUL PROJECTS</span>.
+            </p>
+            {currentUser ? (
+              <div className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
+                <p className="text-lg">Welcome, {currentUser}!</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="https://www.sandbox.paypal.com/ncp/payment/8F9AZY58Z77J6"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform transition duration-300 hover:shadow-xl"
+                  >
+                    Join Now!
+                  </Link>
+                </motion.div>
+                <div>
+                  <Link href="/signin" className="text-orange-500 hover:text-orange-600 font-medium block py-2">
+                    Already Registered?
+                  </Link>
+                </div>
+              </div>
+            )}
+          </motion.div>
+          <motion.div
+            className="lg:w-1/2"
+            variants={fadeIn({ direction: "left", delay: 0.5 })}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.3 }}
+          >
+            <div className="bg-gradient-to-br from-orange-400 to-yellow-500 p-8 rounded-2xl shadow-2xl transform -rotate-3 hover:rotate-0 transition duration-300">
+              <BiCodeAlt className="text-white text-6xl mb-4" />
+              <h2 className="text-4xl font-bold text-white mb-2">Code with Purpose</h2>
+              <p className="text-lg text-yellow-100">
+                Develop your skills while making a real impact in the tech world.
+              </p>
             </div>
-          </div>
-        )}
+          </motion.div>
+        </div>
       </div>
+      <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
+      <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
     </section>
   );
 }
