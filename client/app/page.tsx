@@ -1,4 +1,4 @@
-import {  getServerSideProps } from "../lib/api";
+import { getServerSideProps } from "../lib/api";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 import ContactForm from "../components/ContactForm";
@@ -11,10 +11,7 @@ import { About } from "../components/About";
 import Link from "next/link";
 import { Discord } from "../components/Discord";
 
-
 export default async function Home() {
-  
-
   const projects = await getServerSideProps();
 
   const messagesProjects: TMessage = {
@@ -47,7 +44,7 @@ export default async function Home() {
   return (
     <div>
       <div>
-        <div className="container mx-auto">
+        <div className="container mx-auto" id="top">
           <Banner />
         </div>
         <div className="bg-white container mx-auto my-10">
@@ -102,6 +99,11 @@ export default async function Home() {
           <Subscribe />
         </div>
       </div>
+      <a href="#top">
+        <button className="fixed bottom-6 right-6 bg-orange-300 text-white p-4 rounded-full shadow-lg hover:bg-orange-200 focus:outline-none">
+          ⬆
+        </button>
+      </a>
     </div>
   );
 }

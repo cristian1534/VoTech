@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { JobCard } from "./JobCard";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import { BackButton } from "./BackButton";
 
 const mockData = [
   {
@@ -90,6 +91,9 @@ export const JobsList = () => {
           >
             <BiSolidRightArrow />
           </button>
+        </div>
+        <div className="flex justify-center mt-8 mr-4">
+          <BackButton />
         </div>
       </div>
     </div>

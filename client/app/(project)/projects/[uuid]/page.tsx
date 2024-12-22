@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { TProject } from "../../../../types/typeProjects";
 import { getAllUserProject } from "../../../../lib/api";
+import { BackButton } from "../../../../components/BackButton";
 
 async function getProjectById(uuid: string): Promise<TProject | null> {
   const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
@@ -68,14 +68,7 @@ export default async function ProjectDetails({ params }: any) {
       )}
     </div>
 
-    <div className="flex justify-end w-full mb-6">
-      <Link
-        href="/"
-        className="text-white px-8 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-all ease-in-out duration-300 rounded-lg font-semibold shadow-lg shadow-orange-300"
-      >
-        Back
-      </Link>
-    </div>
+    <BackButton />
 
     <p className="text-lg mb-6">{project.description}</p>
 

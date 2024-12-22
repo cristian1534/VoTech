@@ -3,6 +3,7 @@ import { JobsList } from "../../../components/JobsList";
 import { UseText } from "../../../customHooks/useText";
 import { TMessage } from "../../../types/typeMessages";
 
+
 const messagesJobs: TMessage = {
   messageOne: "Explore our Job Offerings.",
   messageTwo:

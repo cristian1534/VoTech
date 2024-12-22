@@ -180,7 +180,6 @@ const ContactForm: React.FC = () => {
 
           <Link
             href="/jobs"
-            target="blank"
             className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
           >
             Go to Jobs
