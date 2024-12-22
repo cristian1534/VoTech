@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
 import { getUsers, updateVotes } from "../lib/api";
 import { useSession } from "../context/SessionContext";
+import { BiChat } from "react-icons/bi";
 
 interface Card {
   id: number;
@@ -103,16 +104,33 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
 
   return (
     <div className="mb-20 font-sans flex flex-col lg:flex-row gap-8">
-      <div className="g:w-1/4 bg-white flex flex-col items-center justify-center p-4 text-gray-400  border border-gray-200 rounded-xl shadow-lg space-y-4">
+      <motion.div
+        className="g:w-1/4 bg-white flex flex-col items-center justify-center p-4 text-gray-400  border border-gray-200 rounded-sm shadow-lg space-y-4"
+        variants={fadeIn({ direction: "right", delay: 0.3 })}
+        initial="hidden"
+        whileInView={"show"}
+        viewport={{ once: false, amount: 0.3 }}
+        whileHover={{
+          scale: 1.02,
+          boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
+        }}
+      >
+        <div className="text-orange-400">
+          <BiChat size={50} />
+        </div>
         <h3 className="text-orange-400 text-lg font-bold">Public Chat</h3>
-        <p className="mt-2 text-center">Join our public chat for updates!</p>
+        <p className="mt-2 text-center">
+          Join our public chat! Find devs online to share any ideas or ask
+          questions to help each other at any time.
+        </p>
         <Link
-          href="https://votech.onrender.com/" target="blank"
+          href="https://votech.onrender.com/"
+          target="blank"
           className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
         >
           Go to Chat
         </Link>
-      </div>
+      </motion.div>
       <div className="w-3/4 flex flex-col items-center justify-center mx-auto p-4 gap-6">
         {!stateOfPayment && sessionEmail && paymentWarning()}
         {!currentCards.length ? (
@@ -136,7 +154,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
                   scale: 1.02,
                   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
                 }}
-                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl md:w-full sm:w-1/3"
+                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-sm shadow-lg transition-all duration-300 hover:shadow-xl md:w-full sm:w-1/3"
               >
                 <div className="flex flex-col w-full md:w-2/3">
                   <h5 className="text-xl font-bold text-orange-400">
@@ -207,7 +225,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
+              className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 disabled:opacity-50"
             >
               <BiSolidLeftArrow />
             </button>
@@ -217,7 +235,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 disabled:opacity-50"
+              className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 disabled:opacity-50"
             >
               <BiSolidRightArrow />
             </button>

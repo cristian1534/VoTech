@@ -38,10 +38,10 @@ export default function Banner() {
             whileInView="show"
             viewport={{ once: false, amount: 0.3 }}
           >
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-gray-800">
+            <h1 className="text-5xl lg:text-6xl font-bold mb-6 text-gray-500">
               Team <span className="text-orange-500">VoTech</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-500 mb-8">
               Join a <span className="font-semibold text-orange-500">PROFESSIONAL TEAM</span> and 
               contribute to the development of <span className="font-semibold text-orange-500">IMPACTFUL PROJECTS</span>.
             </p>

@@ -54,7 +54,7 @@ export function Subscribe() {
   };
 
   return (
-    <div className="py-12 bg-gradient-to-br from-white via-orange-100 to-yellow-50 shadow-md rounded-lg font-sans">
+    <div className="py-12 bg-gradient-to-br from-white via-orange-100 to-yellow-50 shadow-md rounded-sm font-sans">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <motion.h4
           className="text-3xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent mb-6"
