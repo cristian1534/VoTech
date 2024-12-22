@@ -1,10 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { JobCard } from "./JobCard";
-import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { BackButton } from "./BackButton";
+import { usePagination } from "../customHooks/usePagination";
+import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 
-const mockData = [
+interface Job {
+  title: string;
+  description: string;
+  contact: string;
+}
+
+const mockData: Job[] = [
   {
     title: "Junior React Developer",
     description:
@@ -38,16 +45,18 @@ const mockData = [
 ];
 
 export const JobsList = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const jobsPerPage = 3;
+  const pageLimit = 3;
+  const { currentPage, offset, totalPages, getPageNeighbours, changePage } =
+    usePagination({
+      totalRecords: mockData.length,
+      pageLimit,
+    });
 
-  const indexOfLastJob = currentPage * jobsPerPage;
-  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-  const currentJobs = mockData.slice(indexOfFirstJob, indexOfLastJob);
+  const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-  const totalPages = Math.ceil(mockData.length / jobsPerPage);
+  useEffect(() => {
+    setCurrentJobs(mockData.slice(offset, offset + pageLimit));
+  }, [offset, pageLimit]);
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -63,35 +72,36 @@ export const JobsList = () => {
           ))}
         </div>
 
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 mx-2 text-white bg-orange-400 rounded-md disabled:bg-gray-400"
-          >
-            <BiSolidLeftArrow />
-          </button>
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="flex justify-center mt-8 text-gray-400 font-sans">
+          <div className="flex">
             <button
-              key={index}
-              onClick={() => paginate(index + 1)}
-              className={`px-4 py-2 mx-2 rounded-md ${
-                currentPage === index + 1
-                  ? "bg-orange-300 text-white"
-                  : "bg-gray-300"
-              }`}
+              disabled={currentPage === 1}
+              onClick={() => changePage(currentPage - 1)}
+              className="p-2"
             >
-              {index + 1}
+              <BiSolidLeftArrow />
             </button>
-          ))}
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 mx-2 text-white bg-orange-400 rounded-md disabled:bg-gray-400"
-          >
-            <BiSolidRightArrow />
-          </button>
+            {getPageNeighbours(currentPage).map((page) => (
+              <button
+                key={page}
+                onClick={() => changePage(page)}
+                className={`rounded-sm p-2 ${
+                  currentPage === page ? "bg-orange-300 text-white" : ""
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => changePage(currentPage + 1)}
+              className="p-2"
+            >
+              <BiSolidRightArrow />
+            </button>
+          </div>
         </div>
+
         <div className="flex justify-center mt-8 mr-4">
           <BackButton />
         </div>

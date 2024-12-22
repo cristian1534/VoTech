@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 import React, { useState, useEffect } from "react";
 import {
   BiSolidHeart,
@@ -15,6 +14,7 @@ import { fadeIn } from "../helpers/variants";
 import { getUsers, updateVotes } from "../lib/api";
 import { useSession } from "../context/SessionContext";
 import { BiChat } from "react-icons/bi";
+import { usePagination } from "../customHooks/usePagination";
 
 interface Card {
   id: number;
@@ -31,14 +31,19 @@ interface CardsGridProps {
 
 const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
   const [cards, setCards] = useState<Card[]>(initialCards);
-  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
   const { sessionEmail } = useSession();
   const itemsPerPage = 2;
-  const totalPages = Math.ceil(cards.length / itemsPerPage);
+
+  const { currentPage, totalPages, changePage, getPageNeighbours } = usePagination({
+    totalRecords: cards.length,
+    pageLimit: itemsPerPage,
+  });
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentCards = cards.slice(startIndex, startIndex + itemsPerPage);
+
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
@@ -85,14 +90,6 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
     };
     fetchUsers();
   }, [cards, stateOfPayment, sessionEmail]);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
 
   if (isLoading) {
     return (
@@ -210,39 +207,43 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
                   <Image
                     src={card.image.trimEnd()}
                     alt={card.name}
-                    className="object-cover rounded-lg"
+                    className="object-cover w-full h-full rounded-sm"
                     fill
-                    quality={100}
-                    loading="lazy"
                   />
                 </div>
               </motion.div>
             );
           })
         )}
-        {cards.length > itemsPerPage && (
-          <div className="flex justify-center items-center gap-4 mt-4">
+        <div className="flex justify-center mt-8 space-x-4 text-gray-400">
+          <button
+            onClick={() => changePage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2"
+          >
+            <BiSolidLeftArrow />
+          </button>
+          {getPageNeighbours(currentPage).map((page) => (
             <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 disabled:opacity-50"
+              key={page}
+              onClick={() => changePage(page)}
+              className={`p-2 rounded-sm ${
+                page === currentPage ? "bg-orange-300 text-white" : ""
+              }`}
             >
-              <BiSolidLeftArrow />
+              {page}
             </button>
-            <span className="text-gray-400 font-sans">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 bg-orange-400 text-white rounded-md hover:bg-orange-500 disabled:opacity-50"
-            >
-              <BiSolidRightArrow />
-            </button>
-          </div>
-        )}
+          ))}
+          <button
+            onClick={() => changePage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2"
+          >
+            <BiSolidRightArrow />
+          </button>
+        </div>
       </div>
-      <Modal isOpen={isOpen} closeModal={closeModal} id={selectedCardId} />
+      <Modal closeModal={closeModal} isOpen={isOpen} id={selectedCardId} />
     </div>
   );
 };
