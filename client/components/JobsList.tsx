@@ -4,6 +4,7 @@ import { JobCard } from "./JobCard";
 import { BackButton } from "./BackButton";
 import { usePagination } from "../customHooks/usePagination";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import { getJobs } from "../lib/api";
 
 interface Job {
   title: string;
@@ -11,40 +12,9 @@ interface Job {
   contact: string;
 }
 
-const mockData: Job[] = [
-  {
-    title: "Junior React Developer",
-    description:
-      "Collaborate in creating dynamic and responsive web applications using React. Ideal for developers with a passion for UI/UX design.",
-    contact: "react.jobs@example.com",
-  },
-  {
-    title: "Backend Developer - Node.js",
-    description:
-      "Join our team to build and optimize scalable APIs. Basic knowledge of Express.js and MongoDB is a plus.",
-    contact: "backend.careers@example.com",
-  },
-  {
-    title: "Full Stack Developer Intern",
-    description:
-      "Work on both front-end and back-end development with guidance from senior developers. Perfect for those looking to learn modern web technologies.",
-    contact: "internships@example.com",
-  },
-  {
-    title: "Junior Python Developer",
-    description:
-      "Assist in developing data-driven applications and automation scripts. A great opportunity to learn and grow in the Python ecosystem.",
-    contact: "python.jobs@example.com",
-  },
-  {
-    title: "Mobile App Developer - React Native",
-    description:
-      "Help build and optimize mobile applications for iOS and Android platforms. Basic understanding of React Native is required.",
-    contact: "mobile.jobs@example.com",
-  },
-];
 
 export const JobsList = () => {
+  const [mockData, setMockData] = useState<Job[]>([]);
   const pageLimit = 3;
   const { currentPage, offset, totalPages, getPageNeighbours, changePage } =
     usePagination({
@@ -55,8 +25,15 @@ export const JobsList = () => {
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-    setCurrentJobs(mockData.slice(offset, offset + pageLimit));
-  }, [offset, pageLimit]);
+      const fetchJobs = async () => {
+        const jobs = await getJobs();
+        if (jobs) {
+          setMockData(jobs);
+          setCurrentJobs(jobs.slice(offset, offset + pageLimit));
+        }
+      };
+      fetchJobs();
+    }, [offset, pageLimit]);
 
   return (
     <div className="flex justify-center items-center min-h-screen">

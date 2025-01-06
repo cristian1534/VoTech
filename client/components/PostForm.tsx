@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Job } from "../types/typeJobs";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export const PostForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string>();
   const [error, setError] = useState<string | null>();
+  const router = useRouter();
 
   const {
     register,
@@ -23,6 +25,9 @@ export const PostForm = () => {
       setMessage("Job posted successfully!");
       setError(null);
       reset();
+      setTimeout(() => {
+        router.push("/jobs");
+      }, 1000)
     } catch (error: unknown) {
         setIsLoading(false);
         let message = "An unexpected error occurred.";
