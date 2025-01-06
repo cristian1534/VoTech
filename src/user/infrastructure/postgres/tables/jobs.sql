@@ -1,0 +1,12 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE jobs (
+     id serial PRIMARY KEY,
+     uuid VARCHAR(255),
+     title VARCHAR(255) NOT NULL,
+     description TEXT NOT NULL,
+     email VARCHAR(255) NOT NULL,
+     posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMIT TRANSACTION;

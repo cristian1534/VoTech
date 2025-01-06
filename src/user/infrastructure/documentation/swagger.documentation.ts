@@ -48,6 +48,7 @@ export const options = {
     "./src/user_project/infrastructure/routes/user_project.routes.ts",
     "./src/contact/infrastructure/routes/contact.routes.ts",
     "./src/portfolio/infrastructure/routes/portfolio.routes.ts",
-    "./src/newsletter/infrastructure/routes/newsletter.routes.ts"
+    "./src/newsletter/infrastructure/routes/newsletter.routes.ts",
+    "./src/job/infrastructure/routes/job.routes.ts"
   ],
 };

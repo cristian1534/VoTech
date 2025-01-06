@@ -61,46 +61,56 @@ export const JobsList = () => {
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="w-full max-w-4xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {currentJobs.map((job, index) => (
-            <JobCard
-              key={index}
-              title={job.title}
-              description={job.description}
-              contact={job.contact}
-            />
-          ))}
-        </div>
-
-        <div className="flex justify-center mt-8 text-gray-400 font-sans">
-          <div className="flex">
-            <button
-              disabled={currentPage === 1}
-              onClick={() => changePage(currentPage - 1)}
-              className="p-2"
-            >
-              <BiSolidLeftArrow />
-            </button>
-            {getPageNeighbours(currentPage).map((page) => (
-              <button
-                key={page}
-                onClick={() => changePage(page)}
-                className={`rounded-sm p-2 ${
-                  currentPage === page ? "bg-orange-300 text-white" : ""
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => changePage(currentPage + 1)}
-              className="p-2"
-            >
-              <BiSolidRightArrow />
-            </button>
+        {!currentJobs.length ? (
+          <div className="flex justify-center bg-orange-400 rounded-md mx-auto w-full">
+            <p className="text-center text-white p-2 w-full">
+              NO PROJECTS TO SHOW...
+            </p>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {currentJobs.map((job, index) => (
+                <JobCard
+                  key={index}
+                  title={job.title}
+                  description={job.description}
+                  contact={job.contact}
+                />
+              ))}
+            </div>
+
+            <div className="flex justify-center mt-8 text-gray-400 font-sans">
+              <div className="flex">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => changePage(currentPage - 1)}
+                  className="p-2"
+                >
+                  <BiSolidLeftArrow />
+                </button>
+                {getPageNeighbours(currentPage).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => changePage(page)}
+                    className={`rounded-sm p-2 ${
+                      currentPage === page ? "bg-orange-300 text-white" : ""
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => changePage(currentPage + 1)}
+                  className="p-2"
+                >
+                  <BiSolidRightArrow />
+                </button>
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="flex justify-center mt-8 mr-4">
           <BackButton />

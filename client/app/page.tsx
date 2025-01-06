@@ -10,6 +10,7 @@ import { Subscribe } from "../components/Subscribe";
 import { About } from "../components/About";
 import Link from "next/link";
 import { Discord } from "../components/Discord";
+import { ScrollButton } from "../components/ScrollButton";
 
 export default async function Home() {
   const projects = await getServerSideProps();
@@ -99,11 +100,7 @@ export default async function Home() {
           <Subscribe />
         </div>
       </div>
-      <a href="#top">
-        <button className="fixed bottom-6 right-6 bg-orange-300 text-white p-4 rounded-full shadow-lg hover:bg-orange-200 focus:outline-none">
-          ⬆
-        </button>
-      </a>
+      <ScrollButton />
     </div>
   );
 }

@@ -1,14 +1,10 @@
 "use client";
 
 import React from "react";
+import { Job } from "../types/typeJobs";
 
-type JobCardProps = {
-  title: string;
-  description: string;
-  contact: string;
-};
 
-export const JobCard = ({ title, description, contact }: JobCardProps) => {
+export const JobCard = ({ title, description, contact }: Job) => {
   return (
     <div className="max-w-md p-4 border border-gray-200 rounded-md shadow-lg bg-white hover:shadow-2xl transition-shadow flex flex-col">
       <h3 className="text-xl font-bold text-orange-400">{title}</h3>

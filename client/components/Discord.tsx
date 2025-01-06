@@ -57,7 +57,7 @@ export const Discord = () => {
           community!
         </p>
         <a
-          href="YOUR_DISCORD_INVITE_LINK"
+          href="https://discord.gg/g3UrMcSE"
           className="mt-6 inline-block text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
         >
           👉 **JOIN US ON DISCORD**

@@ -5,6 +5,7 @@ import { GrUserAdmin } from "react-icons/gr";
 import { endSession } from "../customHooks/setSession";
 import { BiUpload } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
+import { CgWorkAlt } from "react-icons/cg";
 
 export default function Footer() {
   const { sessionEmail } = useSession();
@@ -38,6 +39,11 @@ export default function Footer() {
           <Link href="/upload">
             <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
               <BiUpload size={24} />
+            </span>
+          </Link>
+          <Link href="/post">
+            <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
+              <CgWorkAlt size={24} />
             </span>
           </Link>
           <span
