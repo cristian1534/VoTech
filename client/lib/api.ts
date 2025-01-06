@@ -24,9 +24,16 @@ type JobApiResponse = ApiResponse<Job>;
 
 // GET SECTION
 export async function getServerSideProps() {
+  
   try {
     const response = await axios.get<ProjectApiResponse>(
-      "https://votech.onrender.com/projects/"
+      "https://votech.onrender.com/projects/",  {
+        headers: {
+          "Cache-Control": "no-store", 
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
     return {
       props: {
