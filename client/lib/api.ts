@@ -21,15 +21,14 @@ type UserSubscriptionApiResponse = ApiResponse<TSubscription>;
 type ContactApiResponse = ApiResponse<TContact>;
 type JobApiResponse = ApiResponse<Job>;
 
-
 // GET SECTION
 export async function getServerSideProps() {
-  
   try {
     const response = await axios.get<ProjectApiResponse>(
-      "https://votech.onrender.com/projects/",  {
+      "https://votech.onrender.com/projects/",
+      {
         headers: {
-          "Cache-Control": "no-store", 
+          "Cache-Control": "no-store",
           Pragma: "no-cache",
           Expires: "0",
         },
@@ -49,7 +48,6 @@ export async function getServerSideProps() {
     };
   }
 }
-
 
 export async function getUsers(): Promise<TUser[] | null> {
   try {
@@ -101,7 +99,9 @@ export async function getAllMessages(): Promise<TContact[] | null> {
 
 export async function getJobs(): Promise<Job[] | null> {
   try {
-    const response = await axios.get<JobApiResponse>("https://votech.onrender.com/jobs");
+    const response = await axios.get<JobApiResponse>(
+      "https://votech.onrender.com/jobs"
+    );
     return response.data?.data || null;
   } catch (error) {
     console.error("Axios error:", error);
@@ -139,11 +139,17 @@ export async function deleteMessageByUuid(uuid: string): Promise<void> {
   }
 }
 
+export async function deleteJobByUuid(uuid: string): Promise<void> {
+  try {
+    await axios.delete(`https://votech.onrender.com/jobs/${uuid}`);
+    window.location.reload();
+  } catch (error) {
+    console.error("Axios error:", error);
+  }
+}
+
 // UPDATE SECTION
-export async function updateVotes(
-  uuid: string,
-  votes: number
-): Promise<void> {
+export async function updateVotes(uuid: string, votes: number): Promise<void> {
   try {
     await axios.patch(`https://votech.onrender.com/projects/${uuid}`, {
       votes,

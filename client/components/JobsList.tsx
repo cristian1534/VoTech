@@ -5,12 +5,7 @@ import { BackButton } from "./BackButton";
 import { usePagination } from "../customHooks/usePagination";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { getJobs } from "../lib/api";
-
-interface Job {
-  title: string;
-  description: string;
-  contact: string;
-}
+import { Job } from '../types/typeJobs';
 
 
 export const JobsList = () => {
@@ -25,15 +20,15 @@ export const JobsList = () => {
   const [currentJobs, setCurrentJobs] = useState<Job[]>([]);
 
   useEffect(() => {
-      const fetchJobs = async () => {
-        const jobs = await getJobs();
-        if (jobs) {
-          setMockData(jobs);
-          setCurrentJobs(jobs.slice(offset, offset + pageLimit));
-        }
-      };
-      fetchJobs();
-    }, [offset, pageLimit]);
+    const fetchJobs = async () => {
+      const jobs = await getJobs();
+      if (jobs) {
+        setMockData(jobs);
+        setCurrentJobs(jobs.slice(offset, offset + pageLimit));
+      }
+    };
+    fetchJobs();
+  }, [offset, pageLimit]);
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -47,13 +42,14 @@ export const JobsList = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {currentJobs.map((job, index) => (
-                <JobCard
-                  key={index}
-                  title={job.title}
-                  description={job.description}
-                  contact={job.contact}
-                />
+              {currentJobs.map((job) => (
+                  <JobCard
+                    key={job.uuid}
+                    uuid={job.uuid}
+                    title={job.title}
+                    description={job.description}
+                    contact={job.contact}
+                  />
               ))}
             </div>
 
