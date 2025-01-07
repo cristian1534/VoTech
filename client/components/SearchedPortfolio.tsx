@@ -31,6 +31,13 @@ export default function SearchedPortfolio({
   return (
     <div>
       <Search projects={projects} onSearch={handleSearch} />
+        {!filteredProjects.length && (
+          <div className="flex justify-center bg-orange-400 rounded-md mx-5 w-full">
+            <p className="text-center text-white p-2 w-full">
+              NO PROJECTS TO SHOW...
+            </p>
+          </div>
+        )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-400 font-sans mt-6">
         {filteredProjects.map((project, index) => (
           <div

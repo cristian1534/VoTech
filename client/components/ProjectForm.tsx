@@ -40,6 +40,7 @@ export const CreateProjectForm: React.FC = () => {
       router.push("/");
       setIsLoading(false);
     } catch (error: unknown) {
+      console.log(error)
       setIsLoading(false);
       let message = "An unexpected error occurred.";
   
