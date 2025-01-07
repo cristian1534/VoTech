@@ -13,6 +13,7 @@ export const ButtonStateAccount = ({
   className,
   payment,
 }: ButtonProps) => {
+  console.log("current payment", payment)
   return (
     <button
       onClick={() => handlePaymentState(uuid)}

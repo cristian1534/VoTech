@@ -9,6 +9,7 @@ import {
 } from "../../../lib/api";
 import { Rentability } from "../../../components/Rentability";
 import { DashContactList } from "../../../components/DashContactList";
+import { Servers } from "../../../components/Servers";
 
 export default async function page() {
   const [users, userProjects, userSubscriptions, messages] = await Promise.all([
@@ -24,6 +25,7 @@ export default async function page() {
       <Rentability userSubscriptions={userSubscriptions} />
       <DashUserProjectList userProjects={userProjects ?? []} />
       <DashContactList messages={messages ?? []} />
+      <Servers />
     </div>
   );
 }

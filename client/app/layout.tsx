@@ -3,6 +3,7 @@ import { Inter, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/Footer";
 import { SessionProvider, useSession } from "../context/SessionContext";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const inter = Inter({
   display: "swap",
@@ -19,12 +20,14 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 function LayoutWithFooter({ children }: { children: React.ReactNode }) {
-  const { sessionToken} = useSession();
-  
+  const { sessionToken } = useSession();
+
   return (
     <>
-      {children}
-      {sessionToken && <Footer />}
+      <ErrorBoundary>
+        {children}
+        {sessionToken && <Footer />}
+      </ErrorBoundary>
     </>
   );
 }
@@ -37,9 +40,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable} bg-gray-50`}>
-        <SessionProvider>
+        <ErrorBoundary>
+          <SessionProvider>
             <LayoutWithFooter>{children}</LayoutWithFooter>
-        </SessionProvider>
+          </SessionProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

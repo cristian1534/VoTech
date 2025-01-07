@@ -3,6 +3,9 @@ import { TProject } from "../../../../types/typeProjects";
 import { getAllUserProject } from "../../../../lib/api";
 import { BackButton } from "../../../../components/BackButton";
 
+
+
+
 async function getProjectById(uuid: string): Promise<TProject | null> {
   const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
     next: { revalidate: 10 },
@@ -32,9 +35,13 @@ async function getProjectById(uuid: string): Promise<TProject | null> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function ProjectDetails({ params }: { params: Promise<{uuid: string}>}) {
-  const uuid =(await params).uuid
-
+export default async function ProjectDetails({
+  params,
+}: {
+  params: Promise<{ uuid: string }>;
+}) {
+  const uuid = (await params).uuid;
+ 
   const project = await getProjectById(uuid);
   const userProjects = await getAllUserProject();
   function normalizeTechnologies(data: string[]): string[] {
@@ -55,7 +62,12 @@ export default async function ProjectDetails({ params }: { params: Promise<{uuid
       </div>
     );
   }
-
+ 
+  const appliedLength =
+    userProjects?.filter(
+      (userProject) => userProject.project_id === project.id
+    ) || [];
+ 
   return (
     <div className="max-w-3xl mx-auto p-8 bg-white rounded-2xl shadow-xl font-sans text-gray-400 overflow-hidden mt-10 sm:mt-12 sm:mb-0">
       <h2 className="text-center my-5 text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
@@ -79,7 +91,9 @@ export default async function ProjectDetails({ params }: { params: Promise<{uuid
       </div>
 
       <BackButton />
-
+      {appliedLength.length > 4 && (
+        <div className="bg-red-500 text-center text-white p-2 rounded-sm mx-auto my-5">Team Completed</div>
+      )}
       <p className="text-lg mb-6">{project.description}</p>
 
       <div>
@@ -106,6 +120,7 @@ export default async function ProjectDetails({ params }: { params: Promise<{uuid
         <ul className="list-none pl-6 mb-12 space-y-2">
           {userProjects
             ?.filter((userProject) => userProject.project_id === project.id)
+            .slice(0, 4)
             .map((applicant) => (
               <li key={applicant.user_email} className="text-md list-disc">
                 {applicant.user_name}
