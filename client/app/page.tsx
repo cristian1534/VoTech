@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Discord } from "../components/Discord";
 import { ScrollButton } from "../components/ScrollButton";
 
+
 export default async function Home() {
   const projects = await getServerSideProps();
 

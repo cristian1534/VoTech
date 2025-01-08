@@ -2,6 +2,9 @@ import Image from "next/image";
 import { TProject } from "../../../../types/typeProjects";
 import { getAllUserProject } from "../../../../lib/api";
 import { BackButton } from "../../../../components/BackButton";
+import { IconSlider } from "../../../../components/Stack";
+
+
 
 
 
@@ -97,6 +100,7 @@ export default async function ProjectDetails({
       <p className="text-lg mb-6">{project.description}</p>
 
       <div>
+        <IconSlider/>
         <h3 className="text-orange-300 text-xl font-semibold mb-3">
           Technologies:
         </h3>
