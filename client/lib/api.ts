@@ -52,14 +52,7 @@ export async function getServerSideProps() {
 export async function getUsers(): Promise<TUser[] | null> {
   try {
     const response = await axios.get<UserApiResponse>(
-      "https://votech.onrender.com/users/",
-      {
-        headers: {
-          "Cache-Control": "no-store",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      }
+      "https://votech.onrender.com/users/"
     );
     return response.data.data || null;
   } catch (error) {
