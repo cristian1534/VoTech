@@ -53,13 +53,6 @@ export async function getUsers(): Promise<TUser[] | null> {
   try {
     const response = await axios.get<UserApiResponse>(
       "https://votech.onrender.com/users/",
-      {
-        headers: {
-          "Cache-Control": "no-store",
-          Pragma: "no-cache",
-          Expires: "0",
-        },
-      }
     );
     setTimeout(() => { window.location.reload()}, 1000);
     return response.data.data || null;
