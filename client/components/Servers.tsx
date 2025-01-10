@@ -57,6 +57,28 @@ export const Servers = () => {
             />
           </svg>
         </a>
+        <a
+          href="https://dashboard.uptimerobot.com/monitors/798331953"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 border border-gray-300 p-5 rounded-md bg-gradient-to-r from-gray-50 via-white to-gray-50 shadow-md hover:shadow-lg hover:scale-105 transition-all mt-2"
+        >
+          <span className="text-orange-400 font-medium">Health Server</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-5 h-5 text-orange-600"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 9l3-3m0 0l3 3m-3-3v12"
+            />
+          </svg>
+        </a>
       </div>
     </div>
   );
