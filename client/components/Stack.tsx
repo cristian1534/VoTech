@@ -23,7 +23,7 @@ export const IconSlider = () => {
       <Swiper
         modules={[Autoplay]}
         spaceBetween={30}
-        slidesPerView={6}
+        slidesPerView={5}
         loop={true}
         autoplay={{
           delay: 2000,

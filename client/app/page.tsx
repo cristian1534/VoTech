@@ -12,7 +12,6 @@ import Link from "next/link";
 import { Discord } from "../components/Discord";
 import { ScrollButton } from "../components/ScrollButton";
 
-
 export default async function Home() {
   const projects = await getServerSideProps();
 
@@ -53,12 +52,7 @@ export default async function Home() {
           <About />
         </div>
         <div className="bg-white container mx-auto my-10">
-          <UseText
-            messageOne={messagesProjects.messageOne}
-            messageTwo={messagesProjects.messageTwo}
-            messageThree={messagesProjects.messageThree}
-            messageFour={messagesProjects.messageFour}
-          />
+          <UseText {...messagesProjects} />
         </div>
         <div className="container mx-auto">
           <Card cards={projectCards} />
@@ -68,12 +62,7 @@ export default async function Home() {
             <OpportunitiesList />
           </div>
           <div className="bg-white container mx-auto my-10">
-            <UseText
-              messageOne={messagesPortfolio.messageOne}
-              messageTwo={messagesPortfolio.messageTwo}
-              messageThree={messagesPortfolio.messageThree}
-              messageFour={messagesPortfolio.messageFour}
-            />
+            <UseText {...messagesPortfolio} />
             <div className="bg-white container mx-auto text-center pb-4 font-sans">
               <Link
                 href="/portfolio"
@@ -85,12 +74,7 @@ export default async function Home() {
           </div>
           <FAQ />
           <div className="bg-white container mx-auto my-10">
-            <UseText
-              messageOne={messagesContact.messageOne}
-              messageTwo={messagesContact.messageTwo}
-              messageThree={messagesContact.messageThree}
-              messageFour={messagesContact.messageFour}
-            />
+            <UseText {...messagesContact} />
           </div>
         </>
         <div>

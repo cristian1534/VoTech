@@ -56,8 +56,9 @@ export default function Banner() {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
-                    href="https://www.sandbox.paypal.com/ncp/payment/8F9AZY58Z77J6"
-                    target="_blank"
+                    // href="https://www.sandbox.paypal.com/ncp/payment/8F9AZY58Z77J6"
+                    href="/signup"
+                    // target="_blank"
                     rel="noreferrer"
                     className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform transition duration-300 hover:shadow-xl"
                   >
