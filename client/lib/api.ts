@@ -61,6 +61,7 @@ export async function getUsers(): Promise<TUser[] | null> {
         },
       }
     );
+    setTimeout(() => { window.location.reload()}, 1000);
     return response.data.data || null;
   } catch (error) {
     console.error("Axios error:", error);
