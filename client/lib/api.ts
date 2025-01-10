@@ -13,7 +13,6 @@ interface ApiResponse<T> {
   message: string;
   data: T[];
 }
-
 type ProjectApiResponse = ApiResponse<TProject>;
 type UserApiResponse = ApiResponse<TUser>;
 type UserProjectApiResponse = ApiResponse<TUserProject>;
