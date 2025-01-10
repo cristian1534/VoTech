@@ -34,9 +34,8 @@ export const FAQ = () => {
             <div className="px-6 pb-4 text-gray-400 transition-all duration-300 ease-in-out group-open:max-h-screen group-open:opacity-100 group-open:translate-y-0 group-close:opacity-0 group-close:translate-y-6">
               <p>
                 To participate, simply register on our platform and subscribe
-                for just $5 per month. This will give you access to propose
-                projects, vote for them, and, if your application is accepted,
-                participate in their development.
+                for just U$D 5 per month. This will give you access to propose
+                projects, vote for them and participate in their development.
               </p>
             </div>
           </details>
@@ -49,9 +48,9 @@ export const FAQ = () => {
               <p>
                 The monthly subscription includes the ability to: - Propose
                 your own projects. - Vote for the projects you prefer. - Apply
-                to participate in the development of the winning project. -
+                to participate in the development of the MVPs. -
                 Access the collaborative portfolio to showcase completed
-                projects.
+                projects. - Public Chat. - Freelance Jobs Offerings. - Discord Services.
               </p>
             </div>
           </details>
@@ -62,10 +61,7 @@ export const FAQ = () => {
             </summary>
             <div className="px-6 pb-4 text-gray-400 transition-all duration-300 ease-in-out group-open:max-h-screen group-open:opacity-100 group-open:translate-y-0 group-close:opacity-0 group-close:translate-y-6">
               <p>
-                Voting takes place weekly. Each member of the platform can
-                vote for one or more projects proposed during that week. The
-                project with the most votes at the end of the week will be
-                selected for development.
+              Voting takes place weekly. Each member of the platform can vote for one or more projects proposed during that week. The project with the most votes at the end of the week will be recognized through announcements on social media, newsletters, and the platform homepage. Once developed, the project will receive additional recognition, such as being featured as a success story or showcased prominently on the platform.
               </p>
             </div>
           </details>
