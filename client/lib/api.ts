@@ -21,7 +21,7 @@ type ContactApiResponse = ApiResponse<TContact>;
 type JobApiResponse = ApiResponse<Job>;
 
 // GET SECTION
-export async function getServerSideProps() {
+export async function getProjects() {
   try {
     const response = await axios.get<ProjectApiResponse>(
       "https://votech.onrender.com/projects/",

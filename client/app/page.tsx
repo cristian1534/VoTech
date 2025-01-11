@@ -1,4 +1,4 @@
-import { getServerSideProps } from "../lib/api";
+import { getProjects } from "../lib/api";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 import ContactForm from "../components/ContactForm";
@@ -13,7 +13,7 @@ import { Discord } from "../components/Discord";
 import { ScrollButton } from "../components/ScrollButton";
 
 export default async function Home() {
-  const projects = await getServerSideProps();
+  const projects = await getProjects();
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
