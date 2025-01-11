@@ -14,7 +14,7 @@ import { ScrollButton } from "../components/ScrollButton";
 
 export default async function Home() {
   const projects = await getProjects();
-  console.log(projects)
+  console.log("Projects Home",projects)
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
