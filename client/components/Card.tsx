@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import {
   BiSolidHeart,
@@ -35,11 +35,13 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
   const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
   const { sessionEmail } = useSession();
   const itemsPerPage = 2;
+  console.log("Cards", cards);
 
-  const { currentPage, totalPages, changePage, getPageNeighbours } = usePagination({
-    totalRecords: cards.length,
-    pageLimit: itemsPerPage,
-  });
+  const { currentPage, totalPages, changePage, getPageNeighbours } =
+    usePagination({
+      totalRecords: cards.length,
+      pageLimit: itemsPerPage,
+    });
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentCards = cards.slice(startIndex, startIndex + itemsPerPage);
@@ -66,6 +68,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
       const updatedCards = cards.map((card) =>
         card.uuid === uuid ? { ...card, votes: updatedVotes } : card
       );
+      console.log("Updated cards: ", updatedCards);
       setCards(updatedCards);
     } catch (error) {
       console.error("Error updating votes:", error);
