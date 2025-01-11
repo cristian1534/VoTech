@@ -146,7 +146,6 @@ export async function deleteJobByUuid(uuid: string): Promise<void> {
     console.error("Axios error:", error);
   }
 }
-
 // UPDATE SECTION
 export async function updateVotes(uuid: string, votes: number): Promise<void> {
   try {
