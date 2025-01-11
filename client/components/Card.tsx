@@ -11,7 +11,7 @@ import { Modal } from "./Modal";
 import { useModal } from "../customHooks/useModal";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
-import { getUsers, updateVotes } from "../lib/api";
+import { getUsers, updateVotes, getProjects } from "../lib/api";
 import { useSession } from "../context/SessionContext";
 import { BiChat } from "react-icons/bi";
 import { usePagination } from "../customHooks/usePagination";
@@ -25,12 +25,9 @@ interface Card {
   votes: number;
 }
 
-interface CardsGridProps {
-  cards: Card[];
-}
 
-const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
-  const [cards, setCards] = useState<Card[]>(initialCards);
+const CardsGrid = () => {
+  const [cards, setCards] = useState<Card[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [stateOfPayment, setStateOfPayment] = useState<boolean | null>(null);
   const { sessionEmail } = useSession();
@@ -70,12 +67,25 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
         card.uuid === uuid ? { ...card, votes: updatedVotes } : card
       );
       setCards(updatedCards);
+      console.log("Card", card)
     } catch (error) {
       console.error("Error updating votes:", error);
     }
   };
 
   useEffect(() => {
+    const fetchCards = async () => {
+      try {
+        const response = await getProjects();
+        const projects = response.props.projects;
+        setCards(projects || []);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
     const fetchUsers = async () => {
       try {
         const users = await getUsers();
@@ -91,6 +101,7 @@ const CardsGrid: React.FC<CardsGridProps> = ({ cards: initialCards }) => {
         setIsLoading(false);
       }
     };
+    fetchCards();
     fetchUsers();
   }, [cards, stateOfPayment, sessionEmail]);
 

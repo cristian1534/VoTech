@@ -152,7 +152,7 @@ export async function updateVotes(uuid: string, votes: number): Promise<void> {
     await axios.patch(`https://votech.onrender.com/projects/${uuid}`, {
       votes,
     });
-    window.location.reload();
+    
   } catch (error) {
     console.error("Axios error:", error);
   }

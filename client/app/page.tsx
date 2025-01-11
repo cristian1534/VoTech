@@ -1,4 +1,3 @@
-import { getProjects } from "../lib/api";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 import ContactForm from "../components/ContactForm";
@@ -13,8 +12,7 @@ import { Discord } from "../components/Discord";
 import { ScrollButton } from "../components/ScrollButton";
 
 export default async function Home() {
-  const projects = await getProjects();
-  console.log("Projects Home",projects)
+  
 
   const messagesProjects: TMessage = {
     messageOne: "Explore a selection of Projects.",
@@ -41,8 +39,6 @@ export default async function Home() {
     messageFour: "",
   };
 
-  const projectCards = projects.props.projects ?? [];
-
   return (
     <div>
       <div>
@@ -56,7 +52,7 @@ export default async function Home() {
           <UseText {...messagesProjects} />
         </div>
         <div className="container mx-auto">
-          <Card cards={projectCards} />
+          <Card />
         </div>
         <>
           <div className="bg-white container mx-auto">
