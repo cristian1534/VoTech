@@ -1,59 +1,123 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { BiHomeAlt, BiLogIn, BiFileBlank } from "react-icons/bi";
-import { GrUserAdmin } from "react-icons/gr";
 import { endSession } from "../customHooks/setSession";
-import { BiUpload } from "react-icons/bi";
 import { useSession } from "../context/SessionContext";
-import { CgWorkAlt } from "react-icons/cg";
+import { BiCodeAlt, BiMenuAltRight } from "react-icons/bi";
 
-export default function Footer() {
+export default function Header() {
   const { sessionEmail } = useSession();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div className="fixed bottom-4 w-full z-50">
-      <div className="mx-auto max-w-4xl px-6 py-3">
-        <div
-          className="w-full h-[60px] backdrop-blur-3xl rounded-full max-w-[380px] mx-auto px-4 py-2 flex justify-between items-center text-lg text-white shadow-lg"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(255, 204, 0, 0.8), rgba(255, 105, 0, 0.8))",
-          }}
-        >
-          <Link href="/">
-            <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
-              <BiHomeAlt size={24} />
-            </span>
+    <header className="fixed top-0 w-full z-50 bg-white shadow-md font-sans">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+        <div className="text-xl font-bold text-orange-500 flex items-center gap-2">
+          <Link href="/" aria-label="Home">
+            <BiCodeAlt size={32} />
           </Link>
-          <Link href="/projects">
-            <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
-              <BiFileBlank size={24} />
-            </span>
+        </div>
+
+        <button
+          className="sm:hidden text-orange-500 focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          <BiMenuAltRight size={32} />
+        </button>
+
+        <nav className="hidden sm:flex gap-6 text-orange-500 text-sm sm:text-base">
+          <Link href="/" className="relative group hover:text-orange-600">
+            Home
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
+          </Link>
+          <Link
+            href="/projects"
+            className="relative group hover:text-orange-600"
+          >
+            Projects
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
           </Link>
           {sessionEmail === "admin@votech.com" && (
-            <Link href="/dashboard">
-              <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
-                <GrUserAdmin size={24} />
-              </span>
+            <Link
+              href="/dashboard"
+              className="relative group hover:text-orange-600"
+            >
+              Admin
+              <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
             </Link>
           )}
-          <Link href="/upload">
-            <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
-              <BiUpload size={24} />
-            </span>
+          <Link href="/upload" className="relative group hover:text-orange-600">
+            Upload
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
           </Link>
-          <Link href="/post">
-            <span className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300">
-              <CgWorkAlt size={24} />
-            </span>
+          <Link href="/post" className="relative group hover:text-orange-600">
+            Posts
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
           </Link>
-          <span
-            className="cursor-pointer w-[48px] h-[48px] flex items-center justify-center transition-transform transform hover:scale-125 hover:text-orange-300"
+          <button
             onClick={endSession}
+            className="px-4 py-2 rounded-md bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:from-orange-500 hover:to-yellow-400 transition-all"
           >
-            <BiLogIn size={24} />
-          </span>
-        </div>
+            Log Out
+          </button>
+        </nav>
       </div>
-    </div>
+
+      {isMenuOpen && (
+        <nav className="sm:hidden bg-orange-50 text-orange-500 px-4 py-3 shadow-lg">
+          <Link
+            href="/"
+            className="block py-2 relative group hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Home
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
+          </Link>
+          <Link
+            href="/projects"
+            className="block py-2 relative group hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Projects
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
+          </Link>
+          {sessionEmail === "admin@votech.com" && (
+            <Link
+              href="/dashboard"
+              className="block py-2 relative group hover:text-orange-600"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Admin
+              <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
+            </Link>
+          )}
+          <Link
+            href="/upload"
+            className="block py-2 relative group hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Upload
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
+          </Link>
+          <Link
+            href="/post"
+            className="block py-2 relative group hover:text-orange-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Posts
+            <span className="absolute left-0 bottom-0 w-0 h-1 bg-orange-500 group-hover:w-full transition-all"></span>
+          </Link>
+          <button
+            onClick={() => {
+              endSession();
+              setIsMenuOpen(false);
+            }}
+            className="px-4 py-2 rounded-md bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:from-orange-500 hover:to-yellow-400 transition-all"
+          >
+            Logout
+          </button>
+        </nav>
+      )}
+    </header>
   );
 }
