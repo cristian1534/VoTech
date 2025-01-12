@@ -137,7 +137,7 @@ export const SignInForm: React.FC = () => {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-400"
               >
-                Your Password
+                Password (min 8 characters)
               </label>
               <BiShow
                 className="ml-auto"
