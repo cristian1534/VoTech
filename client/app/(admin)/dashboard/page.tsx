@@ -12,7 +12,7 @@ import { DashContactList } from "../../../components/DashContactList";
 import { Servers } from "../../../components/Servers";
 
 export default async function page() {
-  const [users, userProjects, userSubscriptions, messages] = await Promise.all([
+  const [users, userProjects, userSubscriptions] = await Promise.all([
     getUsers(),
     getAllUserProject(),
     getSubscriptions(),
@@ -24,7 +24,7 @@ export default async function page() {
       <DashUsersList users={users || []} />
       <Rentability userSubscriptions={userSubscriptions} />
       <DashUserProjectList userProjects={userProjects ?? []} />
-      <DashContactList messages={messages ?? []} />
+      <DashContactList />
       <Servers />
     </div>
   );
