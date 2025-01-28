@@ -42,7 +42,7 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
         messageFour=""
       />
 
-      <div className="space-y-6 mt-6">
+      <div className="space-y-6 mt-6">```
         {users?.map((user) => (
           <details
             key={user.uuid}

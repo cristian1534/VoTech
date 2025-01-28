@@ -1,13 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { deleteMessageByUuid, getAllMessages } from "../lib/api";
+import React from "react";
+import { deleteMessageByUuid } from "../lib/api";
 import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import { ButtonDelete } from "./ButtonDelete";
 import { TContact } from "../types/typeContact";
 
-export const DashContactList = () => {
-  const [messages, setMessages] = useState<TContact[] | null>([]);
+
+interface DashContactListProps {
+  messages: TContact[];
+}
+
+export const DashContactList = ({ messages }: DashContactListProps) => {
+  
   const messagesAdmin: TMessage = {
     messageOne: "Messages from Memberships",
     messageTwo: "Keeping in touch with our community.",
@@ -15,20 +20,17 @@ export const DashContactList = () => {
     messageFour: "",
   };
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const messages = await getAllMessages();
-      setMessages(messages);
-    };
-    fetchMessages();
-    console.log(messages);
-  }, [messages]);
-
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-700 font-sans">
-      <UseText {...messagesAdmin} />
+      <UseText
+        messageOne={messagesAdmin.messageOne}
+        messageTwo={messagesAdmin.messageTwo}
+        messageThree=""
+        messageFour=""
+      />
+
       <div className="space-y-6 mt-6 mb-10">
-        {messages?.length === 0 && (
+        {messages.length === 0 && (
           <div className="text-center text-orange-400 text-lg font-semibold">
             No messages yet.
           </div>
