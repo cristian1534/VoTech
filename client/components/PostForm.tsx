@@ -21,7 +21,7 @@ export const PostForm = () => {
   const onSubmit = async (data: Job): Promise<void> => {
     try {
       setIsLoading(true);
-      await axios.post("https://votech.onrender.com/jobs", data);
+      await axios.post(`${process.env.NEXT_PUBLIC_URL_DEV}/jobs`, data);
       setMessage("Job posted successfully!");
       setError(null);
       reset();

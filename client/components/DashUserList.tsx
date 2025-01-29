@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { deleteUserByUuid, handlePaymentState } from "../lib/api";
+import React, { useEffect, useState } from "react";
+import { deleteUserByUuid, handlePaymentState, getUsers } from "../lib/api";
 import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import { BiCodeAlt } from "react-icons/bi";
@@ -8,18 +8,23 @@ import { ButtonDelete } from "./ButtonDelete";
 import { ButtonStateAccount } from "./ButtonStateAccount";
 import { TUser } from "../types/typeUser";
 
-interface DashUsersListProps {
-  users: TUser[];
-}
-
-export const DashUsersList = ({ users }: DashUsersListProps) => {
+export const DashUsersList = () => {
   const [payment, setPayment] = useState(true);
+  const [users, setUsers] = useState<TUser[]>([]);
   const messagesAdmin: TMessage = {
     messageOne: "Membership Information",
     messageTwo: "Manage user information effectively.",
     messageThree: "",
     messageFour: "",
   };
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const data = await getUsers();
+      setUsers(data || []);
+    };
+    fetchUsers();
+  }, []);
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-700 font-sans">
@@ -35,14 +40,9 @@ export const DashUsersList = ({ users }: DashUsersListProps) => {
         </h1>
       </div>
 
-      <UseText
-        messageOne={messagesAdmin.messageOne}
-        messageTwo={messagesAdmin.messageTwo}
-        messageThree=""
-        messageFour=""
-      />
+      <UseText {...messagesAdmin} />
 
-      <div className="space-y-6 mt-6">```
+      <div className="space-y-6 mt-6">
         {users?.map((user) => (
           <details
             key={user.uuid}

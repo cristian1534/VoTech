@@ -73,6 +73,7 @@ const CardsGrid = () => {
     }
   };
 
+
   useEffect(() => {
     const fetchCards = async () => {
       try {
@@ -103,7 +104,7 @@ const CardsGrid = () => {
     };
     fetchCards();
     fetchUsers();
-  }, [cards, stateOfPayment, sessionEmail]);
+  }, [sessionEmail]);
 
   if (isLoading) {
     return (

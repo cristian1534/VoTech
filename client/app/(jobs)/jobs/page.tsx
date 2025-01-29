@@ -3,7 +3,6 @@ import { JobsList } from "../../../components/JobsList";
 import { UseText } from "../../../customHooks/useText";
 import { TMessage } from "../../../types/typeMessages";
 
-
 const messagesJobs: TMessage = {
   messageOne: "Explore our Job Offerings.",
   messageTwo:
@@ -16,12 +15,7 @@ const page = () => {
   return (
     <div>
       <div className="bg-white container mx-auto mt-5">
-        <UseText
-          messageOne={messagesJobs.messageOne}
-          messageTwo={messagesJobs.messageTwo}
-          messageThree={messagesJobs.messageThree}
-          messageFour={messagesJobs.messageFour}
-        />
+        <UseText {...messagesJobs} />
       </div>
       <JobsList />
     </div>

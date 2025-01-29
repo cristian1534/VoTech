@@ -21,7 +21,7 @@ const ContactForm: React.FC = () => {
   const onSubmit = async (data: TContact): Promise<void> => {
     try {
       setIsLoading(true);
-      await fetch("https://votech.onrender.com/contacts", {
+      await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/contacts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

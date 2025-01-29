@@ -10,7 +10,7 @@ import { IconSlider } from "../../../../components/Stack";
 
 
 async function getProjectById(uuid: string): Promise<TProject | null> {
-  const res = await fetch(`https://votech.onrender.com/projects/${uuid}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/projects/${uuid}`, {
     next: { revalidate: 10 },
   });
 

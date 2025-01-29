@@ -22,7 +22,7 @@ export function Subscribe() {
     try {
       setIsLoading(true);
 
-      await axios.post("https://votech.onrender.com/newsletter", data);
+      await axios.post(`${process.env.URL_DEV}/newsletter`, data);
       reset();
       setMessage("Thank you for subscribing!");
 

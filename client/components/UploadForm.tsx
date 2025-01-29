@@ -5,9 +5,9 @@ import { TUpload } from "../types/typeUpload";
 import axios from "axios";
 
 export const UploadForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string>();
   const [error, setError] = useState<string | null>();
+  const [message, setMessage] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -30,7 +30,7 @@ export const UploadForm = () => {
   
       const projectData = { ...data, technologies, members };
   
-      await axios.post<TUpload>("https://votech.onrender.com/portfolio", projectData);
+      await axios.post<TUpload>(`${process.env.NEXT_PUBLIC_URL_DEV}/portfolio`, projectData);
       
       reset();
       setIsLoading(false);

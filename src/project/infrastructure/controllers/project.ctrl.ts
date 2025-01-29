@@ -15,11 +15,9 @@ export class ProjectController {
   ): Promise<any> => {
     try {
       const { error, value } = projectSchema.validate(body);
-      if (error)
-        return this.httpResponse.BadRequest(
-          res,
-          "Please fill up with valid information"
-        );
+      if (error) {
+        return this.httpResponse.BadRequest(res, error.details[0].message);
+      }
 
       const project = await this.projectUseCase.addProject(value);
 

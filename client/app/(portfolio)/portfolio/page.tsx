@@ -3,7 +3,7 @@ import { TPortfolio } from "../../../types/typePortfolio";
 import { BackButton } from "../../../components/BackButton";
 
 export default async function Page() {
-  const response = await fetch("https://votech.onrender.com/portfolio/", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL_DEV}/portfolio/`, {
     cache: "no-store", 
   });
   const data = await response.json();

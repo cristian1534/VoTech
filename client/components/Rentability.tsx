@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { TSubscription } from "../types/typeSubscriptions";
 import {
@@ -13,13 +13,21 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { getSubscriptions } from "../lib/api";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 
-interface RentabilityProps {
-  userSubscriptions: TSubscription[];
-}
-export const Rentability = ({ userSubscriptions }: RentabilityProps) => {
+export const Rentability = () => {
+  const [userSubscriptions, setUserSubscriptions] = useState<TSubscription[]>([]);
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      const subscriptions = await getSubscriptions();
+      setUserSubscriptions(subscriptions || []);
+    };
+    fetchSubscriptions();
+  }, []);
+  
   const monthlyData = userSubscriptions.reduce(
     (acc: Record<string, { new: number; canceled: number }>, sub) => {
       const startDate = new Date(sub.start_date);

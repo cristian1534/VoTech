@@ -8,9 +8,9 @@ import { useSession } from "../context/SessionContext";
 
 export const CreateProjectForm: React.FC = () => {
   const [error, setError] = useState<string | null>();
-  const [message, setMessage] = useState("");
-  const router = useRouter();
+  const [message, setMessage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const { sessionToken: token } = useSession();
 
   const {
@@ -30,7 +30,7 @@ export const CreateProjectForm: React.FC = () => {
   
       const projectData = { ...data, technologies };
   
-      await axios.post<TProject>("https://votech.onrender.com/projects", projectData, {
+      await axios.post<TProject>(`${process.env.NEXT_PUBLIC_URL_DEV}/projects`, projectData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

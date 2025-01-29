@@ -31,6 +31,7 @@ export class ContactController {
   public getContacts = async (req: Request, res: Response): Promise<any> => {
     try {
       const contacts = await this.contactUseCase.getContacts();
+      console.log(contacts);
       return this.httpResponse.Ok(res, contacts);
     } catch (error) {
       console.error(error);

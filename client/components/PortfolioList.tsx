@@ -3,7 +3,6 @@ import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import SearchedPortfolio from "./SearchedPortfolio";
 
-
 interface PortfolioProps {
   projects: {
     image: string;
@@ -24,17 +23,11 @@ const messagesPortfolio: TMessage = {
   messageFour: "",
 };
 
-
 export const PortfolioList = ({ projects }: PortfolioProps) => {
   return (
     <div className="container mx-auto p-4">
       <div className="my-5">
-        <UseText
-          messageOne={messagesPortfolio.messageOne}
-          messageTwo={messagesPortfolio.messageTwo}
-          messageThree=""
-          messageFour=""
-        />
+        <UseText {...messagesPortfolio} />
       </div>
       <div className="container mx-auto p-2">
         <SearchedPortfolio projects={projects} />

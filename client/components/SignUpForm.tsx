@@ -28,7 +28,7 @@ export const SignUpForm: React.FC = () => {
     try {
       setIsLoading(true);
       setUser(data);
-      await axios.post("https://votech.onrender.com/users", data);
+      await axios.post(`${process.env.NEXT_PUBLIC_URL_DEV}/users`, data);
       reset();
       setIsLoading(false);
       setMessage("User registered successfully!");

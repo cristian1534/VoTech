@@ -1,23 +1,26 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TUserProject } from "@/types/typeUserProject";
 import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
+import { getAllUserProject } from "../lib/api";
 
-
-interface DashUserProjectListProps {
-  userProjects: TUserProject[];
-}
-
-export const DashUserProjectList = ({
-  userProjects,
-}: DashUserProjectListProps) => {
+export const DashUserProjectList = () => {
+  const [userProjects, setUserProjects] = useState<TUserProject[]>([]);
   const messagesAdmin: TMessage = {
     messageOne: "Teams and Projects",
     messageTwo: "Check information regarding what our Members have applied for.",
     messageThree: "",
     messageFour: "",
   };
+
+  useEffect(() => {
+    const fetchUserProjects = async () => {
+      const data = await getAllUserProject();
+      setUserProjects(data || []);
+    };
+    fetchUserProjects();
+   }, []);
 
   const groupedProjects = userProjects.reduce((acc, relation) => {
     if (!acc[relation.project_name]) {
@@ -30,10 +33,7 @@ export const DashUserProjectList = ({
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-400 font-sans">
       <UseText
-        messageOne={messagesAdmin.messageOne}
-        messageTwo={messagesAdmin.messageTwo}
-        messageThree=""
-        messageFour=""
+       {...messagesAdmin}
       />
 
       <div className="space-y-6 mt-6 mb-10">
