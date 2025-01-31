@@ -5,11 +5,13 @@ import { TUpload } from "../types/typeUpload";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { BiImage, BiCode, BiDetail, BiText, BiGroup, BiLink, BiGitBranch } from "react-icons/bi";
+import { useRouter } from "next/navigation";
 
 export const UploadForm = () => {
   const [error, setError] = useState<string | null>();
   const [message, setMessage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -40,6 +42,7 @@ export const UploadForm = () => {
       
       setTimeout(() => {
         setMessage("");
+        router.push("/portfolio");
       }, 1000);
     } catch (error: unknown) {
       setIsLoading(false);

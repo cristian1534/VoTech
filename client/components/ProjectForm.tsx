@@ -79,7 +79,7 @@ export const CreateProjectForm: React.FC = () => {
       >
         <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/50 shadow-xl">
           <h2 className="text-center mb-8 text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-            Share Your Project
+            Share Your Idea
           </h2>
 
           {message && (
