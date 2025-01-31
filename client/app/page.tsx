@@ -57,7 +57,7 @@ export default async function Home() {
             d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"
           ></path>
         </svg>
-        <span>🚀 WORKING ON THE SITE.<br/> PLEASE TRY LATER.</span>
+        <span>🚀 WORKING ON THE SITE 🚀<br/>BETA VERSION</span>
   
         <script
           dangerouslySetInnerHTML={{
