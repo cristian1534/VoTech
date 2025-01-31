@@ -24,13 +24,16 @@ export const Search: React.FC<SearchProps> = ({ projects, onSearch }) => {
     const value = event.target.value.toLowerCase();
     setSearchTerm(value);
 
-    const filteredProjects = projects.filter((project) => 
-      project.title.toLowerCase().includes(value) ||
-      project.technologies.some(tech => 
-        typeof tech === 'string' && tech.toLowerCase().includes(value)
-      ) ||
-      project.description.toLowerCase().includes(value)
-    );
+    const filteredProjects = projects.filter((project) => {
+      if (!project) return false;
+      
+      const titleMatch = project.title?.toLowerCase().includes(value) || false;
+      const descriptionMatch = project.description?.toLowerCase().includes(value) || false;
+      const technologiesMatch = Array.isArray(project.technologies) && 
+        project.technologies.some(tech => tech?.toLowerCase().includes(value));
+
+      return titleMatch || technologiesMatch || descriptionMatch;
+    });
     onSearch(filteredProjects);
   };
 
@@ -50,7 +53,7 @@ export const Search: React.FC<SearchProps> = ({ projects, onSearch }) => {
           placeholder="Search projects by title, technology, or description..."
           value={searchTerm}
           onChange={handleSearch}
-          className="w-full pl-12 pr-12 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl text-gray-200 placeholder-gray-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+          className="font-sans w-full pl-12 pr-12 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl text-gray-200 placeholder-gray-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
         />
         {searchTerm && (
           <button

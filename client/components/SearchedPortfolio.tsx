@@ -41,13 +41,13 @@ export default function SearchedPortfolio({ projects, isLoading = false }: Searc
       
       {!filteredProjects.length && (
         <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
-          <p className="text-center text-orange-400">
+          <p className="font-sans text-center text-orange-400">
             No projects found matching your search criteria.
           </p>
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
         {filteredProjects.map((project, index) => (
           <div
             key={index}
