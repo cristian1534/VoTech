@@ -5,8 +5,8 @@ import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import { ButtonDelete } from "./ButtonDelete";
 import { TContact } from "../types/typeContact";
-import { BiUser, BiEnvelope, BiMessageDetail } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
+import { BiEnvelope, BiMessageDetail } from "react-icons/bi";
 
 export const DashContactList = () => {
   const [messages, setMessages] = useState<TContact[]>([]);

@@ -1,7 +1,7 @@
 import React from "react";
 import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
-import { BiServer, BiChat, BiMobile, BiHealth } from "react-icons/bi";
+import { BiChat, BiHealth, BiMobile } from "react-icons/bi";
 
 export const Servers = () => {
   const messagesServers: TMessage = {

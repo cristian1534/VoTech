@@ -44,7 +44,7 @@ export const Discord = () => {
                 variants={fadeIn({ direction: "right", delay: 0.6 })}
               >
                 <span className="text-2xl">🗳️</span>
-                <span>Challenges and voting on project ideas to help you put what you've learned into practice.</span>
+                <span>Challenges and voting on project ideas to help you put what you have learned into practice.</span>
               </motion.li>
               <motion.li 
                 className="flex items-start gap-3"

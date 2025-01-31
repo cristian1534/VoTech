@@ -75,7 +75,7 @@ export const About = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          Whether you're looking to improve your skills through real-world projects, expand your professional network, or gain visibility with recruiters, <strong className='text-orange-400'>VoTech</strong> is the perfect place to boost your career as a developer.
+          Whether you are looking to improve your skills through real-world projects, expand your professional network, or gain visibility with recruiters, <strong className='text-orange-400'>VoTech</strong> is the perfect place to boost your career as a developer.
         </motion.p>
       </div>
     </motion.section>

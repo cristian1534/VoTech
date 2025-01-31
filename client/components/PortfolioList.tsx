@@ -2,7 +2,6 @@ import React from "react";
 import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import SearchedPortfolio from "./SearchedPortfolio";
-import { BiCodeAlt } from "react-icons/bi";
 
 interface PortfolioProps {
   projects: {

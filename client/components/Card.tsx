@@ -47,6 +47,7 @@ const CardsGrid = () => {
   const { isOpen, openModal, closeModal } = useModal();
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const paymentWarning = () => (
     <div
       className="bg-red-400 border-t border-b border-orange-200 text-center text-white px-4 py-3 my-3 shadow-2xl font-sans rounded-md"
