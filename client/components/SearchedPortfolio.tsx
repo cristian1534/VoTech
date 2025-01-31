@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Search } from "./Search";
-import { BiLinkExternal, BiGitBranch, BiCode, BiGroup } from "react-icons/bi";
+import { BiLinkExternal, BiGitBranch, BiCode, BiGroup, BiLoaderAlt } from "react-icons/bi";
 
 interface Project {
   image: string;
@@ -17,14 +17,23 @@ interface Project {
 
 interface SearchedPortfolioProps {
   projects: Project[];
+  isLoading?: boolean;
 }
 
-export default function SearchedPortfolio({ projects }: SearchedPortfolioProps) {
+export default function SearchedPortfolio({ projects, isLoading = false }: SearchedPortfolioProps) {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
   const handleSearch = (filtered: Project[]) => {
     setFilteredProjects(filtered);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <BiLoaderAlt className="w-8 h-8 text-orange-400 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
