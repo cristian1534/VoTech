@@ -80,29 +80,29 @@ export default async function Home() {
   return (
     <div>
       <div>
-        <div className="container mx-auto" id="top">
+        <div id="top">
           <Banner />
           <BetaVersion />
         </div>
-        <div className="bg-white container mx-auto my-10">
+        <div className="my-10">
           <About />
         </div>
         <div className="bg-white container mx-auto my-10">
           <UseText {...messagesProjects} />
         </div>
-        <div className="container mx-auto">
+        <div>
           <Card />
         </div>
         <>
-          <div className="bg-white container mx-auto">
+          <div>
             <OpportunitiesList />
           </div>
           <div className="bg-white container mx-auto my-10">
             <UseText {...messagesPortfolio} />
-            <div className="bg-white container mx-auto text-center pb-4 font-sans">
+            <div className="bg-white container mx-auto text-center mt-8 pb-4 font-sans">
               <Link
                 href="/portfolio"
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white px-3 py-2 rounded-md"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white px-6 py-3 rounded-xl text-lg font-medium transition-all duration-300 hover:scale-105"
               >
                 PORTFOLIO
               </Link>
@@ -116,7 +116,7 @@ export default async function Home() {
         <div>
           <Discord />
         </div>
-        <div className="p-7 mb-10 container mx-auto">
+        <div>
           <ContactForm />
           <Subscribe />
         </div>

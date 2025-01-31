@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 export const Pricing = () => {
   return (
     <div>
-      <div className="relative text-gray-300" id="pricing">
+      <div className="relative text-gray-300 mb-4" id="pricing">
         <div
           aria-hidden="true"
           className="absolute inset-0 h-max w-full m-auto grid grid-cols-2 -space-x-52 opacity-20"

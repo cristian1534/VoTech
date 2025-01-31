@@ -27,49 +27,59 @@ export const DashUsersList = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-700 font-sans">
-      <div className="flex flex-col items-center justify-center text-center space-x-4 w-full  p-6  mb-8">
-        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">
-          Admin
-        </h1>
-        <span className="text-orange-500">
-          <BiCodeAlt size={48} />
-        </span>
-        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">
-          Dashboard
-        </h1>
+    <div className="font-sans bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 shadow-xl p-6">
+      <div className="flex flex-col items-center justify-center space-y-4 mb-8">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+          User Management
+        </h2>
+        <div className="p-3 rounded-xl bg-orange-500/10 text-orange-400">
+          <BiCodeAlt size={32} />
+        </div>
       </div>
 
       <UseText {...messagesAdmin} />
 
-      <div className="space-y-6 mt-6">
+      <div className="space-y-4 mt-6">
         {users?.map((user) => (
           <details
             key={user.uuid}
-            className="group border border-gray-200 p-4 rounded-lg bg-white shadow-md hover:shadow-xl transition-all"
+            className="group border border-gray-700/50 rounded-xl bg-gray-800/30 overflow-hidden transition-all duration-200 hover:bg-gray-800/50"
           >
-            <summary className="text-xl font-semibold cursor-pointer text-gray-400 group-open:text-orange-500 group-open:font-bold">
-              {user.name}
-            </summary>
-            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-sm sm:text-base bg-gray-50 p-4 rounded-md shadow-lg group-open:shadow-xl">
-              <div className="w-full flex items-center gap-3 text-gray-400">
-                <span className="font-medium text-orange-400">Email:</span>
-                <span className="text-gray-400">{user.email}</span>
+            <summary className="flex items-center justify-between p-4 cursor-pointer">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-400 to-yellow-500 flex items-center justify-center text-white font-medium">
+                  {user.name[0].toUpperCase()}
+                </div>
+                <span className="text-lg font-medium text-gray-300 group-open:text-orange-400 transition-colors">
+                  {user.name}
+                </span>
               </div>
-              <ButtonStateAccount
-                handlePaymentState={() =>
-                  handlePaymentState(user.uuid, payment, setPayment)
-                }
-                payment={payment}
-                uuid={user.uuid || ""}
-                className="mt-3 sm:mt-0"
-              />
-
-              <ButtonDelete
-                onDelete={deleteUserByUuid}
-                uuid={user.uuid || ""}
-                className="mt-3 sm:mt-0"
-              />
+              <div className="w-6 h-6 rounded-full border-2 border-gray-600 group-open:border-orange-400 group-open:bg-orange-400/10 transition-all duration-200" />
+            </summary>
+            
+            <div className="p-4 border-t border-gray-700/50 bg-gray-800/50">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-orange-400">Email:</span>
+                    <span className="text-gray-300">{user.email}</span>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <ButtonStateAccount
+                    handlePaymentState={() =>
+                      handlePaymentState(user.uuid, payment, setPayment)
+                    }
+                    payment={payment}
+                    uuid={user.uuid || ""}
+                  />
+                  <ButtonDelete
+                    onDelete={deleteUserByUuid}
+                    uuid={user.uuid || ""}
+                  />
+                </div>
+              </div>
             </div>
           </details>
         ))}

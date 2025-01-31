@@ -115,150 +115,184 @@ const CardsGrid = () => {
   }
 
   return (
-    <div className="mb-20 font-sans flex flex-col lg:flex-row gap-8">
-      <motion.div
-        className="g:w-1/4 bg-white flex flex-col items-center justify-center p-4 text-gray-400  border border-gray-200 rounded-sm shadow-lg space-y-4"
-        variants={fadeIn({ direction: "right", delay: 0.3 })}
-        initial="hidden"
-        whileInView={"show"}
-        viewport={{ once: false, amount: 0.3 }}
-        whileHover={{
-          scale: 1.02,
-          boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
-        }}
-      >
-        <div className="text-orange-400">
-          <BiChat size={50} />
-        </div>
-        <h3 className="text-orange-400 text-lg font-bold">Public Chat</h3>
-        <p className="mt-2 text-center">
-          Join our public chat! Find devs online to share any ideas or ask
-          questions to help each other at any time.
-        </p>
-        <Link
-          href="https://votech.onrender.com/"
-          target="blank"
-          className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
+    <div className="py-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 font-sans">
+      <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-8">
+        <motion.div
+          className="lg:w-1/4 bg-gray-800/50 backdrop-blur-sm flex flex-col items-center justify-center p-8 text-gray-300 border border-gray-700/50 rounded-xl shadow-xl"
+          variants={fadeIn({ direction: "right", delay: 0.3 })}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: false, amount: 0.3 }}
+          whileHover={{
+            scale: 1.02,
+            boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
+          }}
         >
-          Go to Chat
-        </Link>
-      </motion.div>
-      <div className="w-3/4 flex flex-col items-center justify-center mx-auto p-4 gap-6">
-        {!stateOfPayment && sessionEmail && paymentWarning()}
-        {!currentCards.length ? (
-          <div className="flex justify-center bg-orange-400 rounded-md mx-auto w-full">
-            <p className="text-center text-white p-2 w-full">
-              NO PROJECTS TO SHOW...
-            </p>
+          <div className="text-orange-400 mb-4">
+            <BiChat size={60} />
           </div>
-        ) : (
-          currentCards.map((card) => {
-            const maxVotes = 30;
-            const percentage = (card.votes / maxVotes) * 100;
-            return (
-              <motion.div
-                key={card.uuid}
-                variants={fadeIn({ direction: "right", delay: 0.3 })}
-                initial="hidden"
-                whileInView={"show"}
-                viewport={{ once: false, amount: 0.3 }}
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
-                }}
-                className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white border border-gray-200 rounded-sm shadow-lg transition-all duration-300 hover:shadow-xl md:w-full sm:w-1/3"
-              >
-                <div className="flex flex-col w-full md:w-2/3">
-                  <h5 className="text-xl font-bold text-orange-400">
-                    {card.name}
-                  </h5>
-                  <p className="text-gray-400 mt-2 line-clamp-3">
-                    {card.description}
-                  </p>
-                  <div className="flex items-center mt-4">
-                    <span className="mr-2 text-orange-300">Progress:</span>
-                    <div className="w-full bg-gray-200 rounded-full h-4">
-                      <div
-                        className="bg-orange-300 h-4 rounded-full"
-                        style={{ width: `${percentage}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-center gap-4">
-                    <Link
-                      href={`/projects/${card.uuid}`}
-                      className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
-                    >
-                      Details
-                    </Link>
-                    <button
-                      onClick={() => {
-                        setSelectedCardId(card.id);
-                        openModal();
-                      }}
-                      className={`px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all ${
-                        stateOfPayment === false
-                          ? "cursor-not-allowed opacity-50"
-                          : ""
-                      }`}
-                      disabled={stateOfPayment === false}
-                    >
-                      Apply
-                    </button>
-                    <div className="flex flex-col items-center justify-start gap-x-2 md:mt-0">
-                      <span className="font-sans font-bold text-orange-300">
-                        {card.votes}
-                      </span>
-                      <button
-                        className="text-red-500 hover:text-red-700 flex items-center"
-                        onClick={() => handleVoteUpdate(card.uuid)}
-                      >
-                        <BiSolidHeart size={24} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="relative w-full md:w-1/3 lg:w-2/3 xl:w-2/3 h-48 lg:h-64">
-                  <Image
-                    src={card.image.trimEnd()}
-                    alt={card.name}
-                    className="object-cover w-full h-full rounded-sm"
-                    fill
-                  />
-                </div>
-              </motion.div>
-            );
-          })
-        )}
-        <div className="flex justify-center mt-8 space-x-4 text-gray-400">
-          <button
-            onClick={() => changePage(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="p-2"
-          >
-            <BiSolidLeftArrow />
-          </button>
-          {getPageNeighbours(currentPage).map((page) => (
-            <button
-              key={page}
-              onClick={() => changePage(page)}
-              className={`p-2 rounded-sm ${
-                page === currentPage ? "bg-orange-300 text-white" : ""
-              }`}
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-4">Public Chat</h3>
+          <p className="mt-2 text-center mb-6">
+            Join our public chat! Find devs online to share any ideas or ask
+            questions to help each other at any time.
+          </p>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              href="https://votech.onrender.com/"
+              target="blank"
+              className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all shadow-lg shadow-orange-500/20"
             >
-              {page}
-            </button>
-          ))}
-          <button
-            onClick={() => changePage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="p-2"
-          >
-            <BiSolidRightArrow />
-          </button>
+              Go to Chat
+            </Link>
+          </motion.div>
+        </motion.div>
+
+        <div className="lg:w-3/4 flex flex-col items-center justify-center gap-6">
+          {!stateOfPayment && sessionEmail && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-500/10 border border-red-500/50 text-center px-6 py-4 rounded-xl w-full"
+            >
+              <p className="font-bold text-xl text-red-400">Subscription Expired</p>
+              <p className="text-gray-300">Please update your Payment.</p>
+            </motion.div>
+          )}
+
+          {!currentCards.length ? (
+            <motion.div 
+              className="flex justify-center bg-orange-500/20 border border-orange-500/50 rounded-xl w-full p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <p className="text-center text-orange-400">
+                NO PROJECTS TO SHOW...
+              </p>
+            </motion.div>
+          ) : (
+            currentCards.map((card) => {
+              const maxVotes = 30;
+              const percentage = (card.votes / maxVotes) * 100;
+              return (
+                <motion.div
+                  key={card.uuid}
+                  variants={fadeIn({ direction: "right", delay: 0.3 })}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.3 }}
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
+                  }}
+                  className="flex flex-col md:flex-row items-center gap-6 p-8 bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-xl w-full"
+                >
+                  <div className="flex flex-col w-full md:w-2/3">
+                    <h5 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-4">
+                      {card.name}
+                    </h5>
+                    <p className="text-gray-300 mb-6 line-clamp-3">
+                      {card.description}
+                    </p>
+                    <div className="flex items-center mb-6">
+                      <span className="mr-3 text-orange-400">Progress:</span>
+                      <div className="w-full bg-gray-700 rounded-full h-4">
+                        <div
+                          className="bg-gradient-to-r from-yellow-400 to-orange-500 h-4 rounded-full transition-all duration-500"
+                          style={{ width: `${percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <Link
+                          href={`/projects/${card.uuid}`}
+                          className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all shadow-lg shadow-orange-500/20"
+                        >
+                          Details
+                        </Link>
+                      </motion.div>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => {
+                          setSelectedCardId(card.id);
+                          openModal();
+                        }}
+                        className={`px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all shadow-lg shadow-orange-500/20 ${
+                          stateOfPayment === false
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
+                        disabled={stateOfPayment === false}
+                      >
+                        Apply
+                      </motion.button>
+                      <div className="flex flex-col items-center">
+                        <span className="font-bold text-orange-400 text-lg">
+                          {card.votes}
+                        </span>
+                        <motion.button
+                          whileHover={{ scale: 1.2 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="text-red-500 hover:text-red-400 transition-colors"
+                          onClick={() => handleVoteUpdate(card.uuid)}
+                        >
+                          <BiSolidHeart size={28} />
+                        </motion.button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative w-full md:w-1/3 h-64 rounded-xl overflow-hidden">
+                    <Image
+                      src={card.image.trimEnd()}
+                      alt={card.name}
+                      className="object-cover"
+                      fill
+                    />
+                  </div>
+                </motion.div>
+              );
+            })
+          )}
+
+          <div className="flex justify-center mt-8 space-x-4">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => changePage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-3 text-orange-400 hover:text-orange-300 disabled:opacity-50"
+            >
+              <BiSolidLeftArrow />
+            </motion.button>
+            {getPageNeighbours(currentPage).map((page) => (
+              <motion.button
+                key={page}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => changePage(page)}
+                className={`p-3 rounded-lg ${
+                  page === currentPage
+                    ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-white"
+                    : "text-gray-400 hover:text-orange-400"
+                }`}
+              >
+                {page}
+              </motion.button>
+            ))}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => changePage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="p-3 text-orange-400 hover:text-orange-300 disabled:opacity-50"
+            >
+              <BiSolidRightArrow />
+            </motion.button>
+          </div>
         </div>
+        <Modal closeModal={closeModal} isOpen={isOpen} id={selectedCardId} />
       </div>
-      <Modal closeModal={closeModal} isOpen={isOpen} id={selectedCardId} />
     </div>
   );
 };

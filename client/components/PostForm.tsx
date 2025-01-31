@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { Job } from "../types/typeJobs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { BiText, BiDetail, BiEnvelope } from "react-icons/bi";
 
 export const PostForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,95 +59,95 @@ export const PostForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
-      <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl">
-        <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-          Offering a Job?
-        </h2>
-        {message && (
-          <div
-            className={`${
-              error ? "bg-red-500" : "bg-green-500"
-            } text-white p-2 rounded mb-4 text-center`}
-          >
-            {message}
-          </div>
-        )}
-        <form className="mb-10" onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Job Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              {...register("title", { required: "Title is required" })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400 text-gray-400"
-            />
-            {errors.title && (
-              <span className="text-orange-500">{errors.title.message}</span>
-            )}
-          </div>
+    <div className="font-sans min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-2xl mx-auto"
+      >
+        <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/50 shadow-xl">
+          <h2 className="text-center mb-8 text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+            Post a Job Opportunity
+          </h2>
 
-          <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-400"
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`${
+                error ? "bg-red-500/10 border-red-500/50 text-red-400" : "bg-green-500/10 border-green-500/50 text-green-400"
+              } border p-4 rounded-xl mb-6 text-center`}
             >
-              Job Description
-            </label>
-            <textarea
-              id="description"
-              {...register("description", {
-                required: "Description is required",
-              })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-              style={{ resize: "none" }}
-            />
-            {errors.description && (
-              <span className="text-orange-500">
-                {errors.description.message}
-              </span>
-            )}
-          </div>
+              {message}
+            </motion.div>
+          )}
 
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Your Email
-            </label>
-            <input
-              type="email"
-              id="contact"
-              {...register("contact", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: "This email is not valid",
-                },
-              })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
-            />
-            {errors.contact && (
-              <span className="text-orange-500">{errors.contact.message}</span>
-            )}
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-gray-300">
+                <BiText className="text-xl" />
+                <span>Job Title</span>
+              </label>
+              <input
+                type="text"
+                {...register("title", { required: "Title is required" })}
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-orange-500 text-gray-200"
+                placeholder="Enter job title"
+              />
+              {errors.title && (
+                <span className="text-orange-400 text-sm">{errors.title.message}</span>
+              )}
+            </div>
 
-          <div className="flex justify-center items-center">
-            <button
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-gray-300">
+                <BiDetail className="text-xl" />
+                <span>Job Description</span>
+              </label>
+              <textarea
+                {...register("description", { required: "Description is required" })}
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-orange-500 text-gray-200 min-h-[120px]"
+                placeholder="Describe the job opportunity"
+              />
+              {errors.description && (
+                <span className="text-orange-400 text-sm">{errors.description.message}</span>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-gray-300">
+                <BiEnvelope className="text-xl" />
+                <span>Contact Email</span>
+              </label>
+              <input
+                type="email"
+                {...register("contact", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-orange-500 text-gray-200"
+                placeholder="your@email.com"
+              />
+              {errors.contact && (
+                <span className="text-orange-400 text-sm">{errors.contact.message}</span>
+              )}
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
-              className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300 w-full"
+              disabled={isLoading}
+              className="w-full py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white rounded-xl font-medium shadow-lg shadow-orange-500/20 transition-all duration-300 disabled:opacity-50"
             >
-              {isLoading ? "Sending..." : "Send"}
-            </button>
-          </div>
-        </form>
-      </div>
+              {isLoading ? "Posting Job..." : "Post Job"}
+            </motion.button>
+          </form>
+        </div>
+      </motion.div>
     </div>
   );
 };

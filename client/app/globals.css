@@ -5,9 +5,19 @@
 body {
   height: 100%;
   padding-top: 70px;
+  background: linear-gradient(to bottom right, #111827, #1f2937, #111827);
 }
 
 html {
   height: 100%;
+}
+
+/* Add this to ensure components match the background during animations */
+section, div {
+  background-color: transparent;
+}
+
+[class*="bg-white"] {
+  background-color: transparent !important;
 }
 

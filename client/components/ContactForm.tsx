@@ -59,134 +59,135 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center items-center min-h-screen font-sans p-4 gap-6">
-      <motion.div
-        className="w-full lg:w-4/5 flex flex-col lg:flex-row gap-6"
-        variants={fadeIn({ direction: "right", delay: 0.3 })}
-        initial="hidden"
-        whileInView={"show"}
-        viewport={{ once: false, amount: 0.3 }}
-      >
-        <div className="w-full lg:w-3/5 bg-white p-8 rounded-lg shadow-2xl">
-          <p className="text-center my-5 text-2xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
-            Still thinking about?
-          </p>
-
-          {response && (
-            <div
-              className={`${
-                error ? "bg-red-500" : "bg-green-500"
-              } text-white p-2 rounded mb-4 text-center`}
-            >
-              {response}
-            </div>
-          )}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-400"
-              >
-                Your Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                {...register("name", { required: "Name is required" })}
-                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
-              />
-              {errors.name && (
-                <span className="text-orange-500">{errors.name.message}</span>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-400"
-              >
-                Your Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                    message: "This email is not valid",
-                  },
-                })}
-                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
-              />
-              {errors.email && (
-                <span className="text-orange-500">{errors.email.message}</span>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="messages"
-                className="block text-sm font-medium text-gray-400"
-              >
-                Your Message
-              </label>
-              <input
-                type="text"
-                id="message"
-                {...register("message", { required: "Message is required" })}
-                className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
-              />
-              {errors.name && (
-                <span className="text-orange-500">
-                  {errors.message?.message}
-                </span>
-              )}
-            </div>
-            <div className="flex justify-center items-center">
-              <button
-                type="submit"
-                className="w-full mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
-              >
-                {isLoading ? "Sending..." : "Send"}
-              </button>
-            </div>
-          </form>
-        </div>
-
+    <motion.div
+      className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 font-sans"
+      variants={fadeIn({ direction: "up", delay: 0.2 })}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.3 }}
+    >
+      <div className="container max-w-6xl mx-auto px-4 relative z-10">
         <motion.div
-          className="w-full lg:w-2/4 bg-white flex flex-col items-center justify-center p-4 text-gray-400 border border-gray-200 rounded-sm shadow-lg space-y-4"
-          variants={fadeIn({ direction: "right", delay: 0.3 })}
-          initial="hidden"
-          whileInView={"show"}
-          viewport={{ once: false, amount: 0.3 }}
-          whileHover={{
-            scale: 1.02,
-            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
-          }}
+          className="flex flex-col lg:flex-row gap-8"
+          variants={fadeIn({ direction: "up", delay: 0.3 })}
         >
-          <h1 className="text-orange-400 text-xl font-bold">
-            Start Your Freelance Journey!
-          </h1>
-          <p className="mt-2 text-center flex flex-col space-y-4">
-            <span> 💻Take your first step into freelancing! 🚀 </span>
-            <b />
-            ✅ Remote projects. <b />
-            ✅ Build your portfolio. <b />
-            ✅ Gain real-world experience. <b />
-            🌟 Passion for coding is all you need! <b />
-            📩 Apply now and grow with us.
-          </p>
+          <div className="w-full lg:w-3/5 bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50">
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent"
+              variants={fadeIn({ direction: "down", delay: 0.4 })}
+            >
+              Still thinking about?
+            </motion.h2>
 
-          <Link
-            href="/jobs"
-            className="px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-yellow-400 transition-all"
+            {response && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`${
+                  error ? "bg-red-500/10 border-red-500/50" : "bg-green-500/10 border-green-500/50"
+                } border text-${error ? "red" : "green"}-400 p-4 rounded-lg mb-6 text-center`}
+              >
+                {response}
+              </motion.div>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-gray-300 text-sm">Your Name</label>
+                <input
+                  {...register("name", { required: "Name is required" })}
+                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg focus:outline-none focus:border-orange-500 text-gray-200"
+                  placeholder="Enter your name"
+                />
+                {errors.name && (
+                  <span className="text-orange-400 text-sm">{errors.name.message}</span>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-gray-300 text-sm">Your Email</label>
+                <input
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg focus:outline-none focus:border-orange-500 text-gray-200"
+                  placeholder="Enter your email"
+                />
+                {errors.email && (
+                  <span className="text-orange-400 text-sm">{errors.email.message}</span>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-gray-300 text-sm">Your Message</label>
+                <textarea
+                  {...register("message", { required: "Message is required" })}
+                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg focus:outline-none focus:border-orange-500 text-gray-200 h-32 resize-none"
+                  placeholder="Type your message here..."
+                />
+                {errors.message && (
+                  <span className="text-orange-400 text-sm">{errors.message.message}</span>
+                )}
+              </div>
+
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white rounded-lg font-medium shadow-lg shadow-orange-500/20 transition-all duration-300"
+              >
+                {isLoading ? "Sending..." : "Send Message"}
+              </motion.button>
+            </form>
+          </div>
+
+          <motion.div
+            className="w-full lg:w-2/5 bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50"
+            variants={fadeIn({ direction: "left", delay: 0.5 })}
           >
-            Go to Jobs
-          </Link>
+            <h2 className="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-6">
+              Start Your Freelance Journey!
+            </h2>
+            <div className="space-y-4 text-gray-300 text-center">
+              <p className="text-xl">💻 Take your first step into freelancing! 🚀</p>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-green-400">✓</span> Remote projects
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-green-400">✓</span> Build your portfolio
+                </li>
+                <li className="flex items-center gap-2 justify-center">
+                  <span className="text-green-400">✓</span> Gain real-world experience
+                </li>
+              </ul>
+              <p className="text-orange-400">🌟 Passion for coding is all you need!</p>
+              <p>📩 Apply now and grow with us.</p>
+            </div>
+
+            <motion.div 
+              className="mt-8 flex justify-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link
+                href="/jobs"
+                className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white rounded-lg shadow-lg shadow-orange-500/20 transition-all duration-300"
+              >
+                Explore Jobs
+              </Link>
+            </motion.div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </div>
+      </div>
+
+      <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
+      <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
+    </motion.div>
   );
 };
 

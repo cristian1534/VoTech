@@ -39,7 +39,6 @@ export const SignInForm: React.FC = () => {
 
       if (token) {
         Cookies.set("token", token, { secure: true, sameSite: "strict" });
-
         setSession(token);
         setSessionUser(response.data?.data.name);
         setSessionEmail(response.data?.data.email);
@@ -86,92 +85,102 @@ export const SignInForm: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
-      <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-        <motion.h2
-          className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent"
-          variants={fadeIn({ direction: "right", delay: 0.3 })}
-          initial="hidden"
-          whileInView={"show"}
-          viewport={{ once: false, amount: 0.7 }}
+    <motion.div
+      className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen py-16 font-sans"
+      variants={fadeIn({ direction: "up", delay: 0.2 })}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.3 }}
+    >
+      <div className="container max-w-lg mx-auto px-4 relative z-10">
+        <motion.div
+          className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-700/50"
+          variants={fadeIn({ direction: "up", delay: 0.3 })}
         >
-          Ready to Code!
-        </motion.h2>
-        {message && (
-          <div
-            className={`${
-              error ? "bg-red-500" : "bg-green-500"
-            } text-white p-2 rounded mb-4 text-center`}
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent"
+            variants={fadeIn({ direction: "down", delay: 0.4 })}
           >
-            {message}
-          </div>
-        )}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Your Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: "This email is not valid",
-                },
-              })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
-            />
-            {errors.email && (
-              <span className="text-orange-500">{errors.email.message}</span>
-            )}
-          </div>
+            Ready to Code!
+          </motion.h2>
 
-          <div className="mb-4">
-            <div className="flex items-center text-gray-400">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-400"
-              >
-                Password (min 8 characters)
-              </label>
-              <BiShow
-                className="ml-auto"
-                size={20}
-                onClick={handleShowPassword}
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`${
+                error ? "bg-red-500/10 border-red-500/50" : "bg-green-500/10 border-green-500/50"
+              } border text-${error ? "red" : "green"}-400 p-4 rounded-lg mb-6 text-center`}
+            >
+              {message}
+            </motion.div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-gray-300 text-sm">Your Email</label>
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg focus:outline-none focus:border-orange-500 text-gray-200"
+                placeholder="Enter your email"
               />
+              {errors.email && (
+                <span className="text-orange-400 text-sm">{errors.email.message}</span>
+              )}
             </div>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-              })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-yellow-400 text-gray-400"
-            />
-            {errors.password && (
-              <span className="text-orange-500">{errors.password.message}</span>
-            )}
-          </div>
-          <div className="flex justify-center items-center">
-            <button
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-gray-300 text-sm">Password</label>
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={handleShowPassword}
+                  className="text-gray-400 hover:text-orange-400"
+                >
+                  <BiShow size={20} />
+                </motion.button>
+              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg focus:outline-none focus:border-orange-500 text-gray-200"
+                placeholder="Enter your password"
+              />
+              {errors.password && (
+                <span className="text-orange-400 text-sm">{errors.password.message}</span>
+              )}
+            </div>
+
+            <motion.button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white rounded-lg font-medium shadow-lg shadow-orange-500/20 transition-all duration-300 disabled:opacity-50"
             >
-              {isLoading ? "Sending..." : "Send"}
-            </button>
-          </div>
-        </form>
+              {isLoading ? "Signing in..." : "Sign In"}
+            </motion.button>
+          </form>
+        </motion.div>
       </div>
-    </div>
+
+      <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
+      <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
+    </motion.div>
   );
 };

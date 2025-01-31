@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { JobCard } from "./JobCard";
 import { BackButton } from "./BackButton";
 import { usePagination } from "../customHooks/usePagination";
-import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import { BiSolidLeftArrow, BiSolidRightArrow, BiPackage } from "react-icons/bi";
 import { getJobs } from "../lib/api";
 import { Job } from '../types/typeJobs';
-
+import { motion } from "framer-motion";
 
 export const JobsList = () => {
   const [mockData, setMockData] = useState<Job[]>([]);
@@ -31,61 +31,74 @@ export const JobsList = () => {
   }, [offset, pageLimit]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {!currentJobs.length ? (
-          <div className="flex justify-center bg-orange-400 rounded-md mx-auto w-full">
-            <p className="text-center text-white p-2 w-full">
-              NO PROJECTS TO SHOW...
-            </p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-8 text-center"
+          >
+            <BiPackage className="mx-auto text-4xl text-orange-400 mb-3" />
+            <p className="text-gray-300">No job listings available at the moment.</p>
+          </motion.div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {currentJobs.map((job) => (
-                  <JobCard
-                    key={job.uuid}
-                    uuid={job.uuid}
-                    title={job.title}
-                    description={job.description}
-                    contact={job.contact}
-                  />
+                <JobCard
+                  key={job.uuid}
+                  uuid={job.uuid}
+                  title={job.title}
+                  description={job.description}
+                  contact={job.contact}
+                />
               ))}
             </div>
 
-            <div className="flex justify-center mt-8 text-gray-400 font-sans">
-              <div className="flex">
-                <button
+            <div className="flex justify-center mt-8">
+              <div className="flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-2">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   disabled={currentPage === 1}
                   onClick={() => changePage(currentPage - 1)}
-                  className="p-2"
+                  className="p-2 rounded-lg text-gray-400 hover:text-orange-400 disabled:opacity-50 disabled:hover:text-gray-400"
                 >
                   <BiSolidLeftArrow />
-                </button>
+                </motion.button>
+
                 {getPageNeighbours(currentPage).map((page) => (
-                  <button
+                  <motion.button
                     key={page}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={() => changePage(page)}
-                    className={`rounded-sm p-2 ${
-                      currentPage === page ? "bg-orange-300 text-white" : ""
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                      currentPage === page
+                        ? "bg-orange-500/20 text-orange-400"
+                        : "text-gray-400 hover:text-orange-400"
                     }`}
                   >
                     {page}
-                  </button>
+                  </motion.button>
                 ))}
-                <button
+
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   disabled={currentPage === totalPages}
                   onClick={() => changePage(currentPage + 1)}
-                  className="p-2"
+                  className="p-2 rounded-lg text-gray-400 hover:text-orange-400 disabled:opacity-50 disabled:hover:text-gray-400"
                 >
                   <BiSolidRightArrow />
-                </button>
+                </motion.button>
               </div>
             </div>
           </>
         )}
 
-        <div className="flex justify-center mt-8 mr-4">
+        <div className="flex justify-center mt-8">
           <BackButton />
         </div>
       </div>

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { TUpload } from "../types/typeUpload";
 import axios from "axios";
+import { motion } from "framer-motion";
+import { BiImage, BiCode, BiDetail, BiText, BiGroup, BiLink, BiGitBranch } from "react-icons/bi";
 
 export const UploadForm = () => {
   const [error, setError] = useState<string | null>();
@@ -68,170 +70,78 @@ export const UploadForm = () => {
   };
   
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-6 font-sans">
-      <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl">
-        <h2 className="text-center my-6 text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-          Show Task
-        </h2>
-        {message && (
-          <div
-            className={`${
-              error ? "bg-red-500" : "bg-green-500"
-            } text-white p-2 rounded mb-4 text-center`}
-          >
-            {message}
-          </div>
-        )}
-        <form onSubmit={handleSubmit(onSubmit)} className="mb-10">
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Project Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              {...register("title", { required: "Title is required" })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400 text-gray-400"
-            />
-            {errors.title && (
-              <span className="text-orange-500">{errors.title.message}</span>
-            )}
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-20 px-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-2xl mx-auto"
+      >
+        <div className="font-sans bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700/50 shadow-xl">
+          <h2 className="text-center mb-8 text-4xl font-bold bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">
+            Share Your Project
+          </h2>
 
-          <div className="mb-4">
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-400"
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`${
+                error ? "bg-red-500/10 border-red-500/50 text-red-400" : "bg-green-500/10 border-green-500/50 text-green-400"
+              } border p-4 rounded-xl mb-6 text-center`}
             >
-              Project Description
-            </label>
-            <textarea
-              id="description"
-              {...register("description", {
-                required: "Description is required",
-              })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-              style={{ resize: "none" }}
-            />
-            {errors.description && (
-              <span className="text-orange-500">
-                {errors.description.message}
-              </span>
-            )}
-          </div>
+              {message}
+            </motion.div>
+          )}
 
-          <div className="mb-4">
-            <label
-              htmlFor="technologies"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Technologies
-            </label>
-            <input
-              type="text"
-              id="technologies"
-              {...register("technologies", {
-                required: "Technologies are required",
-              })}
-              placeholder="e.g., React, Node.js, Docker"
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-            />
-            {errors.technologies && (
-              <span className="text-orange-500">
-                {errors.technologies.message}
-              </span>
-            )}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="members"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Members
-            </label>
-            <input
-              type="text"
-              id="members"
-              {...register("members", { required: "Members are required" })}
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-            />
-            {errors.members && (
-              <span className="text-orange-500">{errors.members.message}</span>
-            )}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="technologies"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Deployment
-            </label>
-            <input
-              type="text"
-              id="deployment"
-              {...register("deployment", {
-                required: "Deployment is required",
-              })}
-              placeholder="https://..."
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-            />
-            {errors.deployment && (
-              <span className="text-orange-500">
-                {errors.deployment.message}
-              </span>
-            )}
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="technologies"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Github
-            </label>
-            <input
-              type="text"
-              id="github"
-              {...register("github", { required: "Github is required" })}
-              placeholder="https://..."
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-            />
-            {errors.github && (
-              <span className="text-orange-500">{errors.github.message}</span>
-            )}
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {[
+              { icon: BiText, label: "Project Title", name: "title", type: "text" },
+              { icon: BiDetail, label: "Project Description", name: "description", type: "textarea" },
+              { icon: BiCode, label: "Technologies", name: "technologies", type: "text", placeholder: "React, Node.js, Docker" },
+              { icon: BiGroup, label: "Team Members", name: "members", type: "text" },
+              { icon: BiLink, label: "Deployment URL", name: "deployment", type: "url", placeholder: "https://..." },
+              { icon: BiGitBranch, label: "GitHub URL", name: "github", type: "url", placeholder: "https://..." },
+              { icon: BiImage, label: "Project Image URL", name: "image", type: "url", placeholder: "https://example.com/image.jpg" },
+            ].map(({ icon: Icon, label, name, type, placeholder }) => (
+              <div key={name} className="space-y-2">
+                <label className="flex items-center gap-2 text-gray-300">
+                  <Icon className="text-xl" />
+                  <span>{label}</span>
+                </label>
+                {type === "textarea" ? (
+                  <textarea
+                    {...register(name as keyof TUpload, { required: `${label} is required` })}
+                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-orange-500 text-gray-200 min-h-[120px]"
+                    placeholder={placeholder}
+                  />
+                ) : (
+                  <input
+                    type={type}
+                    {...register(name as keyof TUpload, { required: `${label} is required` })}
+                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-xl focus:outline-none focus:border-orange-500 text-gray-200"
+                    placeholder={placeholder}
+                  />
+                )}
+                {errors[name as keyof TUpload] && (
+                  <span className="text-orange-400 text-sm">
+                    {errors[name as keyof TUpload]?.message}
+                  </span>
+                )}
+              </div>
+            ))}
 
-          <div className="mb-4">
-            <label
-              htmlFor="imageUrl"
-              className="block text-sm font-medium text-gray-400"
-            >
-              Project Image URL
-            </label>
-            <input
-              type="url"
-              id="imageUrl"
-              {...register("image", { required: "Image URL is required" })}
-              placeholder="https://example.com/image.jpg"
-              className="w-full px-4 py-2 border-b-2 border-gray-300 focus:ring-0 focus:outline-none focus:border-orange-400  text-gray-400"
-            />
-            {errors.image && (
-              <span className="text-orange-500">{errors.image.message}</span>
-            )}
-          </div>
-
-          <div className="flex justify-center items-center">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
-              className="mt-4 text-white px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300 w-full"
+              disabled={isLoading}
+              className="w-full py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white rounded-xl font-medium shadow-lg shadow-orange-500/20 transition-all duration-300 disabled:opacity-50"
             >
-              {isLoading ? "Sending..." : "Send"}
-            </button>
-          </div>
-        </form>
-      </div>
+              {isLoading ? "Uploading Project..." : "Upload Project"}
+            </motion.button>
+          </form>
+        </div>
+      </motion.div>
     </div>
   );
 };

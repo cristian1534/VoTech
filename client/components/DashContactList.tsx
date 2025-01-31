@@ -5,9 +5,13 @@ import { UseText } from "../customHooks/useText";
 import { TMessage } from "../types/typeMessages";
 import { ButtonDelete } from "./ButtonDelete";
 import { TContact } from "../types/typeContact";
+import { BiUser, BiEnvelope, BiMessageDetail } from "react-icons/bi";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const DashContactList = () => {
   const [messages, setMessages] = useState<TContact[]>([]);
+  const [openMessage, setOpenMessage] = useState<string | null>(null);
+
   const messagesAdmin: TMessage = {
     messageOne: "Messages from Memberships",
     messageTwo: "Keeping in touch with our community.",
@@ -24,38 +28,75 @@ export const DashContactList = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-white container mx-auto p-6 md:p-10 text-gray-700 font-sans">
-      <UseText {...messagesAdmin} />
+    <div className="font-sans bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 shadow-xl p-6">
+      <div className="mb-8">
+        <UseText {...messagesAdmin} />
+      </div>
 
-      <div className="space-y-6 mt-6 mb-10">
-        {messages.length === 0 && (
-          <div className="text-center text-orange-400 text-lg font-semibold">
-            No messages yet.
+      <div className="space-y-4">
+        {messages.length === 0 ? (
+          <div className="text-center p-8 bg-gray-800/30 rounded-xl border border-gray-700/50">
+            <BiMessageDetail className="mx-auto text-4xl text-orange-400 mb-3" />
+            <p className="text-gray-400">No messages yet.</p>
           </div>
+        ) : (
+          messages.map((message) => (
+            <motion.div
+              key={message.uuid}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="border border-gray-700/50 rounded-xl overflow-hidden bg-gray-800/30"
+            >
+              <button
+                onClick={() => setOpenMessage(openMessage === message.uuid ? null : message.uuid || null)}
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-gray-700/20 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-400 to-yellow-500 flex items-center justify-center text-white font-medium">
+                    {message.name[0].toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="text-gray-300 font-medium">
+                      {message.name}
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                      <BiEnvelope />
+                      {message.email}
+                    </div>
+                  </div>
+                </div>
+                <div className="text-gray-400">
+                  <BiMessageDetail className="text-xl" />
+                </div>
+              </button>
+
+              <AnimatePresence>
+                {openMessage === message.uuid && (
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: "auto" }}
+                    exit={{ height: 0 }}
+                    className="overflow-hidden border-t border-gray-700/50"
+                  >
+                    <div className="p-4 space-y-4">
+                      <div className="bg-gray-700/20 rounded-lg p-4">
+                        <div className="flex items-start justify-between gap-4">
+                          <p className="text-gray-300 whitespace-pre-wrap flex-1">
+                            {message.message}
+                          </p>
+                          <ButtonDelete
+                            onDelete={deleteMessageByUuid}
+                            uuid={message.uuid || ""}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))
         )}
-        {messages?.map((message) => (
-          <details
-            key={message.uuid}
-            className="group border border-gray-200 p-4 rounded-lg bg-white shadow-md hover:shadow-xl transition-all"
-          >
-            <summary className="text-xl font-semibold cursor-pointer text-gray-400 group-open:text-orange-500 group-open:font-bold">
-              {message.name}
-            </summary>
-            <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-sm sm:text-base bg-gray-50 p-4 rounded-md shadow-lg group-open:shadow-xl">
-              <div className="w-full flex items-center gap-3 text-gray-400">
-                <span className="font-medium text-orange-400">Email:</span>
-                <span className="text-gray-400">{message.email}</span>
-                <span className="font-medium text-orange-400">Message:</span>
-                <span className="text-gray-400">{message.message}</span>
-              </div>
-              <ButtonDelete
-                onDelete={deleteMessageByUuid}
-                uuid={message.uuid || ""}
-                className="mt-3 sm:mt-0"
-              />
-            </div>
-          </details>
-        ))}
       </div>
     </div>
   );

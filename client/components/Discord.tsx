@@ -6,63 +6,88 @@ import { fadeIn } from "../helpers/variants";
 export const Discord = () => {
   return (
     <motion.div
-      className="flex flex-col items-center justify-center py-12 px-4 bg-white font-sans container mx-auto shadow-2xl"
+      className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16 font-sans"
       variants={fadeIn({ direction: "up", delay: 0.3 })}
       initial="hidden"
       whileInView={"show"}
       viewport={{ once: false, amount: 0.3 }}
-      whileHover={{
-        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.45)",
-        transition: { type: "spring", stiffness: 300, damping: 20 },
-      }}
     >
-      <div className="max-w-screen-lg mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-transparent bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text">
-          Join Our VoTech Community on Discord! 🚀
-        </h2>
-        <p className="mt-6 text-lg md:text-xl font-medium text-gray-400">
-          Are you a junior developer eager to improve your skills and connect
-          with other talents? Then our Discord community is the perfect place
-          for you! 🎯
-        </p>
-        <p className="mt-4 text-lg md:text-xl font-medium text-gray-400">
-          At VoTech, we believe that collaboration and continuous learning are
-          key to professional growth. By joining our community, you will get
-          access to:
-        </p>
-        <ul className="mt-4 text-lg md:text-xl font-medium text-gray-400 list-inside list-disc">
-          <li>
-            🌟 **Spaces to share your projects** and get feedback from other
-            developers.
-          </li>
-          <li>
-            🗳️ **Challenges and voting** on project ideas to help you put what
-            you’ve learned into practice.
-          </li>
-          <li>
-            📚 **Resources and tutorials** to enhance your development skills.
-          </li>
-          <li>
-            🤝 **Networking opportunities** to connect with recruiters and other
-            professionals in the industry.
-          </li>
-        </ul>
-        <p className="mt-4 text-lg md:text-xl font-medium text-gray-400">
-          Whether you are an expert or just starting out, you will find a
-          friendly and supportive environment to grow, learn, and showcase your
-          work to those who value it the most.
-        </p>
-        <p className="mt-4 text-lg md:text-xl font-medium text-gray-400">
-          Grow your career with us and become part of a vibrant developer
-          community!
-        </p>
-        <a
-          href="https://discord.gg/g3UrMcSE"
-          className="mt-6 inline-block text-white px-6 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 transition-colors rounded-lg font-medium shadow-lg shadow-orange-300"
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div 
+          className="max-w-4xl mx-auto"
+          variants={fadeIn({ direction: "up", delay: 0.4 })}
         >
-          👉 **JOIN US ON DISCORD**
-        </a>
+          <h2 className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent mb-8">
+            Join Our VoTech Community on Discord! 🚀
+          </h2>
+          <div className="space-y-6 text-gray-300">
+            <p className="text-lg md:text-xl text-center">
+              Are you a junior developer eager to improve your skills and connect
+              with other talents? Then our Discord community is the perfect place
+              for you! 🎯
+            </p>
+            <p className="text-lg md:text-xl text-center">
+              At VoTech, we believe that collaboration and continuous learning are
+              key to professional growth. By joining our community, you will get
+              access to:
+            </p>
+            <ul className="space-y-4 text-lg md:text-xl pl-4">
+              <motion.li 
+                className="flex items-start gap-3"
+                variants={fadeIn({ direction: "right", delay: 0.5 })}
+              >
+                <span className="text-2xl">🌟</span>
+                <span>Spaces to share your projects and get feedback from other developers.</span>
+              </motion.li>
+              <motion.li 
+                className="flex items-start gap-3"
+                variants={fadeIn({ direction: "right", delay: 0.6 })}
+              >
+                <span className="text-2xl">🗳️</span>
+                <span>Challenges and voting on project ideas to help you put what you've learned into practice.</span>
+              </motion.li>
+              <motion.li 
+                className="flex items-start gap-3"
+                variants={fadeIn({ direction: "right", delay: 0.7 })}
+              >
+                <span className="text-2xl">📚</span>
+                <span>Resources and tutorials to enhance your development skills.</span>
+              </motion.li>
+              <motion.li 
+                className="flex items-start gap-3"
+                variants={fadeIn({ direction: "right", delay: 0.8 })}
+              >
+                <span className="text-2xl">🤝</span>
+                <span>Networking opportunities to connect with recruiters and other professionals in the industry.</span>
+              </motion.li>
+            </ul>
+            <p className="text-lg md:text-xl text-center">
+              Whether you are an expert or just starting out, you will find a
+              friendly and supportive environment to grow, learn, and showcase your
+              work to those who value it the most.
+            </p>
+            <p className="text-lg md:text-xl text-center">
+              Grow your career with us and become part of a vibrant developer
+              community!
+            </p>
+            <motion.div 
+              className="flex justify-center mt-8"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <a
+                href="https://discord.gg/g3UrMcSE"
+                className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-500 hover:to-yellow-400 text-white rounded-xl font-medium shadow-lg shadow-orange-500/20 transition-all duration-300 text-lg"
+              >
+                👉 Join us on Discord
+              </a>
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
+
+      <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
+      <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
     </motion.div>
   );
 };
