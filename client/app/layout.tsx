@@ -38,10 +38,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+const isClientIdLoaded = process.env.NEXT_PUBLIC_CLIENT_ID !== undefined;
+
+if (!isClientIdLoaded) {
+  return <div>Loading...</div>; 
+}
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable}`}>
-        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID || ''}>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID!}>
         <ErrorBoundary>
           <SessionProvider>
             <LayoutWithFooter>{children}</LayoutWithFooter>

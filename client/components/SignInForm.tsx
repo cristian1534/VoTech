@@ -24,8 +24,6 @@ const GoogleAuthButton = dynamic(
   }
 );
 
-
-
 export const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>();
@@ -36,7 +34,11 @@ export const SignInForm: React.FC = () => {
   const { setSessionToken, setSessionUser, setSessionEmail } = useSession();
   const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
 
-useEffect(() => {
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<TAuth>();
+
+  const [isGapiReady, setIsGapiReady] = useState(false);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const loadGapi = async () => {
         const { gapi } = await import("gapi-script");
@@ -44,21 +46,14 @@ useEffect(() => {
           gapi.client.init({
             clientId: clientId,
             scope: "profile email",
+          }).then(() => {
+            setIsGapiReady(true);
           });
         });
       };
       loadGapi();
     }
   }, [clientId]);
-
-
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<TAuth>();
 
   const onSubmit = async (data: TAuth): Promise<void> => {
     try {
@@ -116,6 +111,10 @@ useEffect(() => {
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  if (!isGapiReady) {
+    return <div>Loading Google API...</div>; 
+  }
 
   return (
     <motion.div
@@ -208,12 +207,10 @@ useEffect(() => {
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </motion.button>
-            <GoogleAuthButton/>
+            <GoogleAuthButton />
           </form>
         </motion.div>
       </div>
-      <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
-      <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
     </motion.div>
   );
 };

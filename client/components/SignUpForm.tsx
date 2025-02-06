@@ -31,6 +31,8 @@ export const SignUpForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
 
+   const [isGapiReady, setIsGapiReady] = useState(false);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const loadGapi = async () => {
@@ -39,6 +41,8 @@ export const SignUpForm: React.FC = () => {
           gapi.client.init({
             clientId: clientId,
             scope: "profile email",
+          }).then(() => {
+            setIsGapiReady(true);
           });
         });
       };
@@ -97,6 +101,9 @@ export const SignUpForm: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
+  if (!isGapiReady) {
+    return <div>Loading Google API...</div>; 
+  }
   return (
     <motion.div
       className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen py-16 font-sans"
@@ -117,7 +124,6 @@ export const SignUpForm: React.FC = () => {
             Join Us Now!
           </motion.h2>
 
-          {/* Display success or error message */}
           {(message || error) && (
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -126,7 +132,7 @@ export const SignUpForm: React.FC = () => {
                 error ? "bg-red-500/10 border-red-500/50" : "bg-green-500/10 border-green-500/50"
               } border text-${error ? "red" : "green"}-400 p-4 rounded-lg mb-6 text-center`}
             >
-              {error ? error : message}  {/* Conditionally display error or success message */}
+              {error ? error : message}  
             </motion.div>
           )}
 
