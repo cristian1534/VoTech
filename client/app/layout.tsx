@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "../components/Footer";
 import { SessionProvider, useSession } from "../context/SessionContext";
 import ErrorBoundary from "../components/ErrorBoundary";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({
   display: "swap",
@@ -40,11 +41,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${ibmPlexSans.variable}`}>
+        <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID || ''}>
         <ErrorBoundary>
           <SessionProvider>
             <LayoutWithFooter>{children}</LayoutWithFooter>
           </SessionProvider>
         </ErrorBoundary>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiShow } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -8,14 +8,43 @@ import { useRouter } from "next/navigation";
 import { TUser } from "../types/typeUser";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
+import dynamic from "next/dynamic";
+
+const GoogleAuthButton = dynamic(
+  () => import("./GoogleAuthButton").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full py-4 bg-gray-700/50 rounded-lg text-center text-gray-400">
+        Loading...
+      </div>
+    ),
+  }
+);
 
 export const SignUpForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [, setUser] = useState({});
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loadGapi = async () => {
+        const { gapi } = await import("gapi-script");
+        gapi.load("client:auth2", () => {
+          gapi.client.init({
+            clientId: clientId,
+            scope: "profile email",
+          });
+        });
+      };
+      loadGapi();
+    }
+  }, [clientId]);
 
   const {
     register,
@@ -47,7 +76,8 @@ export const SignUpForm: React.FC = () => {
         const axiosError = error as {
           response?: { data?: { message?: string } };
         };
-        setError(axiosError.response?.data?.message);
+        const errorMessage = axiosError.response?.data?.message || null;
+        setError(errorMessage);
         const errorResponse = axiosError.response;
         message =
           errorResponse?.data?.message ||
@@ -56,6 +86,10 @@ export const SignUpForm: React.FC = () => {
       }
 
       setMessage(message);
+      setTimeout(() => {
+        setError(null);
+        setMessage("");
+      }, 2000);
     }
   };
 
@@ -83,7 +117,8 @@ export const SignUpForm: React.FC = () => {
             Join Us Now!
           </motion.h2>
 
-          {message && (
+          {/* Display success or error message */}
+          {(message || error) && (
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -91,7 +126,7 @@ export const SignUpForm: React.FC = () => {
                 error ? "bg-red-500/10 border-red-500/50" : "bg-green-500/10 border-green-500/50"
               } border text-${error ? "red" : "green"}-400 p-4 rounded-lg mb-6 text-center`}
             >
-              {message}
+              {error ? error : message}  {/* Conditionally display error or success message */}
             </motion.div>
           )}
 
@@ -166,10 +201,10 @@ export const SignUpForm: React.FC = () => {
             >
               {isLoading ? "Creating account..." : "Create Account"}
             </motion.button>
+            <GoogleAuthButton />
           </form>
         </motion.div>
       </div>
-
       <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
       <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
     </motion.div>

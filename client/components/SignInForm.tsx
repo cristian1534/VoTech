@@ -1,15 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiShow } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { TAuth, TToken } from "../types/typeUser";
-import { setSession } from "../customHooks/setSession";
+import { setSession } from "../customHooks/setSession"
 import { useSession } from "../context/SessionContext";
 import { motion } from "framer-motion";
 import { fadeIn } from "../helpers/variants";
 import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
+
+const GoogleAuthButton = dynamic(
+  () => import("./GoogleAuthButton").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full py-4 bg-gray-700/50 rounded-lg text-center text-gray-400">
+        Loading...
+      </div>
+    ),
+  }
+);
+
+
 
 export const SignInForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +34,25 @@ export const SignInForm: React.FC = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { setSessionToken, setSessionUser, setSessionEmail } = useSession();
-  
+  const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
+
+useEffect(() => {
+    if (typeof window !== "undefined") {
+      const loadGapi = async () => {
+        const { gapi } = await import("gapi-script");
+        gapi.load("client:auth2", () => {
+          gapi.client.init({
+            clientId: clientId,
+            scope: "profile email",
+          });
+        });
+      };
+      loadGapi();
+    }
+  }, [clientId]);
+
+
+
   const {
     register,
     handleSubmit,
@@ -175,10 +208,10 @@ export const SignInForm: React.FC = () => {
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </motion.button>
+            <GoogleAuthButton/>
           </form>
         </motion.div>
       </div>
-
       <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-yellow-300 rounded-full opacity-20 transform rotate-45"></div>
       <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-orange-300 rounded-full opacity-20 transform -rotate-45"></div>
     </motion.div>
