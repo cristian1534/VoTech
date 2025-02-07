@@ -6,6 +6,7 @@ import { SessionProvider, useSession } from "../context/SessionContext";
 import ErrorBoundary from "../components/ErrorBoundary";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+
 const inter = Inter({
   display: "swap",
   subsets: ["latin"],
